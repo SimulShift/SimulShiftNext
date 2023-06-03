@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-const AboutSection = () => {
+const About = () => {
   return (
     <section>
       <h2>About SimulShift</h2>
@@ -18,4 +18,4 @@ const AboutSection = () => {
   )
 }
 
-export default AboutSection
+export default About
