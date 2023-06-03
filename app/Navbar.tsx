@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import './navbar.css'
 
 export default function Navbar() {
   return (
@@ -17,9 +16,7 @@ export default function Navbar() {
           <Link href="/chatbot">Chat Bot</Link>
         </li>
         <li>
-          <h2>
-            <Link href="/contact">Contact</Link>
-          </h2>
+          <Link href="/contact">Contact</Link>
         </li>
       </ul>
     </nav>
