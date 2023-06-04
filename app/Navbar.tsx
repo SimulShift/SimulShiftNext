@@ -4,7 +4,9 @@ import Image from 'next/image'
 export default function Navbar() {
   return (
     <nav>
-      <Image src="/logo-no-bg.png" alt="logo" width="50" height="50" />
+      <Link className={'bg-transparent'} href="/">
+        <Image src="/logo-no-bg.png" alt="logo" width="50" height="50" />
+      </Link>
       <ul>
         <li>
           <Link href="/">Home</Link>

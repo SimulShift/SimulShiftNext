@@ -6,13 +6,24 @@
   --foreground-rgb: rgb(0, 0, 0);
   --background-start-rgb: rgb(233, 189, 235);
   --background-end-rgb: rgb(255, 255, 255);
+
+  --nav-foreground-color: rgba(255, 255, 255, 0.8);
+  --nav-background-color: rgba(0, 0, 0, 0.3);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 100, 100, 100;
-    --background-end-rgb: 0, 0, 0;
+    --foreground-rgb: rgb(255, 255, 255);
+    --background-start-rgb: rgb(2, 11, 59);
+    --background-end-rgb: rgb(8, 8, 8);
+
+    /* nav bar */
+    --nav-foreground-color: rgb(255, 221, 221);
+    --nav-background-color: rgba(244, 244, 244, 0.355);
+
+    /* Contact Form */
+    --form-foreground-color: rgba(255, 255, 255, 0.8);
+    --form-background-color: rgba(0, 0, 0, 0.3);
   }
 }
 
@@ -47,54 +58,57 @@ body {
   }
 }
 
-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+@layer components {
+  nav {
+    display: flex;
+    background-color: var(--nav-background-color);
+    color: var(--nav-foreground-color);
+    padding: 8px;
+    padding-left: 16px;
+    /* round boarders*/
+    border-radius: 10px;
+    margin: 8;
+  }
 }
 
-h2 {
-  margin: 20px;
-  line-height: 1.15;
-  font-size: 2rem;
-}
+@layer utilities {
+  section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-nav {
-  display: flex;
-  background-color: rgba(0, 0, 0, 0.3);
-  color: rgb(255, 255, 255);
-  padding: 8px;
-  padding-left: 16px;
-  /* round boarders*/
-  border-radius: 10px;
-  margin: 8;
-}
+  h2 {
+    margin: 20px;
+    line-height: 1.15;
+    font-size: 2rem;
+  }
 
-ul {
-  width: 100%;
-  list-style: none;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  float: right;
-}
+  ul {
+    width: 100%;
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    float: right;
+  }
 
-li {
-  margin: 0 10px;
-}
+  li {
+    margin: 0 10px;
+  }
 
-a {
-  color: #ffffff;
-  font-weight: 400;
-  text-decoration: none;
-  background-color: inherit;
-  transition: color 0.3s ease;
-}
+  a {
+    font-weight: 400;
+    text-decoration: none;
+    background-color: inherit;
+    transition: color 0.3s ease;
+  }
 
-a:hover {
-  color: #0070f3;
-}
+  a:hover {
+    color: #0070f3;
+  }
 
-iframe {
-  margin: 30px;
+  iframe {
+    margin: 30px;
+  }
 }

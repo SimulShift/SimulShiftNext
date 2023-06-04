@@ -1,0 +1,18 @@
+.contactContainer {
+  @apply: container mx-auto px-4 py-8;
+}
+
+.label {
+  @apply block text-gray-700 text-sm font-bold mb-2;
+  @apply dark:text-white;
+}
+
+.input {
+  @apply w-full px-3 py-2 border border-gray-400 rounded;
+  @apply focus:outline-none focus:border-blue-500;
+  @apply dark:text-black;
+}
+
+.button {
+  @apply bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600;
+}

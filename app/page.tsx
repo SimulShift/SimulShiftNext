@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 const Home = () => {
   return (
-    <main className={styles.main}>
+    <main>
       Welcome to SimulShift.com! below is my twitch stream hosted on:
       <br />
       <Link id={styles.TwitchLink} href="https://twitch.tv/SimulShift">
