@@ -4,10 +4,8 @@ import {
   ChatCompletionRequestMessageRoleEnum,
 } from 'openai'
 import * as readline from 'readline'
-import * as dotenv from 'dotenv'
-import {AxiosError} from 'axios'
-import {askConvo, chadConvo} from './Conversations.js'
-dotenv.config()
+import axios from 'axios'
+import {askConvo, chadConvo} from './Conversations'
 
 enum Personality {
   ChadGpt,
@@ -76,7 +74,7 @@ class ChadGpt {
         return 'there were no choices'
       }
     } catch (error: unknown) {
-      if (error instanceof AxiosError) {
+      if (axios.isAxiosError(error)) {
         if (error.response?.status === 429)
           console.log('Too many requests. Please wait and try again later.')
       } else {

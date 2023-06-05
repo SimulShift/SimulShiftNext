@@ -1,6 +1,6 @@
 import tmi from 'tmi.js'
 import axios, {AxiosError, AxiosResponse} from 'axios'
-import ChadGpt from './ChadGPT.js'
+import ChadGpt from './ChadGPT'
 
 interface TokenResponse {
   access_token: string
@@ -20,7 +20,7 @@ const clientSecret = process.env.TWITCH_CLIENT_SECRET
 
 class TwitchBot {
   client!: tmi.Client
-  channels: string[] = ['SimulShift', 'GeekStream_']
+  channels: string[] = ['SimulShift']
 
   async initialize(authCode: string, redirectUri: string) {
     try {
@@ -49,7 +49,6 @@ class TwitchBot {
       this.client = new tmi.client(opts)
       // Register our event handlers (defined below)
       this.client.on('message', this.onMessageHandler.bind(this))
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       this.client.on('connected', this.onConnectedHandler.bind(this))
     } catch (error: unknown) {
       const axiosError = error as AxiosError
@@ -67,6 +66,9 @@ class TwitchBot {
   }
 
   async getUsername(accessToken: string) {
+    if (!clientId) {
+      throw new Error('Missing client ID')
+    }
     const userUrl = 'https://api.twitch.tv/helix/users'
     const headers = {
       'Client-ID': clientId,
@@ -116,6 +118,8 @@ class TwitchBot {
         const sanitizedInput = TwitchBot.sanitizeInput(
           commandArguments.join(' '),
         )
+        console.log('!chad command received', sanitizedInput)
+
         ChadGTP.askChatGpt(sanitizedInput, ChadGpt.chadMessages)
           .then(response => {
             if (response) {
@@ -158,6 +162,7 @@ class TwitchBot {
     return sanitizedInput
   }
 
+  /*
   validateInput(input: string): boolean {
     // Define your validation criteria
     const validPattern = /^[a-zA-Z0-9\s]+$/
@@ -165,6 +170,7 @@ class TwitchBot {
     // Check if the input matches the validation criteria
     return validPattern.test(input)
   }
+  */
 
   // Called every time the bot connects to Twitch chat
   async onConnectedHandler(addr: string, port: number) {
