@@ -1,6 +1,6 @@
 'use client'
 
-import {useState} from 'react'
+import {FormEvent, useState} from 'react'
 import styles from './contact.module.css'
 
 const ContactPage = () => {
@@ -10,7 +10,7 @@ const ContactPage = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [isSent, setIsSent] = useState(false)
 
-  const handleFormSubmit = async e => {
+  const handleFormSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
     // Perform any form validation here
