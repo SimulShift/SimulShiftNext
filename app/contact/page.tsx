@@ -49,7 +49,7 @@ const ContactPage = () => {
       </p>
       {isSent ? (
         <p className="text-green-500 text-center">
-          Thank you for your message! We'll get back to you soon.
+          Thank you for your message! We&apos;ll get back to you soon.
         </p>
       ) : (
         <form onSubmit={handleFormSubmit} className="max-w-md mx-auto">
