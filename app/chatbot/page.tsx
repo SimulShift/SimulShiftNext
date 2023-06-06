@@ -4,21 +4,34 @@
  * Author: SimulShift
  */
 
-import React, {useState} from 'react'
+import React, {useState, ChangeEvent} from 'react'
+import {useRouter} from 'next/navigation'
+import {redirectUri} from '../api/chatbot/StartChadGpt/route'
 
 const ChatBotPage = () => {
   const [personality, setPersonality] = useState('')
   const [twitchChannel, setTwitchChannel] = useState('')
+  const router = useRouter()
 
-  const handlePersonalityChange = e => {
+  const StartChadGpt = (): void => {
+    console.log('hEEEEEEEEERERERE')
+    const strippedUrl = redirectUri.replace(/\/callback$/, '')
+    console.log('strippedUrl', strippedUrl)
+    // Redirect the user to a new location
+    router.push(strippedUrl)
+  }
+
+  const handlePersonalityChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setPersonality(e.target.value)
   }
 
-  const handleTwitchChannelChange = e => {
+  const handleTwitchChannelChange = (
+    e: ChangeEvent<HTMLInputElement>,
+  ): void => {
     setTwitchChannel(e.target.value)
   }
 
-  const handleSubmit = e => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     // Logic to handle the form submission and request the chat bot
@@ -61,6 +74,11 @@ const ChatBotPage = () => {
           Request Chat Bot
         </button>
       </form>
+      <button
+        onClick={StartChadGpt}
+        className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded mt-20">
+        Start Chad GPT
+      </button>
     </div>
   )
 }

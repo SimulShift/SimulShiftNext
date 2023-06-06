@@ -15,17 +15,22 @@ interface UserResponse {
   }[]
 }
 
-const clientId = process.env.TWITCH_CLIENT_ID
-const clientSecret = process.env.TWITCH_CLIENT_SECRET
-
 class TwitchBot {
-  chadGptTmiClient!: tmi.Client
-  channels: string[] = ['SimulShift']
-  chadGptAuth: {code: string; token: string} | undefined
-  userAuthDict: {[username: string]: {code: string; token: string}} = {}
+  static twitchBot: TwitchBot
+  static chadGptTmiClient: tmi.Client
+  static chadClientId = process.env.TWITCH_CLIENT_ID
+  static chadClientSecret = process.env.TWITCH_CLIENT_SECRET
+  static chadGptCredentials: {code: string; token: string} | undefined
+  static channels: string[] = ['SimulShift']
+  static userAuthDict: {[username: string]: {code: string; token: string}} = {}
 
   constructor(authCode: string, redirectUri: string) {
-    this.InitChadTmiClient(authCode, redirectUri)
+    // TODO: check if already validated then skip this
+    TwitchBot.initChadTmiClient(authCode, redirectUri)
+      .then(() => {
+        TwitchBot.chadGptTmiClient.connect().catch(console.error)
+      })
+      .catch(console.error)
   }
 
   static async getAuthToken(
@@ -39,8 +44,8 @@ class TwitchBot {
           null,
           {
             params: {
-              client_id: clientId,
-              client_secret: clientSecret,
+              client_id: this.chadClientId,
+              client_secret: this.chadClientSecret,
               code: authCode,
               grant_type: 'authorization_code',
               redirect_uri: redirectUri,
@@ -68,8 +73,11 @@ class TwitchBot {
     }
   }
 
-  async InitChadTmiClient(authCode: string, redirectUri: string) {
+  static async initChadTmiClient(authCode: string, redirectUri: string) {
     const accessToken = await TwitchBot.getAuthToken(authCode, redirectUri)
+    TwitchBot.chadGptCredentials = {code: authCode, token: accessToken}
+
+    //this.chadGp
     const opts: tmi.Options = {
       identity: {
         username: 'TheRealChadGPT',
@@ -79,11 +87,17 @@ class TwitchBot {
     }
     this.chadGptTmiClient = new tmi.client(opts)
     // Register our event handlers (defined below)
-    this.chadGptTmiClient.on('message', this.onMessageHandler.bind(this))
-    this.chadGptTmiClient.on('connected', this.onConnectedHandler.bind(this))
+    this.chadGptTmiClient.on(
+      'message',
+      this.twitchBot.onMessageHandler.bind(this),
+    )
+    this.chadGptTmiClient.on(
+      'connected',
+      this.twitchBot.onConnectedHandler.bind(this),
+    )
   }
 
-  static async getUserInfo(accessToken: string) {
+  static async getUserInfo(clientId: string, accessToken: string) {
     if (!clientId) {
       throw new Error('Missing client ID')
     }
@@ -96,10 +110,6 @@ class TwitchBot {
     const username = userResponse.data.data[0].login
     const channel = userResponse.data.data[0].display_name
     return {username, channel}
-  }
-
-  async startBot() {
-    await this.chadGptTmiClient.connect().catch(console.error)
   }
 
   // Function called when the "dice" command is issued
@@ -124,7 +134,7 @@ class TwitchBot {
     const commandArguments = commandParts.slice(1)
     switch (commandName) {
       case '!dice':
-        this.chadGptTmiClient
+        TwitchBot.chadGptTmiClient
           .say(channel, `You rolled a ${this.rollDice()}`)
           .catch(console.error)
         console.log(`* Executed ${commandName} command`)
@@ -140,7 +150,9 @@ class TwitchBot {
         ChadGTP.askChatGpt(sanitizedInput, ChadGpt.chadMessages)
           .then(response => {
             if (response) {
-              this.chadGptTmiClient.say(channel, response).catch(console.error)
+              TwitchBot.chadGptTmiClient
+                .say(channel, response)
+                .catch(console.error)
               console.log(`Response from Chad: ${response}`)
             }
           })
@@ -151,7 +163,7 @@ class TwitchBot {
       }
       case '!exit':
         // leave channel message was sent from
-        this.chadGptTmiClient.part(channel).catch(console.error)
+        TwitchBot.chadGptTmiClient.part(channel).catch(console.error)
         break
       case '!ask': {
         const ChadGTP = new ChadGpt()
@@ -161,7 +173,9 @@ class TwitchBot {
         ChadGTP.askChatGpt(sanitizedInput, ChadGpt.askMessages)
           .then(response => {
             if (response) {
-              this.chadGptTmiClient.say(channel, response).catch(console.error)
+              TwitchBot.chadGptTmiClient
+                .say(channel, response)
+                .catch(console.error)
             }
           })
           .catch(console.error)
@@ -195,13 +209,13 @@ class TwitchBot {
     // Step 1: Set the bot's display name
 
     // change display name for all channels
-    for (const channel of this.channels) {
+    for (const channel of TwitchBot.channels) {
       try {
-        await this.chadGptTmiClient.say(channel, `/displayname Chad`)
+        await TwitchBot.chadGptTmiClient.say(channel, `/displayname Chad`)
       } catch (error: unknown) {
         console.error('Error setting display name:', error)
       }
-      await this.chadGptTmiClient.say(channel, `Hello, I am a new bot!`)
+      await TwitchBot.chadGptTmiClient.say(channel, `Hello, I am a new bot!`)
     }
   }
 }
