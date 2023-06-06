@@ -2,15 +2,16 @@ import {NextRequest} from 'next/server'
 import TwitchBot from '../../TwitchBot'
 import {redirectUri} from '../route'
 
+export let twitchBot: TwitchBot
 // Step 1: Redirect the user to the Twitch authorization URL
 // Step 2: Handle the authorization callback
 export const GET = (req: NextRequest) => {
   const code: string | null = req.nextUrl.searchParams.get('code')
-  console.log('code:', code)
-  console.log('redirectUri:', redirectUri)
+
   if (!code) {
     return new Response('No code provided!', {status: 400})
   }
+
   if (!redirectUri) {
     return new Response('No redirect URI provided!', {status: 400})
   }
@@ -20,7 +21,6 @@ export const GET = (req: NextRequest) => {
 }
 
 const handleAuthorizationCallback = async (code: string) => {
-  const twitchBot = new TwitchBot()
-  await twitchBot.initialize(code, redirectUri).catch(console.error)
+  await twitchBot.InitChadTmiClient(code, redirectUri).catch(console.error)
   await twitchBot.startBot().catch(console.error)
 }
