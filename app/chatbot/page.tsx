@@ -6,8 +6,8 @@
 
 import React, {useState, ChangeEvent, useEffect} from 'react'
 import {useRouter} from 'next/navigation'
-import {redirectUri} from '../api/chatbot/StartChadGpt/route'
 import {getSession, useSession} from 'next-auth/react'
+import {redirectUri} from '../api/chatbot/constants'
 
 const ChatBotPage = () => {
   const {data: session, status} = useSession({

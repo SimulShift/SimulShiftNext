@@ -1,6 +1,6 @@
 import {NextRequest} from 'next/server'
 import TwitchBot from '../../TwitchBot'
-import {redirectUri} from '../route'
+import {redirectUri} from '../../constants'
 
 // Step 1: Redirect the user to the Twitch authorization URL
 // Step 2: Handle the authorization callback
