@@ -19,7 +19,9 @@ const ProfilePicDropdown = () => {
       {session ? (
         <>
           <li>
-            <button className="bg-transparent" onClick={toggleDropdown}>
+            <button
+              className="bg-transparent hover:bg-transparent"
+              onClick={toggleDropdown}>
               {session?.user?.image && (
                 <Image
                   src={session.user?.image}
@@ -33,17 +35,13 @@ const ProfilePicDropdown = () => {
             {isDropdownOpen && (
               <div className={style.dropdown}>
                 <div className="p-2">
-                  <Link
-                    href="/profile"
-                    className="block hover:bg-gray-200 px-4 py-2">
+                  <Link href="/profile" className={style.linkItem}>
                     Profile
                   </Link>
-                  <Link
-                    href="/settings"
-                    className="block hover:bg-gray-200 px-4 py-2">
+                  <Link href="/settings" className={style.linkItem}>
                     Settings
                   </Link>
-                  <SignOutButton className="block hover:bg-gray-200 px-4 py-2 rounded-md" />
+                  <SignOutButton className="block hover:bg-pink-900 hover:text-white px-4 py-2 rounded-md" />
                 </div>
               </div>
             )}

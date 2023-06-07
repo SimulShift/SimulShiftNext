@@ -12,7 +12,13 @@ const About = () => {
         industry.
       </p>
       <div>
-        <Image src="/me.jpg" alt="SimulShift Logo" width={200} height={200} />
+        <Image
+          className="rounded-full"
+          src="/me.jpg"
+          alt="SimulShift Logo"
+          width={200}
+          height={200}
+        />
       </div>
     </section>
   )

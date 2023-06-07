@@ -31,19 +31,17 @@ const ChatBotPage = () => {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-4">Chat Bot Page</h1>
-      <h2>{session?.user?.name}</h2>
-      <form onSubmit={handleSubmit} className="max-w-sm mx-auto">
-        <button
-          type="submit"
-          className="text-white font-semibold py-2 px-4 rounded">
-          Request Chat Bot
-        </button>
-      </form>
+      <h2 className="text-lg">
+        {session?.user?.name + "'s Chat Bot Control Room"}
+      </h2>
+      <button className="font-semibold py-2 px-4 rounded">
+        Request Chat Bot
+      </button>
+      <br />
       {process.env.NODE_ENV == 'development' && (
         <button
           onClick={StartChadGpt}
-          className="text-white font-semibold py-2 px-4 rounded mt-20">
+          className="font-semibold py-2 px-4 rounded mt-20">
           Start Chad GPT
         </button>
       )}
