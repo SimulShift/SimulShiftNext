@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@types/node": "20.2.5",
+    "@types/passport": "^1.0.12",
     "@types/react": "18.2.8",
     "@types/react-dom": "18.2.4",
     "@types/tmi.js": "^1.8.3",
@@ -17,6 +18,7 @@
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.4",
     "next": "13.4.4",
+    "next-auth": "^4.22.1",
     "nodemailer": "^6.9.3",
     "nodemailer-sendinblue-transport": "^2.0.1",
     "openai": "^3.2.1",

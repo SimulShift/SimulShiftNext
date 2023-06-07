@@ -14,8 +14,8 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: rgb(255, 255, 255);
-    --background-start-rgb: rgb(2, 11, 59);
-    --background-end-rgb: rgb(8, 8, 8);
+    --background-start-rgb: rgb(0, 0, 0);
+    --background-end-rgb: rgb(37, 10, 37);
 
     /* nav bar */
     --nav-foreground-color: rgb(255, 221, 221);
@@ -105,10 +105,14 @@ body {
   }
 
   a:hover {
-    color: #0070f3;
+    @apply text-pink-800;
   }
 
   iframe {
     margin: 30px;
+  }
+
+  button {
+    @apply bg-pink-500 hover:bg-pink-600;
   }
 }

@@ -3,7 +3,9 @@ import {redirect} from 'next/navigation'
 export const redirectUri =
   process.env.NODE_ENV === 'production'
     ? 'https://simulshift.com/auth/callback'
-    : `http://localhost:3000/api/chatbot/StartChadGpt/callback`
+    : 'http://localhost/api/auth/callback/twitch'
+
+console.log('Redirect URI:', redirectUri)
 
 export const GET = async () => {
   // set base url based on NODE_ENV

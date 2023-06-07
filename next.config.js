@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   webpack: (config, {buildId, dev, isServer, defaultLoaders, webpack}) => {
     config.externals.push({
@@ -7,6 +8,9 @@ const nextConfig = {
       encoding: 'commonjs encoding',
     })
     return config
+  },
+  images: {
+    domains: ['static-cdn.jtvnw.net'],
   },
 }
 
