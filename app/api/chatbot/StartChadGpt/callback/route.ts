@@ -16,6 +16,6 @@ export const GET = (req: NextRequest) => {
     return new Response('No redirect URI provided!', {status: 400})
   }
 
-  TwitchBot.twitchBot = new TwitchBot(code, redirectUri)
+  //TwitchBot.twitchBot = new TwitchBot(code, redirectUri)
   return new Response('Authorization successful! You can close this window.')
 }

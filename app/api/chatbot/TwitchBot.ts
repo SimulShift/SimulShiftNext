@@ -1,6 +1,7 @@
 import tmi from 'tmi.js'
 import axios, {AxiosError, AxiosResponse} from 'axios'
 import ChadGpt from './ChadGPT'
+import {redirectUri} from './constants'
 
 interface TokenResponse {
   access_token: string
@@ -24,13 +25,18 @@ class TwitchBot {
   static channels: string[] = ['SimulShift']
   static userAuthDict: {[username: string]: {code: string; token: string}} = {}
 
-  constructor(authCode: string, redirectUri: string) {
-    // TODO: check if already validated then skip this
-    TwitchBot.initChadTmiClient(authCode, redirectUri)
-      .then(() => {
-        TwitchBot.chadGptTmiClient.connect().catch(console.error)
+  constructor(authCode: string) {
+    TwitchBot.twitchBot = this
+    /*
+    TwitchBot.getAuthToken(authCode, redirectUri)
+      .then(accessToken => {
+        TwitchBot.startTmiClient(accessToken)
       })
-      .catch(console.error)
+      .catch(error => {
+        console.error('Error in TwitchBot constructor:', error)
+      })
+      */
+    TwitchBot.startTmiClient(authCode)
   }
 
   static async getAuthToken(
@@ -73,15 +79,13 @@ class TwitchBot {
     }
   }
 
-  static async initChadTmiClient(authCode: string, redirectUri: string) {
-    const accessToken = await TwitchBot.getAuthToken(authCode, redirectUri)
-    TwitchBot.chadGptCredentials = {code: authCode, token: accessToken}
-
-    //this.chadGp
+  static startTmiClient(authToken: string) {
+    const password = 'oauth:' + authToken
     const opts: tmi.Options = {
+      options: {debug: true},
       identity: {
         username: 'TheRealChadGPT',
-        password: accessToken,
+        password: password,
       },
       channels: this.channels,
     }
@@ -89,12 +93,15 @@ class TwitchBot {
     // Register our event handlers (defined below)
     this.chadGptTmiClient.on(
       'message',
-      this.twitchBot.onMessageHandler.bind(this),
+      TwitchBot.twitchBot.onMessageHandler.bind(this),
     )
     this.chadGptTmiClient.on(
       'connected',
-      this.twitchBot.onConnectedHandler.bind(this),
+      TwitchBot.twitchBot.onConnectedHandler.bind(this),
     )
+
+    // Connect to Twitch:
+    this.chadGptTmiClient.connect()
   }
 
   static async getUserInfo(clientId: string, accessToken: string) {
@@ -193,28 +200,12 @@ class TwitchBot {
     return sanitizedInput
   }
 
-  /*
-  validateInput(input: string): boolean {
-    // Define your validation criteria
-    const validPattern = /^[a-zA-Z0-9\s]+$/
-
-    // Check if the input matches the validation criteria
-    return validPattern.test(input)
-  }
-  */
-
   // Called every time the bot connects to Twitch chat
   async onConnectedHandler(addr: string, port: number) {
     console.log(`* Connected to ${addr}:${port}`)
     // Step 1: Set the bot's display name
 
-    // change display name for all channels
     for (const channel of TwitchBot.channels) {
-      try {
-        await TwitchBot.chadGptTmiClient.say(channel, `/displayname Chad`)
-      } catch (error: unknown) {
-        console.error('Error setting display name:', error)
-      }
       await TwitchBot.chadGptTmiClient.say(channel, `Hello, I am a new bot!`)
     }
   }

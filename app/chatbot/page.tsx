@@ -25,8 +25,10 @@ const ChatBotPage = () => {
   }
 
   const StartChadGpt = (): void => {
-    const strippedUrl = redirectUri.replace(/\/callback$/, '')
-    router.push(strippedUrl)
+    // fetch chatbot endpoint to start chatbot
+    fetch('/api/chatbot/startTmi').catch(err => {
+      console.log('Error starting TMI', err)
+    })
   }
 
   return (

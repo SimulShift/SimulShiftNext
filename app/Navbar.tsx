@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import {getServerSession} from 'next-auth/next'
 import ProfilePicDropdown from './components/ProfilePicDropdown'
+import SignOutButton from './components/signOut'
 
 const Navbar = async () => {
   const session = await getServerSession()
