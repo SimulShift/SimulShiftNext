@@ -3,9 +3,8 @@ import {
   ChatCompletionRequestMessage,
   ChatCompletionRequestMessageRoleEnum,
 } from 'openai'
-import * as readline from 'readline'
 import axios from 'axios'
-import {askConvo, chadConvo} from './Conversations'
+import {askConvo, chadConvo} from './Personality'
 
 enum Personality {
   ChadGpt,
@@ -23,20 +22,6 @@ class ChadGpt {
   // constructor
   constructor() {
     console.log('Constructor here!')
-  }
-
-  private async questionAsync(prompt: string): Promise<string> {
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    })
-
-    return new Promise(resolve => {
-      rl.question(prompt, (answer: string) => {
-        rl.close()
-        resolve(answer)
-      })
-    })
   }
 
   /**

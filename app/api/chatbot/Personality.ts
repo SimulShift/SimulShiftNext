@@ -3,6 +3,16 @@ import {
   ChatCompletionRequestMessageRoleEnum,
 } from 'openai'
 
+export enum Personality {
+  CHAD = 'ChadGpt',
+  HELPFUL = 'Helpful',
+  RESERVED = 'Reserved',
+  UWU = 'Uwu',
+}
+
+// Use this to create personalities
+class Personaliy {}
+
 export const chadConvo: ChatCompletionRequestMessage[] = [
   {
     role: ChatCompletionRequestMessageRoleEnum.System,

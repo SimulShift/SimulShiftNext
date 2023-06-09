@@ -3,22 +3,22 @@
  * purpose: Route for chatbot
  */
 
-import TwitchBot from '../TwitchBot'
+import TmiBot from '../TmiBot'
 
 export const GET = async (req: Request) => {
-  console.log('TwitchBot.chadClientId:', TwitchBot.chadGptCredentials)
+  console.log('TwitchBot.chadClientId:', TmiBot.chadGptCredentials)
 
-  if (!TwitchBot.chadClientId) {
+  if (!TmiBot.chadClientId) {
     return new Response('ChadGPT client Id is missing!', {status: 400})
   }
 
-  if (!TwitchBot.chadGptCredentials?.token) {
+  if (!TmiBot.chadGptCredentials?.token) {
     return new Response('ChadGPT has no access token!', {status: 400})
   }
 
-  const userInfo = await TwitchBot.getUserInfo(
-    TwitchBot.chadClientId,
-    TwitchBot.chadGptCredentials.token,
+  const userInfo = await TmiBot.getUserInfo(
+    TmiBot.chadClientId,
+    TmiBot.chadGptCredentials.token,
   )
 
   console.log('userInfo:', userInfo)

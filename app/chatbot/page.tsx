@@ -4,10 +4,10 @@
  * Author: SimulShift
  */
 
-import React, {useState, ChangeEvent, useEffect} from 'react'
+import React, {useState, ChangeEvent, useEffect, MouseEventHandler} from 'react'
 import {useRouter} from 'next/navigation'
 import {getSession, useSession} from 'next-auth/react'
-import {redirectUri} from '../api/chatbot/constants'
+import TmiBot from '../api/twitch/TmiBot'
 
 const ChatBotPage = () => {
   const {data: session, status} = useSession({
@@ -31,19 +31,31 @@ const ChatBotPage = () => {
     })
   }
 
+  const addBotToChannel = (event: any) => {
+    event.preventDefault()
+    const tmiBot: TmiBot = TmiBot.getInstance()
+    const channel = session?.user?.name
+    if (!channel) return
+    tmiBot.chadGptTmiClient.join(channel).then(() => {
+      tmiBot.chadGptTmiClient.say(channel, 'Hello, I am your chat bot!')
+    })
+  }
+
   return (
     <div className="container mx-auto py-8">
       <h2 className="text-lg">
         {session?.user?.name + "'s Chat Bot Control Room"}
       </h2>
-      <button className="font-semibold py-2 px-4 rounded">
+      <button
+        className="font-semibold py-2 px-4 rounded"
+        onClick={addBotToChannel}>
         Request Chat Bot
       </button>
       <br />
       {process.env.NODE_ENV == 'development' && (
         <button
-          onClick={StartChadGpt}
-          className="font-semibold py-2 px-4 rounded mt-20">
+          className="font-semibold py-2 px-4 rounded mt-20"
+          onClick={StartChadGpt}>
           Start Chad GPT
         </button>
       )}

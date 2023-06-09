@@ -1,9 +1,10 @@
 import {OAuthConfig} from 'next-auth/providers'
 import type {AuthorizationParameters} from 'openid-client'
 import TwitchProvider from 'next-auth/providers/twitch'
-import NextAuth, {Account, Profile, User} from 'next-auth'
+import NextAuth, {Account, Profile, Session, User} from 'next-auth'
 import {randomBytes} from 'crypto'
 import {JWT} from 'next-auth/jwt'
+import {AdapterUser} from 'next-auth/adapters'
 
 export interface TwitchProfile extends Record<string, any> {
   sub: string
@@ -13,7 +14,7 @@ export interface TwitchProfile extends Record<string, any> {
 }
 
 const authRedirectUri = 'http://localhost:3000/api/auth/callback/twitch'
-const oauthConfig: OAuthConfig<any> = {
+const CustomTwitchProvider: OAuthConfig<any> = {
   wellKnown: 'https://id.twitch.tv/oauth2/.well-known/openid-configuration',
   id: 'twitch',
   name: 'Twitch',
@@ -69,15 +70,29 @@ type JWTCallbackParams = {
   session?: any
 }
 
+type SessionCallbackParams = {
+  session: Session
+  token: JWT
+  user: AdapterUser
+  newSession: any
+  trigger: 'update'
+}
+
 const handler = NextAuth({
   debug: true,
-  providers: [oauthConfig],
+  providers: [CustomTwitchProvider],
   callbacks: {
     async jwt(params: JWTCallbackParams) {
       if (params.account?.access_token) {
+        console.log('jwt params', params)
         params.token.accessToken = params.account.access_token
       }
       return params.token
+    },
+    async session(params: SessionCallbackParams) {
+      // Store the user object in the dictionary using the user's ID as the key
+      console.log('session params', params)
+      return params.session
     },
   },
 })
