@@ -5,39 +5,49 @@
  */
 
 import React, {useState, ChangeEvent, useEffect, MouseEventHandler} from 'react'
-import {useRouter} from 'next/navigation'
-import {getSession, useSession} from 'next-auth/react'
-import TmiBot from '../api/twitch/TmiBot'
+import {useSession} from 'next-auth/react'
+import ChatBotService from './ChatBotService'
+import style from './controlPanel.module.css'
+import DevTools from './DevTools'
 
 const ChatBotPage = () => {
+  const [botAlive, setBotAlive] = useState(false)
   const {data: session, status} = useSession({
     required: true,
   })
-  const router = useRouter()
 
-  const getSessionAsync = async () => {
-    const session = await getSession()
-    console.log('Session', session)
+  const checkIfBotIsAlive = async () => {
+    try {
+      if (!session) throw new Error('Session is null or undefined')
+      //ChatBotService.botAlive(session).then(res => {
+      if (!session.user?.name) return
+      const botAlive = await ChatBotService.isOnlineByName(session.user.name)
+      setBotAlive(botAlive)
+    } catch (err) {
+      console.log('Error checking if bot is alive:', err)
+    }
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-  }
+  useEffect(() => {
+    console.log('status in ChatBotPage is:', status)
+    if (status === 'authenticated') checkIfBotIsAlive()
+  }, [session])
 
-  const StartChadGpt = (): void => {
-    // fetch chatbot endpoint to start chatbot
-    fetch('/api/chatbot/startTmi').catch(err => {
-      console.log('Error starting TMI', err)
+  const addBotToChannel = (event: any) => {
+    if (!session) throw new Error('Session is null')
+    ChatBotService.deployBot(session).then(() => {
+      console.log('Bot added to channel:', session?.user?.name)
+      // set bot to alive
+      setBotAlive(true)
     })
   }
 
-  const addBotToChannel = (event: any) => {
-    event.preventDefault()
-    const tmiBot: TmiBot = TmiBot.getInstance()
-    const channel = session?.user?.name
-    if (!channel) return
-    tmiBot.chadGptTmiClient.join(channel).then(() => {
-      tmiBot.chadGptTmiClient.say(channel, 'Hello, I am your chat bot!')
+  const leaveChannel = (event: any) => {
+    if (!session) throw new Error('Session is null')
+    ChatBotService.removeBot(session).then(() => {
+      console.log('Bot removed from channel:', session?.user?.name)
+      // set bot to dead
+      setBotAlive(false)
     })
   }
 
@@ -46,19 +56,28 @@ const ChatBotPage = () => {
       <h2 className="text-lg">
         {session?.user?.name + "'s Chat Bot Control Room"}
       </h2>
-      <button
-        className="font-semibold py-2 px-4 rounded"
-        onClick={addBotToChannel}>
-        Request Chat Bot
-      </button>
-      <br />
-      {process.env.NODE_ENV == 'development' && (
+      <div
+        //className={`notification ${botAlive ? 'on' : 'off'}`}>
+        className={`${style.notification} ${
+          botAlive ? style.notificationOn : style.notificationOff
+        }`}>
+        {botAlive ? 'Chat Bot is ON' : 'Chat Bot is OFF'}
+      </div>
+      {!botAlive ? (
         <button
-          className="font-semibold py-2 px-4 rounded mt-20"
-          onClick={StartChadGpt}>
-          Start Chad GPT
+          className="font-semibold py-2 px-4 rounded"
+          onClick={addBotToChannel}>
+          Request Chat Bot
+        </button>
+      ) : (
+        <button
+          className="font-semibold py-2 px-4 rounded"
+          onClick={leaveChannel}>
+          Leave Channel
         </button>
       )}
+      <br />
+      {process.env.NODE_ENV == 'development' && <DevTools />}
     </div>
   )
 }

@@ -70,14 +70,26 @@ type JWTCallbackParams = {
   session?: any
 }
 
+type ExtendedSession = Session & {
+  accessToken?: string
+}
+
+// JWT &
+type ExtendedJwt = JWT & {
+  accessToken: string
+  sub: string
+  iat: number
+  exp: number
+  jti: string
+}
+
 type SessionCallbackParams = {
-  session: Session
+  session: ExtendedSession
   token: JWT
   user: AdapterUser
   newSession: any
   trigger: 'update'
 }
-
 const handler = NextAuth({
   debug: true,
   providers: [CustomTwitchProvider],
@@ -91,7 +103,9 @@ const handler = NextAuth({
     },
     async session(params: SessionCallbackParams) {
       // Store the user object in the dictionary using the user's ID as the key
-      console.log('session params', params)
+      if (!params.token.accessToken)
+        throw new Error('No access token in session callback')
+      params.session.accessToken = params.token.accessToken as string
       return params.session
     },
   },

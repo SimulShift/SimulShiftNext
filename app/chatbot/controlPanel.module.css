@@ -1,0 +1,15 @@
+.notification {
+  padding: 10px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.notificationOn {
+  background-color: green;
+  color: white;
+}
+
+.notificationOff {
+  background-color: red;
+  color: white;
+}
