@@ -77,7 +77,10 @@ const ChatBotPage = () => {
         </button>
       )}
       <br />
-      {process.env.NODE_ENV == 'development' && <DevTools />}
+      {(process.env.NODE_ENV == 'development' ||
+        session?.user?.name?.toLocaleLowerCase() === 'therealchadgpt') && (
+        <DevTools />
+      )}
     </div>
   )
 }
