@@ -13,7 +13,9 @@ export interface TwitchProfile extends Record<string, any> {
   picture: string
 }
 
-const authRedirectUri = 'http://localhost:3000/api/auth/callback/twitch'
+//const authRedirectUri = 'http://localhost:3000/api/auth/callback/twitch'
+const authRedirectUri = `${process.env.NEXTAUTH_URL}/api/auth/callback/twitch`
+
 const CustomTwitchProvider: OAuthConfig<any> = {
   wellKnown: 'https://id.twitch.tv/oauth2/.well-known/openid-configuration',
   id: 'twitch',
