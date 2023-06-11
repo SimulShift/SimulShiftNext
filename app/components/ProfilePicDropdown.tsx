@@ -6,7 +6,11 @@ import {useState} from 'react'
 import SignOutButton from './signOut'
 import style from './ProfilePicDropdown.module.css'
 
-const ProfilePicDropdown = () => {
+type ProfilePicDropdownProps = {
+  mobileDisplay: boolean
+}
+
+const ProfilePicDropdown = ({mobileDisplay}: ProfilePicDropdownProps) => {
   const {data: session, status} = useSession()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
@@ -15,9 +19,9 @@ const ProfilePicDropdown = () => {
   }
 
   return (
-    <ul className="flex items-center">
+    <>
       {session ? (
-        <>
+        <ul className="flex items-center">
           <li>
             <button
               className="bg-transparent hover:bg-transparent"
@@ -35,6 +39,22 @@ const ProfilePicDropdown = () => {
             {isDropdownOpen && (
               <div className={style.dropdown}>
                 <div className="p-2">
+                  {mobileDisplay && (
+                    <>
+                      <Link className={style.linkItem} href="/">
+                        Home
+                      </Link>
+                      <Link className={style.linkItem} href="/about">
+                        About
+                      </Link>
+                      <Link className={style.linkItem} href="/chatbot">
+                        Chat Bot
+                      </Link>
+                      <Link className={style.linkItem} href="/contact">
+                        Contact
+                      </Link>
+                    </>
+                  )}
                   <Link href="/profile" className={style.linkItem}>
                     Profile
                   </Link>
@@ -46,13 +66,15 @@ const ProfilePicDropdown = () => {
               </div>
             )}
           </li>
-        </>
+        </ul>
       ) : (
-        <li>
-          <Link href="/api/auth/signin">Sign In</Link>
-        </li>
+        <ul>
+          <li>
+            <Link href="/api/auth/signin">Sign In</Link>
+          </li>
+        </ul>
       )}
-    </ul>
+    </>
   )
 }
 

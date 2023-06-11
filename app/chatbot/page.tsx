@@ -33,10 +33,10 @@ const ChatBotPage = () => {
     if (status === 'authenticated') checkIfBotIsAlive()
   }, [session])
 
-  const addBotToChannel = (event: any) => {
-    if (!session) throw new Error('Session is null')
-    ChatBotService.deployBot(session).then(() => {
-      console.log('Bot added to channel:', session?.user?.name)
+  const joinChannel = (event: any) => {
+    if (!session?.user?.name) throw new Error('Session is null')
+    ChatBotService.joinChannel(session.user.name).then(() => {
+      console.log('Bot added to channel:', session.user?.name)
       // set bot to alive
       setBotAlive(true)
     })
@@ -66,7 +66,7 @@ const ChatBotPage = () => {
       {!botAlive ? (
         <button
           className="font-semibold py-2 px-4 rounded"
-          onClick={addBotToChannel}>
+          onClick={joinChannel}>
           Request Chat Bot
         </button>
       ) : (
@@ -77,10 +77,6 @@ const ChatBotPage = () => {
         </button>
       )}
       <br />
-      {(process.env.NODE_ENV == 'development' ||
-        session?.user?.name?.toLocaleLowerCase() === 'therealchadgpt') && (
-        <DevTools />
-      )}
     </div>
   )
 }

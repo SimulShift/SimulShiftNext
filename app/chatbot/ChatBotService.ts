@@ -22,8 +22,13 @@ const ChatBotService = {
       console.log(error)
     }
   },
-  deployBot: async (session: Session) =>
-    await axios.post(`${backendUrl}/twitch/deploy`, {session}),
+  stopTmi: async () => {
+    try {
+      await axios.put(`${backendUrl}/twitch/stopTmi`)
+    } catch (error) {
+      console.error('stopTmi: ', error)
+    }
+  },
   botAlive: async (session: Session): Promise<boolean> => {
     try {
       const response = await axios.put(`${backendUrl}/twitch/isAlive`, {
@@ -52,12 +57,11 @@ const ChatBotService = {
   removeBot: async (session: Session) => {
     await axios.delete(`${backendUrl}/twitch/remove`, {data: {session}})
   },
-  getBotStatus: async () => await axios.get(`${backendUrl}/twitch/status`),
-  getBotMessages: async () => await axios.get(`${backendUrl}/twitch/messages`),
   setBotPersonality: async (personality: Personality) =>
-    await axios.post('/api/bot/personality', {personality}),
+    await axios.post('/personality', {personality}),
   joinChannel: async (channel: string) =>
-    await axios.post('/api/bot/join', {channel}),
+    await axios.post(`${backendUrl}/twitch/join/${channel}`),
+  tmiOnline: async () => await axios.get(`${backendUrl}/twitch/tmiOnline`),
 }
 
 export default ChatBotService

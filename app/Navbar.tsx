@@ -1,11 +1,11 @@
+'use client'
 import Link from 'next/link'
 import Image from 'next/image'
-import {getServerSession} from 'next-auth/next'
 import ProfilePicDropdown from './components/ProfilePicDropdown'
-import SignOutButton from './components/signOut'
+import {useSession} from 'next-auth/react'
 
-const Navbar = async () => {
-  const session = await getServerSession()
+const Navbar = () => {
+  const {data: session} = useSession()
 
   return (
     <nav>
@@ -27,13 +27,18 @@ const Navbar = async () => {
         <li>
           <Link href="/contact">Contact</Link>{' '}
         </li>
+        {session?.user?.name?.toLocaleLowerCase() === 'therealchadgpt' && (
+          <li>
+            <Link href="/admin">Admin</Link>
+          </li>
+        )}
         {session?.user ? (
           <>
             <li>
               <p className="dark:text-sky-300">{session.user.name}</p>
             </li>
             <li>
-              <ProfilePicDropdown />
+              <ProfilePicDropdown mobileDisplay={false} />
             </li>
           </>
         ) : (

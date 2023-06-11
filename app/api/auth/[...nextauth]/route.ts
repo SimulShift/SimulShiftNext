@@ -13,9 +13,7 @@ export interface TwitchProfile extends Record<string, any> {
   picture: string
 }
 
-//const authRedirectUri = 'http://localhost:3000/api/auth/callback/twitch'
 const authRedirectUri = `${process.env.NEXTAUTH_URL}/api/auth/callback/twitch`
-console.log('authRedirectUri', authRedirectUri)
 
 const CustomTwitchProvider: OAuthConfig<any> = {
   wellKnown: 'https://id.twitch.tv/oauth2/.well-known/openid-configuration',
@@ -99,7 +97,6 @@ const handler = NextAuth({
   callbacks: {
     async jwt(params: JWTCallbackParams) {
       if (params.account?.access_token) {
-        console.log('jwt params', params)
         params.token.accessToken = params.account.access_token
       }
       return params.token

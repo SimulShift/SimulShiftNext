@@ -1,0 +1,36 @@
+/* Hide menu items by default */
+.menuItems {
+  display: none;
+}
+
+/* Show menu items when the menu is open */
+.menuItemsOpen {
+  display: block;
+}
+
+/* Styling for the burger icon */
+.burger-icon {
+  /* Styles for the icon */
+}
+
+/* Adjustments when the menu is open */
+.burger-icon.open {
+  /* Styles for the open icon (e.g., transform to 'X') */
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  /* Styles for smaller screens */
+}
+
+/* styles.module.css */
+
+.container {
+  /* Styles for the container */
+}
+
+@media (max-width: 768px) {
+  .container {
+    /* Styles for smaller screens */
+  }
+}
