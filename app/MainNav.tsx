@@ -1,6 +1,6 @@
 'use client'
 import Navbar from './Navbar'
-import ProfilePicDropdown from './components/ProfilePicDropdown'
+import PfpMenu from './components/pfp/PfpMenu'
 import {useEffect, useState} from 'react'
 
 const MainNav = () => {
@@ -26,7 +26,7 @@ const MainNav = () => {
       {isPhoneSize ? (
         <div className="flex">
           <h1 className="text-lg m-5 ml-10">SimulShift</h1>
-          <ProfilePicDropdown mobileDisplay={isPhoneSize} />
+          <PfpMenu mobileDisplay={isPhoneSize} />
         </div>
       ) : (
         <Navbar />

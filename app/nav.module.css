@@ -3,6 +3,19 @@
   display: none;
 }
 
+.navUl {
+  width: 100%;
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  float: right;
+}
+
+.navLi {
+  margin: 0 10px;
+}
+
 /* Show menu items when the menu is open */
 .menuItemsOpen {
   display: block;

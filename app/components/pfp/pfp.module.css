@@ -1,5 +1,5 @@
 .dropdown {
-  @apply absolute right-0 mt-2 w-48 bg-white border rounded shadow;
+  @apply absolute h-96 mt-10 bg-white border rounded shadow;
   @apply dark:bg-gray-500;
 }
 

@@ -65,7 +65,6 @@ body {
     color: var(--nav-foreground-color);
     padding: 8px;
     padding-left: 16px;
-    /* round boarders*/
     border-radius: 10px;
     margin: 8;
   }
@@ -84,19 +83,6 @@ body {
     font-size: 2rem;
   }
 
-  ul {
-    width: 100%;
-    list-style: none;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    float: right;
-  }
-
-  li {
-    margin: 0 10px;
-  }
-
   a {
     font-weight: 400;
     text-decoration: none;
@@ -108,11 +94,11 @@ body {
     @apply text-pink-800;
   }
 
-  iframe {
-    margin: 30px;
-  }
-
   button {
     @apply bg-pink-500 hover:bg-pink-600;
+  }
+
+  iframe {
+    margin: 30px;
   }
 }

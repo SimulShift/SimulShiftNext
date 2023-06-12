@@ -11,10 +11,10 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.4",
     "@prisma/client": "^4.15.0",
     "@types/node": "20.2.5",
-    "@types/passport": "^1.0.12",
     "@types/react": "18.2.8",
     "@types/react-dom": "18.2.4",
     "@types/tmi.js": "^1.8.3",
