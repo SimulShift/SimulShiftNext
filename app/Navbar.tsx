@@ -3,45 +3,38 @@ import Link from 'next/link'
 import Image from 'next/image'
 import {useSession} from 'next-auth/react'
 import PfpMenu from './components/pfp/PfpMenu'
-import style from './nav.module.css'
+import {AppBar, Button, Container, Toolbar, Typography} from '@mui/material'
+import AppItem from './components/AppItem'
 
 const Navbar = () => {
   const {data: session} = useSession()
 
   return (
-    <nav>
-      <ul className={style.navUl}>
+    <AppBar>
+      <Toolbar>
         <Link
-          className={'bg-transparent flex items-center justify-center'}
+          className={'mr-10 bg-transparent flex items-center justify-center'}
           href="/">
           <Image src="/logo-no-bg.png" alt="logo" width="50" height="50" />
         </Link>
-        <li className={style.navLi}>
-          <Link href="/">Home</Link>
-        </li>
-        <li className={style.navLi}>
-          <Link href="/about">About</Link>
-        </li>
-        <li className={style.navLi}>
-          <Link href="/chatbot">Chat Bot</Link>
-        </li>
-        <li className={style.navLi}>
+        <AppItem href="/">Home</AppItem>
+        <AppItem href="/about">About</AppItem>
+        <Button>
+          <Link href="/chatbot">Chat Bot</Link>{' '}
+        </Button>
+        <Button>
           <Link href="/contact">Contact</Link>{' '}
-        </li>
+        </Button>
         {session?.user?.name?.toLocaleLowerCase() === 'therealchadgpt' && (
-          <li className={style.navLi}>
-            <Link href="/admin">Admin</Link>
-          </li>
+          <Link href="/admin">Admin</Link>
         )}
         {session?.user ? (
           <PfpMenu mobileDisplay={false} />
         ) : (
-          <li>
-            <Link href="/api/auth/signin">Sign In</Link>
-          </li>
+          <Link href="/api/auth/signin">Sign In</Link>
         )}
-      </ul>
-    </nav>
+      </Toolbar>
+    </AppBar>
   )
 }
 

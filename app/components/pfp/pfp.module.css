@@ -1,9 +1,0 @@
-.dropdown {
-  @apply absolute h-96 mt-10 bg-white border rounded shadow;
-  @apply dark:bg-gray-500;
-}
-
-.linkItem {
-  @apply block rounded-md px-4 py-2;
-  @apply hover:bg-pink-200 hover:rounded-lg;
-}

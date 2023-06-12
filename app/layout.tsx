@@ -1,8 +1,9 @@
-import './globals.css'
-import {Roboto} from 'next/font/google'
+//import {Roboto} from 'next/font/google'
 import Provider from './components/Provider'
 import {ReactNode} from 'react'
+import './globals.css'
 import MainNav from './MainNav'
+import ThemeRegistry from './Theme/ThemeRegistry/ThemeRegistry'
 
 export const metadata = {
   title: 'SimulShift',
@@ -13,21 +14,14 @@ interface MyAppProps {
   children: ReactNode
 }
 
-const roboto = Roboto({
-  weight: ['300', '400', '500', '700'],
-  style: ['normal', 'italic'],
-  subsets: ['latin'],
-  display: 'swap',
-})
-
 export default function RootLayout({children}: MyAppProps) {
   return (
     <Provider>
       <html lang="en">
-        <body className={roboto.className}>
+        <ThemeRegistry>
           <MainNav />
           {children}
-        </body>
+        </ThemeRegistry>
       </html>
     </Provider>
   )
