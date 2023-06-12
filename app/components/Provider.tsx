@@ -1,6 +1,4 @@
 'use client'
-import createEmotionCache from '@/createEmotionCache'
-import theme from '@/theme'
 import {SessionProvider} from 'next-auth/react'
 interface ProviderProps {
   children: React.ReactNode
