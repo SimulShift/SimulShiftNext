@@ -10,8 +10,11 @@ export const metadata = {
   description:
     'SimulShift is a streamer who is building a chatbot for twitch and eventually other platforms such as Discord.',
 }
+interface MyAppProps {
+  children: ReactNode
+}
 
-export default function RootLayout({children}: {children: ReactNode}) {
+export default function RootLayout({children}: MyAppProps) {
   return (
     <Provider>
       <html lang="en">

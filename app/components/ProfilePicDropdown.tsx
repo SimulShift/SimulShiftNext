@@ -5,6 +5,7 @@ import Link from 'next/link'
 import {useState} from 'react'
 import SignOutButton from './signOut'
 import style from './ProfilePicDropdown.module.css'
+import Divider from '@mui/material/Divider'
 
 type ProfilePicDropdownProps = {
   mobileDisplay: boolean
@@ -53,6 +54,7 @@ const ProfilePicDropdown = ({mobileDisplay}: ProfilePicDropdownProps) => {
                       <Link className={style.linkItem} href="/contact">
                         Contact
                       </Link>
+                      <Divider />
                     </>
                   )}
                   <Link href="/profile" className={style.linkItem}>
