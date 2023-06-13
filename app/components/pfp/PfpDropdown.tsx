@@ -4,6 +4,7 @@ import {Divider, Menu, MenuItem, MenuList, Paper} from '@mui/material'
 import ListItemText from '@mui/material/ListItemText'
 import SignOutButton from '../signOut'
 import {Anchor} from './PfpMenu'
+import AppButton from '../AppButton'
 
 type PfpDropdown = {
   mobileDisplay: boolean
@@ -41,6 +42,9 @@ const PfpDropdown = ({mobileDisplay}: PfpDropdown) => {
       <MenuItem>
         <Link href="/settings">Settings</Link>
       </MenuItem>
+      {session?.user?.name?.toLocaleLowerCase() === 'therealchadgpt' && (
+        <AppButton href="/admin">Admin</AppButton>
+      )}
       <MenuItem>
         <SignOutButton className="block hover:bg-pink-900 hover:text-white px-4 py-2 rounded-md" />
       </MenuItem>

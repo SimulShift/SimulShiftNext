@@ -9,9 +9,9 @@ const Pfp = () => {
         <Image
           src={session.user?.image}
           alt="profile"
-          width="50"
-          height="50"
-          style={{minWidth: '50px'}}
+          width="45"
+          height="45"
+          style={{minWidth: '45px'}}
           className="rounded-full"
         />
       )}

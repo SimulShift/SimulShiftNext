@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 const Home = () => {
   return (
-    <Container className="mt-24">
+    <Container>
       {/* <Typography variant="h3"> */}
       <Link href="https://twitch.tv/SimulShift">Twitch.tv/SimulShift</Link>
       {/* </Typography> */}

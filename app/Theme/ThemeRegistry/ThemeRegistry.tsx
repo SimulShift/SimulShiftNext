@@ -35,13 +35,13 @@ export default function ThemeRegistry({children}: {children: React.ReactNode}) {
 
   const darkTheme: ThemeOptions = {
     typography: {
-      fontSize: 13,
+      fontSize: 12,
       fontFamily: roboto.style.fontFamily,
     },
     palette: {
       mode: 'dark',
       background: {
-        default: '#1f0000',
+        default: '#232b3b',
         paper: '#2c1c4d',
       },
       primary: {
@@ -63,11 +63,24 @@ export default function ThemeRegistry({children}: {children: React.ReactNode}) {
           },
         },
       },
+      MuiAppBar: {
+        styleOverrides: {
+          root: {
+            position: 'sticky',
+          },
+        },
+      },
+      MuiToolbar: {
+        styleOverrides: {
+          root: {
+            maxHeight: '2rem',
+          },
+        },
+      },
       MuiButton: {
         styleOverrides: {
           root: ({theme}) => ({
             backgroundColor: '#5933a8',
-            //backgroundColor: 'inherit',
             color: '#ffffff',
             borderRadius: 10,
             textTransform: 'none',
@@ -119,6 +132,13 @@ export default function ThemeRegistry({children}: {children: React.ReactNode}) {
         styleOverrides: {
           root: {
             color: '#a657f0',
+          },
+        },
+      },
+      MuiAppBar: {
+        styleOverrides: {
+          root: {
+            position: 'sticky',
           },
         },
       },

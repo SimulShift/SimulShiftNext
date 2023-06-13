@@ -2,13 +2,21 @@
 import {useSession} from 'next-auth/react'
 import {useState} from 'react'
 import Link from 'next/link'
-import {Button, ListItemText, Menu, MenuItem} from '@mui/material'
+import {Button, ListItemText, Menu, MenuItem, css, styled} from '@mui/material'
 import Pfp from './Pfp'
 import PfpDropdown from './PfpDropdown'
 
 type ProfilePicDropdownProps = {
   mobileDisplay: boolean
 }
+
+const NoBgButton = styled(Button)(
+  () => css`
+    background-color: transparent;
+    max-height: 45px;
+    max-width: 45px;
+  `,
+)
 
 export type Anchor = null | (EventTarget & HTMLButtonElement)
 
@@ -29,15 +37,15 @@ const PfpMenu = ({mobileDisplay}: ProfilePicDropdownProps) => {
     <>
       {session ? (
         <>
-          <Button
+          <NoBgButton
             id="basic-button"
             aria-controls={open ? 'basic-menu' : undefined}
             aria-haspopup="true"
+            sx={{marginLeft: 'auto', marginTop: 0}}
             aria-expanded={open ? 'true' : undefined}
-            className="bg-transparent hover:bg-transparent"
             onClick={handleClick}>
             <Pfp />
-          </Button>
+          </NoBgButton>
           <Menu
             id="basic-menu"
             open={open}

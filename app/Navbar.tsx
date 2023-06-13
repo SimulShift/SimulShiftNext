@@ -10,8 +10,8 @@ const Navbar = () => {
   const {data: session} = useSession()
 
   return (
-    <AppBar>
-      <Toolbar>
+    <AppBar className="sticky">
+      <Toolbar variant="dense">
         <Link
           className={'mr-10 bg-transparent flex items-center justify-center'}
           href="/">
@@ -21,9 +21,6 @@ const Navbar = () => {
         <AppButton href="/about">About</AppButton>
         <AppButton href="/chatbot">Chat Bot</AppButton>
         <AppButton href="/contact">Contact</AppButton>
-        {session?.user?.name?.toLocaleLowerCase() === 'therealchadgpt' && (
-          <AppButton href="/admin">Admin</AppButton>
-        )}
         {session?.user ? (
           <PfpMenu mobileDisplay={false} />
         ) : (
