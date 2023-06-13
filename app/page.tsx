@@ -1,19 +1,19 @@
 'use client'
-import {Button} from '@mui/material'
-import styles from './page.module.css'
+import {Button, Container, Typography} from '@mui/material'
 import Link from 'next/link'
 
 const Home = () => {
   return (
-    <main>
-      <Link id={styles.TwitchLink} href="https://twitch.tv/SimulShift">
-        Twitch.tv/SimulShift
-      </Link>
-      <h1>h1 test</h1>
-      <h2>h2 test</h2>
-      <p> p test</p>
+    <Container className="mt-24">
+      {/* <Typography variant="h3"> */}
+      <Link href="https://twitch.tv/SimulShift">Twitch.tv/SimulShift</Link>
+      {/* </Typography> */}
+      <Typography variant="h1">h1 test</Typography>
+      <Typography variant="h2">h2 test</Typography>
+      <Typography variant="body1"> body 1 test</Typography>
+      <Typography variant="body2"> body 2 test</Typography>
       <Button> test </Button>
-    </main>
+    </Container>
   )
 }
 

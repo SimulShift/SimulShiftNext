@@ -3,8 +3,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import {useSession} from 'next-auth/react'
 import PfpMenu from './components/pfp/PfpMenu'
-import {AppBar, Button, Container, Toolbar, Typography} from '@mui/material'
-import AppItem from './components/AppItem'
+import {AppBar, Toolbar} from '@mui/material'
+import AppButton from './components/AppButton'
 
 const Navbar = () => {
   const {data: session} = useSession()
@@ -17,16 +17,12 @@ const Navbar = () => {
           href="/">
           <Image src="/logo-no-bg.png" alt="logo" width="50" height="50" />
         </Link>
-        <AppItem href="/">Home</AppItem>
-        <AppItem href="/about">About</AppItem>
-        <Button>
-          <Link href="/chatbot">Chat Bot</Link>{' '}
-        </Button>
-        <Button>
-          <Link href="/contact">Contact</Link>{' '}
-        </Button>
+        <AppButton href="/">Home</AppButton>
+        <AppButton href="/about">About</AppButton>
+        <AppButton href="/chatbot">Chat Bot</AppButton>
+        <AppButton href="/contact">Contact</AppButton>
         {session?.user?.name?.toLocaleLowerCase() === 'therealchadgpt' && (
-          <Link href="/admin">Admin</Link>
+          <AppButton href="/admin">Admin</AppButton>
         )}
         {session?.user ? (
           <PfpMenu mobileDisplay={false} />
