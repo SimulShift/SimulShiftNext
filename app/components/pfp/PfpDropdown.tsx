@@ -1,16 +1,27 @@
 import {useSession} from 'next-auth/react'
 import Link from 'next/link'
-import {Divider, Menu, MenuItem, MenuList, Paper} from '@mui/material'
+import {
+  Divider,
+  Menu,
+  MenuItem,
+  MenuList,
+  Paper,
+  Switch,
+  Typography,
+} from '@mui/material'
 import ListItemText from '@mui/material/ListItemText'
 import SignOutButton from '../signOut'
 import {Anchor} from './PfpMenu'
 import AppButton from '../AppButton'
+import {useContext} from 'react'
+import {setThemeModeContext} from '@/app/Theme/ThemeRegistry'
 
 type PfpDropdown = {
   mobileDisplay: boolean
 }
 
 const PfpDropdown = ({mobileDisplay}: PfpDropdown) => {
+  const setThemeMode = useContext(setThemeModeContext)
   const {data: session} = useSession()
   return (
     <>
@@ -34,6 +45,15 @@ const PfpDropdown = ({mobileDisplay}: PfpDropdown) => {
           <Divider />
         </>
       )}
+      <MenuItem>
+        <Typography>Light Mode</Typography>
+        <Switch
+          onChange={() =>
+            setThemeMode(prev => (prev === 'light' ? 'dark' : 'light'))
+          }
+          sx={{ml: 1}}
+        />
+      </MenuItem>
       <MenuItem>
         <ListItemText>
           <Link href="/profile">Profile</Link>

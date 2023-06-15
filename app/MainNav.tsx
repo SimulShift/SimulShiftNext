@@ -8,7 +8,7 @@ const MainNav = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsPhoneSize(window.innerWidth <= 425) // Adjust the width as per your target iPhone size
+      setIsPhoneSize(window.innerWidth <= 600) // Adjust the width as per your target iPhone size
     }
     handleResize() // Check the initial size
 

@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import {createContext, useEffect, useMemo, useState} from 'react'
 import {ThemeProvider} from '@mui/material/styles'
 import {keyframes} from '@emotion/react'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -8,7 +9,9 @@ import {NextAppDirEmotionCacheProvider} from './EmotionCache'
 import {PaletteMode, Switch, Typography, useMediaQuery} from '@mui/material'
 import {createTheme, ThemeOptions} from '@mui/material/styles'
 import {Roboto} from 'next/font/google'
-import {useEffect, useMemo, useState} from 'react'
+export const setThemeModeContext = createContext<
+  React.Dispatch<React.SetStateAction<'light' | 'dark'>>
+>(() => {})
 
 const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
@@ -35,7 +38,7 @@ export default function ThemeRegistry({children}: {children: React.ReactNode}) {
 
   const darkTheme: ThemeOptions = {
     typography: {
-      fontSize: 12,
+      fontSize: 16,
       fontFamily: roboto.style.fontFamily,
     },
     palette: {
@@ -85,7 +88,7 @@ export default function ThemeRegistry({children}: {children: React.ReactNode}) {
             borderRadius: 10,
             textTransform: 'none',
             fontWeight: 300,
-            fontSize: '1rem',
+            fontSize: '1.3rem',
             padding: '0.5rem 1rem',
             '&:hover': {
               backgroundColor: '#7348cc',
@@ -149,6 +152,7 @@ export default function ThemeRegistry({children}: {children: React.ReactNode}) {
     return mode === 'light' ? lightThemeOptions : darkTheme
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const myTheme = useMemo(() => createTheme(getTheme(themeMode)), [themeMode])
   const [bgColor, setBgColor] = useState<string>(
     myTheme.palette.background.default,
@@ -164,13 +168,9 @@ export default function ThemeRegistry({children}: {children: React.ReactNode}) {
       <ThemeProvider theme={myTheme}>
         <CssBaseline />
         <body style={{backgroundColor: bgColor}}>
-          {children}
-          <Typography>Dark Mode</Typography>
-          <Switch
-            onChange={() =>
-              setThemeMode(prev => (prev === 'light' ? 'dark' : 'light'))
-            }
-          />
+          <setThemeModeContext.Provider value={setThemeMode}>
+            {children}
+          </setThemeModeContext.Provider>
         </body>
       </ThemeProvider>
     </NextAppDirEmotionCacheProvider>

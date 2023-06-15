@@ -2,7 +2,7 @@
 import {useSession} from 'next-auth/react'
 import {useState} from 'react'
 import Link from 'next/link'
-import {Button, ListItemText, Menu, MenuItem, css, styled} from '@mui/material'
+import {Button, Menu, css, styled} from '@mui/material'
 import Pfp from './Pfp'
 import PfpDropdown from './PfpDropdown'
 
