@@ -3,7 +3,7 @@ import Provider from './components/Provider'
 import {ReactNode} from 'react'
 import './globals.css'
 import MainNav from './MainNav'
-import ThemeRegistry from './Theme/ThemeRegistry/ThemeRegistry'
+import ThemeRegistry from './Theme/ThemeRegistry'
 
 export const metadata = {
   title: 'SimulShift',
