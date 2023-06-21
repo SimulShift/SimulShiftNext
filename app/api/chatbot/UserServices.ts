@@ -8,30 +8,16 @@ enum Personality {
 }
 
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
-const ChatBotService = {
+const twitchUserEndpoint = `${backendUrl}/twitch/user`
+const UserChatBotService = {
   // these methods are just placeholders. You'll need to replace these with actual implementations.
-  startBot: async (session: Session) => {
-    try {
-      const response = await axios.post(`${backendUrl}/twitch/start`, {session})
-      if (response.status === 200) {
-        return 'Bot started successfully'
-      } else {
-        throw new Error('Failed to start bot')
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  },
-  stopTmi: async () => {
-    try {
-      await axios.put(`${backendUrl}/twitch/stopTmi`)
-    } catch (error) {
-      console.error('stopTmi: ', error)
-    }
-  },
+
+  /* Checks if the bot is alive
+   * @param session: Session object from next-auth
+   */
   botAlive: async (session: Session): Promise<boolean> => {
     try {
-      const response = await axios.put(`${backendUrl}/twitch/isAlive`, {
+      const response = await axios.put(`${twitchUserEndpoint}/isAlive`, {
         session,
       })
       if (response.status === 200) {
@@ -43,10 +29,13 @@ const ChatBotService = {
       return false
     }
   },
+  /* Checks if the bot is active in a specific channel
+   * @param channel: The channel to check
+   */
   isOnlineByName: async (channel: string): Promise<boolean> => {
     try {
       const response = await axios.get(
-        `${backendUrl}/twitch/isOnlineByName/${channel}`,
+        `${twitchUserEndpoint}/isOnlineByName/${channel}`,
       )
       return response.data
     } catch (e) {
@@ -54,14 +43,26 @@ const ChatBotService = {
       throw e
     }
   },
+  /* Remove bot from the channel that the user is logged in as
+   * @param session: Session object from next-auth
+   */
   removeBot: async (session: Session) => {
-    await axios.delete(`${backendUrl}/twitch/remove`, {data: {session}})
+    await axios.delete(`${twitchUserEndpoint}/remove`, {data: {session}})
   },
+  /* Set the bot's personality
+   * TODO: Not implemented yet
+   * @param personality: The personality to set
+   */
   setBotPersonality: async (personality: Personality) =>
     await axios.post('/personality', {personality}),
+  /* Join a channel specificed by the param
+   * @param channel: The channel to join
+   */
   joinChannel: async (channel: string) =>
-    await axios.post(`${backendUrl}/twitch/join/${channel}`),
-  tmiOnline: async () => await axios.get(`${backendUrl}/twitch/tmiOnline`),
+    await axios.put(`${twitchUserEndpoint}/join/${channel}`),
+  /* Checks if tmi is online
+   */
+  tmiOnline: async () => await axios.get(`${twitchUserEndpoint}/tmiOnline`),
 }
 
-export default ChatBotService
+export default UserChatBotService

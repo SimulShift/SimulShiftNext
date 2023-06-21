@@ -92,7 +92,7 @@ type SessionCallbackParams = {
   trigger: 'update'
 }
 const handler = NextAuth({
-  debug: true,
+  debug: false,
   providers: [CustomTwitchProvider],
   callbacks: {
     async jwt(params: JWTCallbackParams) {

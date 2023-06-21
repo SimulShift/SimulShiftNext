@@ -1,7 +1,8 @@
 'use client'
 
 import {useSession} from 'next-auth/react'
-import DevTools from '../chatbot/DevTools'
+import TmiSwitch from './TmiSwitch'
+import TmiStatus from './TmiStatus'
 
 const Admin = () => {
   const {data: session} = useSession({required: true})
@@ -11,7 +12,10 @@ const Admin = () => {
       <h1>Admin</h1>
       {(process.env.NODE_ENV == 'development' ||
         session?.user?.name?.toLocaleLowerCase() === 'therealchadgpt') && (
-        <DevTools />
+        <>
+          <TmiStatus />
+          <TmiSwitch />
+        </>
       )}
     </div>
   )
