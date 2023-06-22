@@ -10,7 +10,7 @@ const twitchAdminEndpoint = `${backendUrl}/twitch/admin`
 export const startTmi = async (session: Session) => {
   // how do i check if the session is valid or expired?
   try {
-    const response = await axios.post(`${twitchAdminEndpoint}/start`, {
+    const response = await axios.post(`${twitchAdminEndpoint}/tmi/start`, {
       session,
     })
     if (response.status === 200) {
@@ -37,15 +37,13 @@ export const stopTmi = async () => {
 /* Status of Tmi bot
  * Returns one of the following states: "CONNECTING", "OPEN", "CLOSING" or "CLOSED".
  */
-export const tmiStatus = async (): Promise<string> => {
-  try {
-    const response: AxiosResponse<string> = await axios.get(
-      `${twitchAdminEndpoint}/tmiStatus`,
-    )
-    return response.data
-  } catch (error) {
-    console.error('tmiStatus: ', error)
-  }
 
-  throw new Error('Failed to get tmi status')
+type TmiStatus = 'CONNECTING' | 'OPEN' | 'CLOSING' | 'CLOSED'
+type TmiStatusResponse = {
+  tmiStatus: TmiStatus
+}
+export const tmiStatus = async (): Promise<TmiStatus> => {
+  const res = await fetch('http://localhost:3000/api/twitch/admin/tmi/status')
+  const tmiStatusResponse: TmiStatusResponse = await res.json()
+  return tmiStatusResponse.tmiStatus
 }
