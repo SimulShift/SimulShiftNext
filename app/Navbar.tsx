@@ -15,7 +15,14 @@ const Navbar = () => {
         <Link
           className={'mr-10 bg-transparent flex items-center justify-center'}
           href="/">
-          <Image src="/logo-no-bg.png" alt="logo" width="50" height="50" />
+          <Image
+            src="/logo-no-bg.png"
+            alt="logo"
+            width="0"
+            height="0"
+            sizes="100vw"
+            style={{width: 50, height: 'auto'}}
+          />
         </Link>
         <AppButton href="/">Home</AppButton>
         <AppButton href="/about">About</AppButton>

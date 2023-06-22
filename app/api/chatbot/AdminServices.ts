@@ -8,6 +8,7 @@ const twitchAdminEndpoint = `${backendUrl}/twitch/admin`
  * @param session: Session object from next-auth
  */
 export const startTmi = async (session: Session) => {
+  // how do i check if the session is valid or expired?
   try {
     const response = await axios.post(`${twitchAdminEndpoint}/start`, {
       session,
@@ -25,7 +26,7 @@ export const startTmi = async (session: Session) => {
 /* Stops the tmi Bot
  * @param session: Session object from next-auth
  */
-const stopTmi = async () => {
+export const stopTmi = async () => {
   try {
     await axios.put(`${twitchAdminEndpoint}/stopTmi`)
   } catch (error) {

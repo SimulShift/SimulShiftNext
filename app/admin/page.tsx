@@ -3,9 +3,21 @@
 import {useSession} from 'next-auth/react'
 import TmiSwitch from './TmiSwitch'
 import TmiStatus from './TmiStatus'
+import {useEffect, useState} from 'react'
+import {startTmi, tmiStatus} from '../api/chatbot/AdminServices'
 
 const Admin = () => {
   const {data: session} = useSession({required: true})
+  const [tmiStatusStr, setTmiStatusStr] = useState<string>('...Loading')
+
+  const getTmiStatus = async () => {
+    setTmiStatusStr(await tmiStatus())
+  }
+
+  // useEffect check if tmiOnline
+  useEffect(() => {
+    getTmiStatus()
+  }, [tmiStatusStr])
 
   return (
     <div>
@@ -13,8 +25,8 @@ const Admin = () => {
       {(process.env.NODE_ENV == 'development' ||
         session?.user?.name?.toLocaleLowerCase() === 'therealchadgpt') && (
         <>
-          <TmiStatus />
-          <TmiSwitch />
+          <TmiStatus status={tmiStatusStr} />
+          <TmiSwitch status={tmiStatusStr} setTmiStatusStr={setTmiStatusStr} />
         </>
       )}
     </div>
@@ -22,3 +34,6 @@ const Admin = () => {
 }
 
 export default Admin
+function stopTmi() {
+  throw new Error('Function not implemented.')
+}

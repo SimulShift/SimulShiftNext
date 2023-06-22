@@ -1,8 +1,7 @@
 import {useSession} from 'next-auth/react'
-import {ChangeEvent, useEffect, useState} from 'react'
-import {AxiosResponse} from 'axios'
+import {ChangeEvent, Dispatch, SetStateAction, useEffect, useState} from 'react'
 import Switch from '@mui/material/Switch'
-import {startTmi, tmiStatus} from '../api/chatbot/AdminServices'
+import {startTmi, stopTmi, tmiStatus} from '../api/chatbot/AdminServices'
 import {TbRobotOff, TbRobot} from 'react-icons/tb'
 import {styled} from '@mui/material/styles'
 
@@ -27,43 +26,27 @@ export const MuiSwitchLarge = styled(Switch)(({theme}) => ({
   },
 }))
 
-const TmiSwitch = () => {
+type tmiSwitchProps = {
+  status: string
+  setTmiStatusStr: Dispatch<SetStateAction<string>>
+}
+
+const TmiSwitch = ({status, setTmiStatusStr}: tmiSwitchProps) => {
   const {data: session} = useSession()
-  let [tmiOnlineBool, setTmiOnlineBool] = useState<boolean>(false)
-
-  // useEffect check if tmiOnline
-  useEffect(() => {
-    console.log('tmiOnline checking...')
-    tmiStatus()
-      .then((status: string) => {
-        if (typeof status != 'string') throw new Error('status is not string')
-        console.log('tmiStatus:', status)
-        if (status === 'OPEN') setTmiOnlineBool(true)
-        else setTmiOnlineBool(false)
-      })
-      .catch(err => {
-        console.error('Error checking if tmi is online:', err)
-      })
-  }, [tmiOnlineBool])
-
   const StartChadGpt = async (): Promise<void> => {
     // fetch chatbot endpoint to start chatbot
     try {
       if (!session) throw new Error('Session is null')
       await startTmi(session)
-      setTmiOnlineBool(true)
+      setTmiStatusStr(await tmiStatus())
     } catch (err) {
       console.log('Error starting chatbot:', err)
     }
   }
 
-  const stopChadGpt = async (): Promise<void> => {
-    try {
-      await stopTmi()
-      setTmiOnlineBool(false)
-    } catch (err) {
-      console.log('Error stopping chatbot:', err)
-    }
+  const stopChadGpt = (): void => {
+    stopTmi()
+    setTmiStatusStr('Offline')
   }
 
   const handleChange = async (
@@ -72,10 +55,10 @@ const TmiSwitch = () => {
   ): Promise<void> => {
     if (checked) {
       await StartChadGpt()
-      setTmiOnlineBool(true)
+      setTmiStatusStr(await tmiStatus())
     } else {
-      await stopChadGpt()
-      setTmiOnlineBool(false)
+      stopChadGpt()
+      setTmiStatusStr(await tmiStatus())
     }
   }
 
@@ -84,8 +67,7 @@ const TmiSwitch = () => {
       <MuiSwitchLarge
         size="medium"
         sx={{m: 10}}
-        value={tmiOnlineBool ? 'on' : 'off'}
-        checked={tmiOnlineBool}
+        checked={status === 'OPEN'}
         onChange={handleChange}
         icon={<TbRobotOff size={30} />}
         checkedIcon={<TbRobot size={30} />}
@@ -95,6 +77,3 @@ const TmiSwitch = () => {
 }
 
 export default TmiSwitch
-function stopTmi() {
-  throw new Error('Function not implemented.')
-}
