@@ -1,7 +1,7 @@
 import {Session} from 'next-auth'
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios'
 
-const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
+const backendUrl = process.env.EXPRESS_BACKEND_URL
 const twitchAdminEndpoint = `${backendUrl}/twitch/admin`
 
 /* Starts the tmi Bot

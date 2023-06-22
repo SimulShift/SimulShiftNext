@@ -1,4 +1,4 @@
-const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
+const backendUrl = process.env.EXPRESS_BACKEND_URL
 const twitchAdminEndpoint = `${backendUrl}/twitch/admin`
 
 export const GET = async () => {

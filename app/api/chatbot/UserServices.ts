@@ -7,7 +7,7 @@ enum Personality {
   Sarcastic = 'sarcastic',
 }
 
-const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
+const backendUrl = process.env.EXPRESS_BACKEND_URL
 const twitchUserEndpoint = `${backendUrl}/twitch/user`
 const UserChatBotService = {
   // these methods are just placeholders. You'll need to replace these with actual implementations.
