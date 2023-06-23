@@ -3,7 +3,7 @@ const twitchAdminEndpoint = `${backendUrl}/twitch/admin`
 import {NextResponse} from 'next/server'
 import axios, {AxiosResponse} from 'axios'
 
-export const GET = async (req, res) => {
+export const GET = async () => {
   try {
     console.log('twichAdminEndpoint: ', twitchAdminEndpoint)
     const res: AxiosResponse<string> = await axios.get(
