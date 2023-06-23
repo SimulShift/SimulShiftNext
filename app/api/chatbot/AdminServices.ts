@@ -1,7 +1,6 @@
 import {Session} from 'next-auth'
 import axios from 'axios'
 const backendUrl = process.env.EXPRESS_BACKEND_URL
-const nextApiUrl = process.env.NEXTAUTH_URL
 const twitchAdminEndpoint = `${backendUrl}/twitch/admin`
 
 /* Starts the tmi Bot
@@ -43,7 +42,7 @@ type TmiStatusResponse = {
   tmiStatus: TmiStatus
 }
 export const tmiStatus = async (): Promise<TmiStatus> => {
-  const res = await fetch(`${nextApiUrl}/api/twitch/admin/tmi/status`)
+  const res = await fetch(`/api/twitch/admin/tmi/status`)
   const tmiStatusResponse: TmiStatusResponse = await res.json()
   return tmiStatusResponse.tmiStatus
 }
