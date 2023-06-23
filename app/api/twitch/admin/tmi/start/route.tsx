@@ -1,5 +1,5 @@
 import {NextResponse} from 'next/server'
-import {path} from '../route'
+import {path} from '../path'
 import axios, {AxiosResponse} from 'axios'
 import {TmiStatusResponse} from '@/app/api/chatbot/AdminServices'
 

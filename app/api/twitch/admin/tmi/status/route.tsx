@@ -1,5 +1,5 @@
 import {NextResponse} from 'next/server'
-import {path} from '../route'
+import {path} from '../path'
 import axios, {AxiosResponse} from 'axios'
 
 export const GET = async () => {

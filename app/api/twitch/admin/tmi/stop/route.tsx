@@ -1,5 +1,5 @@
 import {NextResponse} from 'next/server'
-import {path} from '../route'
+import {path} from '../path'
 import axios from 'axios'
 
 export const PUT = async () => {
