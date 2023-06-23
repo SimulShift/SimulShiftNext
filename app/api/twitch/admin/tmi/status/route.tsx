@@ -3,6 +3,7 @@ const twitchAdminEndpoint = `${backendUrl}/twitch/admin`
 
 export const GET = async () => {
   try {
+    console.log('twichAdminEndpoint: ', twitchAdminEndpoint)
     return fetch(`${twitchAdminEndpoint}/tmi/status`, {cache: 'no-store'})
     //return new Response('test', {status: response.status})
   } catch (error) {
