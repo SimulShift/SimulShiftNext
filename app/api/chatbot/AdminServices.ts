@@ -43,6 +43,5 @@ type TmiStatusResponse = {
 }
 export const tmiStatus = async (): Promise<TmiStatus> => {
   const res = await fetch('/api/twitch/admin/tmi/status')
-  const tmiStatusResponse: TmiStatusResponse = await res.json()
-  return tmiStatusResponse.tmiStatus
+  return (await res.json()).tmiStatus
 }

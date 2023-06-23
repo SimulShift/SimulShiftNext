@@ -4,7 +4,7 @@ import {useSession} from 'next-auth/react'
 import TmiSwitch from './TmiSwitch'
 import TmiStatus from './TmiStatus'
 import {useEffect, useState} from 'react'
-import {startTmi, tmiStatus} from '../api/chatbot/AdminServices'
+import {tmiStatus} from '../api/chatbot/AdminServices'
 
 const Admin = () => {
   const {data: session} = useSession({required: true})
@@ -34,6 +34,3 @@ const Admin = () => {
 }
 
 export default Admin
-function stopTmi() {
-  throw new Error('Function not implemented.')
-}
