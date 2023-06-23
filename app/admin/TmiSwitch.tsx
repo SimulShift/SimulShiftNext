@@ -33,33 +33,14 @@ type tmiSwitchProps = {
 
 const TmiSwitch = ({status, setTmiStatusStr}: tmiSwitchProps) => {
   const {data: session} = useSession()
-  const StartChadGpt = async (): Promise<void> => {
-    // fetch chatbot endpoint to start chatbot
-    try {
-      if (!session) throw new Error('Session is null')
-      await startTmi(session)
-      setTmiStatusStr(await tmiStatus())
-    } catch (err) {
-      console.log('Error starting chatbot:', err)
-    }
-  }
-
-  const stopChadGpt = (): void => {
-    stopTmi()
-    setTmiStatusStr('Offline')
-  }
+  if (!session) return null
 
   const handleChange = async (
     event: ChangeEvent<HTMLInputElement>,
     checked: boolean,
   ): Promise<void> => {
-    if (checked) {
-      await StartChadGpt()
-      setTmiStatusStr(await tmiStatus())
-    } else {
-      stopChadGpt()
-      setTmiStatusStr(await tmiStatus())
-    }
+    checked ? await startTmi(session) : await stopTmi()
+    setTmiStatusStr(await tmiStatus())
   }
 
   return (

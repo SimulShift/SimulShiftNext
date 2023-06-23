@@ -1,46 +1,28 @@
 import {Session} from 'next-auth'
 import axios from 'axios'
-const backendUrl = process.env.EXPRESS_BACKEND_URL
-const twitchAdminEndpoint = `${backendUrl}/twitch/admin`
 
+export type TmiStatus = 'CONNECTING' | 'OPEN' | 'CLOSING' | 'CLOSED'
+export type TmiStatusResponse = {
+  tmiStatus: TmiStatus
+}
 /* Starts the tmi Bot
  * @param session: Session object from next-auth
  */
 export const startTmi = async (session: Session) => {
-  // how do i check if the session is valid or expired?
-  try {
-    const response = await axios.post(`${twitchAdminEndpoint}/tmi/start`, {
-      session,
-    })
-    if (response.status === 200) {
-      return 'Bot started successfully'
-    } else {
-      throw new Error('Failed to start bot')
-    }
-  } catch (error) {
-    console.log(error)
-  }
+  return await axios.put(`/api/twitch/admin/tmi/start`, session)
 }
 
 /* Stops the tmi Bot
  * @param session: Session object from next-auth
  */
 export const stopTmi = async () => {
-  try {
-    await axios.put(`${twitchAdminEndpoint}/stopTmi`)
-  } catch (error) {
-    console.error('stopTmi: ', error)
-  }
+  return await axios.put(`/api/twitch/admin/tmi/stop`)
 }
 
 /* Status of Tmi bot
  * Returns one of the following states: "CONNECTING", "OPEN", "CLOSING" or "CLOSED".
  */
 
-type TmiStatus = 'CONNECTING' | 'OPEN' | 'CLOSING' | 'CLOSED'
-type TmiStatusResponse = {
-  tmiStatus: TmiStatus
-}
 export const tmiStatus = async (): Promise<TmiStatus> => {
   const res = await fetch('/api/twitch/admin/tmi/status')
   return (await res.json()).tmiStatus
