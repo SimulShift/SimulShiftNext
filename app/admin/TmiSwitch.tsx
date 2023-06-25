@@ -1,3 +1,5 @@
+'use client'
+
 import {useSession} from 'next-auth/react'
 import {ChangeEvent, Dispatch, SetStateAction, useEffect, useState} from 'react'
 import Switch from '@mui/material/Switch'
