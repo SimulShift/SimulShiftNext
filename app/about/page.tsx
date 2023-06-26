@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import me from '/public/me.jpg'
 
 const About = () => {
   return (
@@ -14,12 +15,14 @@ const About = () => {
       <div>
         <Image
           className="rounded-full"
-          src="/me.jpg"
+          src={me}
           alt="SimulShift Logo"
           placeholder="blur"
           blurDataURL="/me.jpg"
-          width={200}
-          height={200}
+          width="0"
+          height="0"
+          sizes="100vw"
+          style={{width: 500, height: 'auto'}}
         />
       </div>
     </section>

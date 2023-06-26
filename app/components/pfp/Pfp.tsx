@@ -9,11 +9,12 @@ const Pfp = () => {
         <Image
           src={session.user?.image}
           alt="profile"
-          width="45"
-          height="45"
+          width="0"
+          height="0"
+          sizes="100vw"
+          style={{width: 50, height: 'auto'}}
           placeholder="blur"
           blurDataURL={session.user?.image}
-          style={{minWidth: '45px'}}
           className="rounded-full"
         />
       )}

@@ -5,6 +5,7 @@ import {useSession} from 'next-auth/react'
 import PfpMenu from './components/pfp/PfpMenu'
 import {AppBar, Toolbar} from '@mui/material'
 import AppButton from './components/AppButton'
+import cloudLogo from '/public/logo-no-bg.png'
 
 const Navbar = () => {
   const {data: session} = useSession()
@@ -16,12 +17,12 @@ const Navbar = () => {
           className={'mr-10 bg-transparent flex items-center justify-center'}
           href="/">
           <Image
-            src="/logo-no-bg.png"
+            src={cloudLogo}
             alt="logo"
-            width="0"
-            height="0"
             placeholder="blur"
             blurDataURL="/logo-no-bg.png"
+            width="0"
+            height="0"
             sizes="100vw"
             style={{width: 50, height: 'auto'}}
           />
