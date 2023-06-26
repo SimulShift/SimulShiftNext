@@ -17,6 +17,7 @@ const nextConfig = {
       transform: '@mui/icons-material/{{member}}',
     },
   },
+  async headers() {},
 }
 
 module.exports = nextConfig

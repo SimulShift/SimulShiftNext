@@ -2,6 +2,7 @@ import {NextResponse} from 'next/server'
 import {path} from '../path'
 import axios, {AxiosResponse, AxiosError} from 'axios'
 import {TmiReadyState, cacheBuster} from '@/app/api/chatbot/AdminServices'
+import {NextApiRequest, NextApiResponse} from 'next'
 
 export type TmiStatusResponse = {
   error?: any
@@ -10,7 +11,9 @@ export type TmiStatusResponse = {
   status?: number
 }
 
-export const GET = async () => {
+export const GET = async (req: NextApiRequest, res: NextApiResponse) => {
+  res.setHeader('Cache-Control', 'no-store')
+
   try {
     const url = `${path}/status`
     const res: AxiosResponse<TmiStatusResponse> = await axios.get(cacheBuster(url))
