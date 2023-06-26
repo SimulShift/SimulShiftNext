@@ -5,6 +5,7 @@ import {TmiReadyState} from '@/app/api/chatbot/AdminServices'
 
 export type TmiStatusResponse = {
   error?: any
+  tmiClientOnline?: boolean
   readyState?: TmiReadyState
   status?: number
 }

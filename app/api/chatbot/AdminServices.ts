@@ -40,10 +40,11 @@ export const stopTmi = async () => {
 /* Status of Tmi bot
  * Returns one of the following states: "CONNECTING", "OPEN", "CLOSING" or "CLOSED".
  */
-export const tmiStatus = async (): Promise<TmiReadyState> => {
+export const tmiStatus = async (): Promise<
+  TmiReadyState | 'Tmi Bot is not running'
+> => {
   const res: AxiosResponse<TmiStatusResponse> = await axios.get(
     '/api/twitch/admin/tmi/status',
   )
-  if (!res.data.readyState) throw new Error('No readyState returned')
-  return res.data.readyState
+  return res.data.readyState ?? 'Tmi Bot is not running'
 }
