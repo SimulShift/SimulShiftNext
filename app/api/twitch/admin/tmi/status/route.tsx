@@ -13,9 +13,10 @@ export type TmiStatusResponse = {
 export const GET = async (req: NextRequest, res: NextResponse) => {
   try {
     const url = `${path}/status`
-    const res: AxiosResponse<TmiStatusResponse> = await axios.get(cacheBuster(url))
-    console.log('TmiStatusResponse: ', res.data)
-    return NextResponse.json(res.data)
+    const res = await fetch(cacheBuster(url), {headers: {cache: 'no-store'}})
+    const data: TmiStatusResponse = await res.json()
+    console.log('TmiStatusResponse: ', data)
+    return NextResponse.json(data)
   } catch (error: AxiosError | any) {
     if (axios.isAxiosError(error)) {
       console.error(path + '/status', error.toJSON())
