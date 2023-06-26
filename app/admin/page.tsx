@@ -7,6 +7,7 @@ import {useEffect, useState} from 'react'
 import {tmiStatus} from '../api/chatbot/AdminServices'
 
 export const fetchCache = 'force-no-store'
+export const revalidate = 0 // seconds
 
 const Admin = () => {
   const {data: session} = useSession({required: true})
