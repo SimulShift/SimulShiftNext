@@ -8,6 +8,7 @@ import {tmiStatus} from '../api/chatbot/AdminServices'
 
 export const fetchCache = 'force-no-store'
 export const revalidate = 0 // seconds
+export const dynamc = 'force-dynamic'
 
 const Admin = () => {
   const {data: session} = useSession({required: true})
