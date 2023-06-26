@@ -1,6 +1,5 @@
 import {NextRequest, NextResponse} from 'next/server'
 import {path} from '../path'
-import axios, {AxiosResponse, AxiosError} from 'axios'
 import {TmiReadyState, cacheBuster} from '@/app/api/chatbot/AdminServices'
 
 export type TmiStatusResponse = {
@@ -17,13 +16,8 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
     const data: TmiStatusResponse = await res.json()
     console.log('TmiStatusResponse: ', data)
     return NextResponse.json(data)
-  } catch (error: AxiosError | any) {
-    if (axios.isAxiosError(error)) {
-      console.error(path + '/status', error.toJSON())
-      return NextResponse.json({error: error.toJSON(), status: 500})
-    } else {
-      console.error(path + '/status', error)
-      return NextResponse.json({error, status: 500})
-    }
+  } catch (error) {
+    console.error(path + '/status', error)
+    return NextResponse.json({error, status: 500})
   }
 }
