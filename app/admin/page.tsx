@@ -16,6 +16,7 @@ const Admin = () => {
 
   // useEffect check if tmiOnline
   useEffect(() => {
+    console.log('useEffect tmiStatusStr')
     getTmiStatus()
   }, [tmiStatusStr])
 
