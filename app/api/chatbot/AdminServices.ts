@@ -46,5 +46,6 @@ export const tmiStatus = async (): Promise<
   const res: AxiosResponse<TmiStatusResponse> = await axios.get(
     '/api/twitch/admin/tmi/status',
   )
+  console.log('Tmi ReadyState', res.data)
   return res.data.readyState ?? 'Tmi Bot is not running'
 }
