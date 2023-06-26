@@ -5,6 +5,7 @@ import {TmiStatusResponse} from '../twitch/admin/tmi/status/route'
 import {TmiStartResponse} from '../twitch/admin/tmi/start/route'
 
 export type TmiReadyState = 'CONNECTING' | 'OPEN' | 'CLOSING' | 'CLOSED'
+export const cacheBuster = (url: string) => `${url}?cb=${Date.now()}`
 
 /* Starts the tmi Bot
  * @param session: Session object from next-auth
@@ -36,8 +37,6 @@ export const startTmi = async (session: Session) => {
 export const stopTmi = async () => {
   return await axios.put(`/api/twitch/admin/tmi/stop`)
 }
-
-const cacheBuster = (url: string) => `${url}?cb=${Date.now()}`
 
 /* Status of Tmi bot
  * Returns one of the following states: "CONNECTING", "OPEN", "CLOSING" or "CLOSED".
