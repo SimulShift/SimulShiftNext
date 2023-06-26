@@ -22,7 +22,7 @@ const Admin = () => {
   useEffect(() => {
     console.log('useEffect tmiStatusStr')
     getTmiStatus()
-  }, [tmiStatusStr])
+  }, [tmiStatusStr, session])
 
   return (
     <div>
