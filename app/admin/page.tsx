@@ -23,8 +23,7 @@ const Admin = () => {
   return (
     <div>
       <h1>Admin</h1>
-      {(process.env.NODE_ENV == 'development' ||
-        session?.user?.name?.toLocaleLowerCase() === 'therealchadgpt') && (
+      {session?.user?.name?.toLocaleLowerCase() === 'therealchadgpt' && (
         <>
           <TmiStatus status={tmiStatusStr} />
           <TmiSwitch status={tmiStatusStr} setTmiStatusStr={setTmiStatusStr} />
