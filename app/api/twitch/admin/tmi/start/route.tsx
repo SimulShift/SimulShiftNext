@@ -29,3 +29,11 @@ export const PUT = async (req: Request) => {
     }
   }
 }
+
+export const GET = async (req: Request) => {
+  return NextResponse.json({error: 'Method not allowed'}, {status: 405})
+}
+
+export const POST = async (req: Request) => {
+  return NextResponse.json({error: 'Method not allowed'}, {status: 405})
+}

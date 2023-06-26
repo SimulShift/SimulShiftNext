@@ -21,3 +21,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
     return NextResponse.json({error, status: 500})
   }
 }
+
+export const POST = async (req: Request) => {
+  return NextResponse.json({error: 'Method not allowed'}, {status: 405})
+}
