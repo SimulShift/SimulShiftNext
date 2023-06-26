@@ -19,7 +19,7 @@ export const startTmi = async (session: Session) => {
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 401) {
         console.log('Unauthorized, redirecting to signout')
-        signOut({callbackUrl: '/api/auth/signin'})
+        signOut()
         return
       }
       return console.error('Error starting Tmi Bot', error.toJSON())
