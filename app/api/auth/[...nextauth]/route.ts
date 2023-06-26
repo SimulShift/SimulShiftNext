@@ -13,11 +13,11 @@ export interface TwitchProfile extends Record<string, any> {
   picture: string
 }
 
-const authRedirectUri = `${process.env.NEXTAUTH_URL}/api/auth/callback/twitch`
+const authRedirectUri = `${process.env.NEXTAUTH_URL}/api/auth/callback/twitch2`
 
 const CustomTwitchProvider: OAuthConfig<any> = {
   wellKnown: 'https://id.twitch.tv/oauth2/.well-known/openid-configuration',
-  id: 'twitch',
+  id: 'twitch2',
   name: 'Twitch',
   type: 'oauth',
   checks: 'state',
