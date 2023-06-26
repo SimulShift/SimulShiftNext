@@ -37,14 +37,17 @@ export const stopTmi = async () => {
   return await axios.put(`/api/twitch/admin/tmi/stop`)
 }
 
+const cacheBuster = (url: string) => `${url}?cb=${Date.now()}`
+
 /* Status of Tmi bot
  * Returns one of the following states: "CONNECTING", "OPEN", "CLOSING" or "CLOSED".
  */
 export const tmiStatus = async (): Promise<
   TmiReadyState | 'Tmi Bot is not running'
 > => {
+  const url = '/api/twitch/admin/tmi/status'
   const res: AxiosResponse<TmiStatusResponse> = await axios.get(
-    '/api/twitch/admin/tmi/status',
+    cacheBuster(url),
   )
   console.log('Tmi ReadyState', res.data)
   return res.data.readyState ?? 'Tmi Bot is not running'
