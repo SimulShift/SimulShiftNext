@@ -16,6 +16,8 @@ const About = () => {
           className="rounded-full"
           src="/me.jpg"
           alt="SimulShift Logo"
+          placeholder="blur"
+          blurDataURL="/me.jpg"
           width={200}
           height={200}
         />

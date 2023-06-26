@@ -20,6 +20,8 @@ const Navbar = () => {
             alt="logo"
             width="0"
             height="0"
+            placeholder="blur"
+            blurDataURL="/logo-no-bg.png"
             sizes="100vw"
             style={{width: 50, height: 'auto'}}
           />

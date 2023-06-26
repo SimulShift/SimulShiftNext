@@ -11,6 +11,8 @@ const Pfp = () => {
           alt="profile"
           width="45"
           height="45"
+          placeholder="blur"
+          blurDataURL={session.user?.image}
           style={{minWidth: '45px'}}
           className="rounded-full"
         />
