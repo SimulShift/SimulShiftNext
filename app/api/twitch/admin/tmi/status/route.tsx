@@ -1,10 +1,11 @@
 import {NextResponse} from 'next/server'
 import {path} from '../path'
 import axios, {AxiosResponse, AxiosError} from 'axios'
+import {TmiReadyState} from '@/app/api/chatbot/AdminServices'
 
-type TmiStatusResponse = {
+export type TmiStatusResponse = {
   error?: any
-  readyState?: ReadyState
+  readyState?: TmiReadyState
   status?: number
 }
 

@@ -2,7 +2,7 @@ import {NextResponse} from 'next/server'
 import {path} from '../path'
 import axios, {AxiosResponse, AxiosError} from 'axios'
 
-type TmiStartResponse = {
+export type TmiStartResponse = {
   error?: any
   readyState?: ReadyState
   status?: number

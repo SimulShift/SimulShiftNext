@@ -1,14 +1,11 @@
 import {Session} from 'next-auth'
 import axios, {AxiosResponse, AxiosError} from 'axios'
 import {signOut} from 'next-auth/react'
+import {TmiStatusResponse} from '../twitch/admin/tmi/status/route'
+import {TmiStartResponse} from '../twitch/admin/tmi/start/route'
 
-export type ReadyState = 'CONNECTING' | 'OPEN' | 'CLOSING' | 'CLOSED'
+export type TmiReadyState = 'CONNECTING' | 'OPEN' | 'CLOSING' | 'CLOSED'
 
-type TmiStartResponse = {
-  error?: any
-  readyState?: ReadyState
-  status?: number
-}
 /* Starts the tmi Bot
  * @param session: Session object from next-auth
  */
@@ -40,16 +37,13 @@ export const stopTmi = async () => {
   return await axios.put(`/api/twitch/admin/tmi/stop`)
 }
 
-type TmiStatusResponse = {
-  error?: any
-  readyState?: ReadyState
-  status?: number
-}
-
 /* Status of Tmi bot
  * Returns one of the following states: "CONNECTING", "OPEN", "CLOSING" or "CLOSED".
  */
-export const tmiStatus = async (): Promise<TmiStatusResponse> => {
-  const res = await fetch('/api/twitch/admin/tmi/status')
-  return (await res.json()).readyState
+export const tmiStatus = async (): Promise<TmiReadyState> => {
+  const res: AxiosResponse<TmiStatusResponse> = await axios.get(
+    '/api/twitch/admin/tmi/status',
+  )
+  if (!res.data.readyState) throw new Error('No readyState returned')
+  return res.data.readyState
 }
