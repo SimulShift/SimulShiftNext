@@ -12,7 +12,6 @@ export type TmiStatusResponse = {
 export const GET = async (req: NextRequest, res: NextResponse) => {
   try {
     const url = `${path}/status`
-    //const res = await fetch(cacheBuster(url), {headers: {cache: 'no-store'}})
     const res = await fetch(url)
     const data: TmiStatusResponse = await res.json()
     console.log('TmiStatusResponse: ', data)
@@ -22,7 +21,3 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
     return NextResponse.json({error, status: 500})
   }
 }
-
-//export const POST = async (req: Request) => {
-//  return NextResponse.json({error: 'Method not allowed'}, {status: 405})
-//}
