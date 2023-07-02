@@ -97,6 +97,9 @@ const handler = NextAuth({
   debug: false,
   providers: [CustomTwitchProvider],
   callbacks: {
+    async signIn({user, account, profile, email, credentials}) {
+      return true
+    },
     async jwt({token, account}: JWTCallbackParams) {
       console.log('jwt callback', 'Token:', token, '\naccount:', account)
       if (account) {

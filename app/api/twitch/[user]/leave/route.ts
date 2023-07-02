@@ -1,25 +1,23 @@
 import {NextResponse} from 'next/server'
 import {path} from '../path'
-import axios, {AxiosError} from 'axios'
 
 export type BotLeaveResponse = {
   joined: boolean
+  error?: any
 }
 
-export const DELETE = async (
-  request: Request,
-  {params}: {params: {user: string}},
-) => {
+export const DELETE = async (request: Request, {params}: {params: {user: string}}) => {
   try {
-    const res = await axios.delete(`${path}/${params.user}/leave`)
-    const botLeaveResponse: BotLeaveResponse = res.data
+    const res = await fetch(`${path}/${params.user}/leave`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    const botLeaveResponse: BotLeaveResponse = await res.json()
     return NextResponse.json(botLeaveResponse)
-  } catch (error: AxiosError | any) {
-    if (axios.isAxiosError(error)) {
-      console.error('axios error in /api/twitch/[user]/leave', error.toJSON())
-    } else {
-      console.error('Unknown error in user leave route', error)
-    }
-    throw error
+  } catch (error: any) {
+    console.error('Unknown error in user leave route', error)
+    return NextResponse.json({joined: false, error})
   }
 }
