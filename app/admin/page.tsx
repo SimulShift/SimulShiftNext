@@ -26,11 +26,11 @@ const Admin = () => {
   }, [])
 
   useEffect(() => {
-    if (extendedSession.error) {
+    if (extendedSession?.error) {
       console.log('/admin extendedSession.error', extendedSession.error)
       signIn() // Force sign in to hopefully resolve error
     }
-  }, [extendedSession.error])
+  }, [extendedSession?.error])
 
   return (
     <div>
