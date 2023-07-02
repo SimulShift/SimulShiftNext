@@ -12,7 +12,8 @@ export type TmiStatusResponse = {
 export const GET = async (req: NextRequest, res: NextResponse) => {
   try {
     const url = `${path}/status`
-    const res = await fetch(cacheBuster(url), {headers: {cache: 'no-store'}})
+    //const res = await fetch(cacheBuster(url), {headers: {cache: 'no-store'}})
+    const res = await fetch(url)
     const data: TmiStatusResponse = await res.json()
     console.log('TmiStatusResponse: ', data)
     return NextResponse.json(data)
