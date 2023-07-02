@@ -41,7 +41,8 @@ export const stopTmi = async () => {
 export const tmiStatus = async (): Promise<TmiReadyState | 'Tmi Bot is not running'> => {
   const url = '/api/twitch/admin/tmi/status'
   // refacoring this to fetch
-  const res = await fetch(cacheBuster(url))
+  //const res = await fetch(cacheBuster(url))
+  const res = await fetch(url)
   const data: TmiStatusResponse = await res.json()
   console.log('Tmi ReadyState', data)
   return data.readyState ?? 'Tmi Bot is not running'
