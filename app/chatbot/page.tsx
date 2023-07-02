@@ -7,7 +7,7 @@
 import React, {useState, useEffect} from 'react'
 import {useSession} from 'next-auth/react'
 import BotStatus from './BotStatus'
-import {checkChannelOnline} from '../api/chatbot/UserServices'
+import {checkJoined} from '../api/chatbot/UserServices'
 import BotSwitch from './BotSwitch'
 
 const ChatBotPage = () => {
@@ -17,16 +17,16 @@ const ChatBotPage = () => {
   const botOnline = async () => {
     try {
       if (!session?.user?.name) return
-      const botOnline = await checkChannelOnline(session.user.name)
+      const botOnline = await checkJoined(session.user.name)
       setOnline(botOnline)
     } catch (err) {
-      console.log('Error checking if bot is alive:', err)
+      console.log('Error checking if joined:', err)
     }
   }
 
   useEffect(() => {
     botOnline()
-  }, [session])
+  }, [])
 
   return (
     <div className="container mx-auto py-8">

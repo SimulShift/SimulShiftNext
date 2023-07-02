@@ -36,16 +36,12 @@ const BotSwitch = ({online, setOnline}: BotSwitchProps) => {
     required: true,
   })
 
-  const handleChange = async (
-    event: ChangeEvent<HTMLInputElement>,
-    checked: boolean,
-  ) => {
+  const handleChange = async (event: ChangeEvent<HTMLInputElement>, checked: boolean) => {
     if (!session?.user?.name) throw new Error('Session is null')
+    console.log('Switch pressed! Checking if joined... checked:', checked)
     const channel = session.user.name
-    const joined = checked
-      ? await joinChannel(channel)
-      : await leaveChannel(channel)
-
+    const joined = checked ? await joinChannel(channel) : await leaveChannel(channel)
+    console.log('Processing Finished, joined:', joined)
     setOnline(joined)
   }
 
@@ -54,7 +50,7 @@ const BotSwitch = ({online, setOnline}: BotSwitchProps) => {
       <MuiSwitchLarge
         size="medium"
         sx={{m: 10}}
-        checked={online}
+        checked={online ?? false}
         onChange={handleChange}
         icon={<TbRobotOff size={30} />}
         checkedIcon={<TbRobot size={30} />}

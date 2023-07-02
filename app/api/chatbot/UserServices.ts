@@ -1,6 +1,6 @@
 import axios, {AxiosRequestConfig, AxiosError} from 'axios'
 import {Session} from 'next-auth'
-import {BotOnlineResponse} from '../twitch/[user]/online/route'
+import {BotJoinedResponse as BotOnlineResponse} from '../twitch/[user]/online/route'
 import {BotJoinedResponse} from '../twitch/[user]/join/route'
 import {BotLeaveResponse} from '../twitch/[user]/leave/route'
 
@@ -32,11 +32,12 @@ export const botOnline = async (session: Session): Promise<boolean> => {
 /* Checks if the bot is active in a specific channel
  * @param channel: The channel to check
  */
-export const checkChannelOnline = async (channel: string): Promise<boolean> => {
+export const checkJoined = async (channel: string): Promise<boolean> => {
   try {
-    const response = await axios.get(`/api/twitch/${channel}/online`)
-    const botOnlineResponse: BotOnlineResponse = response.data
-    return botOnlineResponse.online
+    const response = await fetch(`/api/twitch/${channel}/online`)
+    const botOnlineResponse: BotJoinedResponse = await response.json()
+    console.log(`Checking if ${channel} is online with response:`, botOnlineResponse)
+    return botOnlineResponse.joined
   } catch (e: AxiosError | any) {
     if (axios.isAxiosError(e)) {
       console.error('axios error checkChannelOnline', e.toJSON())
@@ -57,8 +58,10 @@ export const setBotPersonality = async (personality: Personality) =>
  * @returns: Whether or not the bot was able to join the channel
  */
 export const joinChannel = async (channel: string): Promise<boolean> => {
-  const res = await axios.put(`api/twitch/${channel}/join`)
-  const botJoinedResponse: BotJoinedResponse = res.data
+  const res = await fetch(`api/twitch/${channel}/join`, {
+    method: 'PUT',
+  })
+  const botJoinedResponse: BotJoinedResponse = await res.json()
   return botJoinedResponse.joined
 }
 

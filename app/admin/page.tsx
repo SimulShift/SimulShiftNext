@@ -14,15 +14,10 @@ const Admin = () => {
   const {data: session} = useSession({required: true})
   const [tmiStatusStr, setTmiStatusStr] = useState<string>('...Loading')
 
-  const getTmiStatus = async () => {
-    setTmiStatusStr(await tmiStatus())
-  }
-
-  // useEffect check if tmiOnline
+  const getTmiStatus = async () => setTmiStatusStr(await tmiStatus())
   useEffect(() => {
-    console.log('useEffect tmiStatusStr')
     getTmiStatus()
-  }, [tmiStatusStr])
+  }, [])
 
   return (
     <div>
