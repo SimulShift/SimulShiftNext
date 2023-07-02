@@ -8,7 +8,7 @@ export const accessTokenIsValid = async (accessToken: string): Promise<boolean> 
       },
     })
     const json = await res.json()
-    console.log('*******validate twitch api response***********\n', json)
+    //console.log('*******validate twitch api response***********\n', json)
     if (json.status) {
       if (json.status == 401) {
         //'This token is invalid: ' + resp.message;
@@ -17,10 +17,11 @@ export const accessTokenIsValid = async (accessToken: string): Promise<boolean> 
       }
     }
     if (json.client_id && json.client_id == process.env.TWITCH_CLIENT_ID) {
+      /*
       console.log(
         'This token is valid for the client id in the .env file',
         process.env.TWITCH_CLIENT_ID,
-      )
+      )*/
       return true
     } else {
       console.log('This token is not valid for the client id in the .env file')

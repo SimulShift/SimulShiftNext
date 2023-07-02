@@ -101,7 +101,7 @@ const handler = NextAuth({
       return true
     },
     async jwt({token, account}: JWTCallbackParams) {
-      console.log('jwt callback', 'Token:', token, '\naccount:', account)
+      //console.log('jwt callback', 'Token:', token, '\naccount:', account)
       if (account) {
         console.log('******account********')
         // Save         console.log('refresh token:', params.account.refresh_token)
@@ -109,7 +109,7 @@ const handler = NextAuth({
         token.refreshToken = account.refresh_token
         return token
       } else if (await accessTokenIsValid(token.accessToken as string)) {
-        console.log('**********access token is valid*************')
+        //console.log('**********access token is valid*************')
         // lets try refreshing for testing
         return token
       } else {
