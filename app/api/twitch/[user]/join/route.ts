@@ -8,6 +8,7 @@ export type BotJoinedResponse = {
 }
 export const PUT = async (request: Request, {params}: {params: {user: string}}) => {
   try {
+    console.log('Joining channel', params.user)
     const channel = params.user
     const response = await axios.put(`${path}/${channel}/join`)
     const botJoinedResponse: BotJoinedResponse = response.data

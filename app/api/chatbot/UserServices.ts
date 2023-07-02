@@ -35,9 +35,9 @@ export const botOnline = async (session: Session): Promise<boolean> => {
 export const checkJoined = async (channel: string): Promise<boolean> => {
   try {
     const response = await fetch(`/api/twitch/${channel}/online`)
-    const botOnlineResponse: BotJoinedResponse = await response.json()
-    console.log(`Checking if ${channel} is online with response:`, botOnlineResponse)
-    return botOnlineResponse.joined
+    const BotJoinedRespnse: BotJoinedResponse = await response.json()
+    console.log(`Checking if bot joined ${channel} with response:`, BotJoinedRespnse)
+    return BotJoinedRespnse.joined
   } catch (e: AxiosError | any) {
     if (axios.isAxiosError(e)) {
       console.error('axios error checkChannelOnline', e.toJSON())
