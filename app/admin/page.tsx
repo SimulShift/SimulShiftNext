@@ -6,6 +6,10 @@ import TmiStatus from './TmiStatus'
 import {useEffect, useState} from 'react'
 import {tmiStatus} from '../api/chatbot/AdminServices'
 
+//export const fetchCache = 'force-no-store'
+//export const revalidate = 0 // seconds
+//export const dynamic = 'force-dynamic'
+
 const Admin = () => {
   const {data: session} = useSession({required: true})
   const [tmiStatusStr, setTmiStatusStr] = useState<string>('...Loading')
