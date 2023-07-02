@@ -5,6 +5,7 @@ import NextAuth, {Account, Profile, Session, User} from 'next-auth'
 import {randomBytes} from 'crypto'
 import {JWT} from 'next-auth/jwt'
 import {AdapterUser} from 'next-auth/adapters'
+import {accessTokenIsValid, refreshAccessToken} from './twitch'
 
 export interface TwitchProfile extends Record<string, any> {
   sub: string
@@ -73,9 +74,10 @@ type JWTCallbackParams = {
 
 type ExtendedSession = Session & {
   accessToken?: string
+  refreshToken?: string
+  error?: string
 }
 
-// JWT &
 type ExtendedJwt = JWT & {
   accessToken: string
   sub: string
@@ -95,17 +97,39 @@ const handler = NextAuth({
   debug: false,
   providers: [CustomTwitchProvider],
   callbacks: {
-    async jwt(params: JWTCallbackParams) {
-      if (params.account?.access_token) {
-        params.token.accessToken = params.account.access_token
+    async jwt({token, account}: JWTCallbackParams) {
+      console.log('jwt callback', 'Token:', token, '\naccount:', account)
+      if (account) {
+        console.log('******account********')
+        // Save         console.log('refresh token:', params.account.refresh_token)
+        token.accessToken = account.access_token
+        token.refreshToken = account.refresh_token
+        return token
+      } else if (await accessTokenIsValid(token.accessToken as string)) {
+        console.log('**********access token is valid*************')
+        // lets try refreshing for testing
+        return token
+      } else {
+        console.log('**********refreshing token*************')
+        try {
+          const tokens = await refreshAccessToken(token.refreshToken as string)
+          return {
+            ...token, // Keep the previous token properties
+            accessToken: tokens.access_token,
+            refreshToken: tokens.refresh_token || token.refresh_token,
+          }
+        } catch (err) {
+          console.log('error refreshing token', err)
+          return {...token, error: err}
+        }
       }
-      return params.token
     },
     async session(params: SessionCallbackParams) {
       // Store the user object in the dictionary using the user's ID as the key
-      if (!params.token.accessToken)
-        throw new Error('No access token in session callback')
+      if (!params.token.accessToken) throw new Error('No access token in session callback')
       params.session.accessToken = params.token.accessToken as string
+      params.session.refreshToken = params.token.refreshToken as string
+      params.session.error = params.token.error as string
       return params.session
     },
   },
