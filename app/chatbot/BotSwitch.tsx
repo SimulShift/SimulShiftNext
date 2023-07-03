@@ -49,7 +49,7 @@ const BotSwitch = ({online, setOnline}: BotSwitchProps) => {
     <>
       <MuiSwitchLarge
         size="medium"
-        sx={{m: 10}}
+        sx={{m: 2}}
         checked={online ?? false}
         onChange={handleChange}
         icon={<TbRobotOff size={30} />}

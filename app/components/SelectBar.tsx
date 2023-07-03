@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
-import { FormControl, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import React, {useState} from 'react'
+import {FormControl, MenuItem, Select, SelectChangeEvent} from '@mui/material'
 
 interface Props {
-    options?: {text: string, value: string}[]
+  options?: {text: string; value: string}[]
+  onChange: (newValue: string) => void
 }
 
-const SelectBar: React.FC<Props> = ({options}) => {
+const SelectBar: React.FC<Props> = ({options, onChange}) => {
   const defaultOptions = options ?? [{text: 'No Options', value: 'none'}]
-  const [selectedOption, setSelectedOption] = useState(defaultOptions[0].value);
+  const [selectedOption, setSelectedOption] = useState(defaultOptions[0].value)
 
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
-    const newValue = event.target.value;
-    setSelectedOption(newValue);
-  };
+    const newValue = event.target.value
+    setSelectedOption(newValue)
+    onChange(newValue)
+  }
 
   return (
     <FormControl>
@@ -20,32 +22,32 @@ const SelectBar: React.FC<Props> = ({options}) => {
         labelId="select-label"
         value={selectedOption}
         onChange={handleSelectChange}
-        style={{ 
-            width: 200, 
-            backgroundColor: '#ebb840',
-            color: 'black',
-            fontWeight: 'bold'
+        style={{
+          width: 200,
+          backgroundColor: '#ebb840',
+          color: 'black',
+          fontWeight: 'bold',
         }}
         sx={{
-            '& .MuiSelect-icon': {
-                '&::after': {
-                    backgroundColor: 'white',
-                },
-                '&::before': {
-                    backgroundColor: 'white',
-                },
+          '& .MuiSelect-icon': {
+            '&::after': {
               backgroundColor: 'white',
-              color: '#ebb840',
             },
-          }}
-      >
-        {defaultOptions.map(({text, value}) =>
-          <MenuItem key={value} value={value}>{text}</MenuItem>
-        )}
+            '&::before': {
+              backgroundColor: 'white',
+            },
+            backgroundColor: 'white',
+            color: '#ebb840',
+          },
+        }}>
+        {defaultOptions.map(({text, value}) => (
+          <MenuItem key={value} value={value}>
+            {text}
+          </MenuItem>
+        ))}
       </Select>
     </FormControl>
-  );
-};
+  )
+}
 
-export default SelectBar;
-
+export default SelectBar

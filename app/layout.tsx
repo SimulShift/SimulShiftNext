@@ -1,9 +1,9 @@
-//import {Roboto} from 'next/font/google'
 import Provider from './components/Provider'
 import {ReactNode} from 'react'
 import './globals.css'
 import MainNav from './MainNav'
 import ThemeRegistry from './Theme/ThemeRegistry'
+import {Container} from '@mui/material'
 
 export const metadata = {
   title: 'SimulShift',
