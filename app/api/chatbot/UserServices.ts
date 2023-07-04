@@ -1,6 +1,5 @@
 import axios, {AxiosRequestConfig, AxiosError} from 'axios'
 import {Session} from 'next-auth'
-import {BotJoinedResponse as BotOnlineResponse} from '../twitch/[user]/online/route'
 import {BotJoinedResponse} from '../twitch/[user]/join/route'
 import {BotLeaveResponse} from '../twitch/[user]/leave/route'
 
@@ -19,7 +18,7 @@ const twitchUserEndpoint = `${backendUrl}/twitch/user`
  */
 export const botOnline = async (session: Session): Promise<boolean> => {
   try {
-    const botOnlineResponse: BotOnlineResponse = (
+    const botOnlineResponse = (
       await axios.put(`${twitchUserEndpoint}/isAlive`, {
         session,
       })

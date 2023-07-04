@@ -37,7 +37,9 @@ const SelectPersonalityComponent = () => {
     })
   }, [])
 
-  const onChange = (newValue: string) => {}
+  const onChange = (newValue: string) => {
+    console.log('Selected personality: ', newValue)
+  }
 
   return (
     <Box
