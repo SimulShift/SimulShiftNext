@@ -63,7 +63,7 @@ const CustomTwitchProvider: OAuthConfig<any> = {
 }
 
 type JWTCallbackParams = {
-  token: JWT
+  token: ExtendedJwt
   user: User | null
   account: Account | null
   profile?: Profile | undefined
@@ -72,18 +72,19 @@ type JWTCallbackParams = {
   session?: any
 }
 
-type ExtendedSession = Session & {
+export type ExtendedSession = Session & {
   accessToken?: string
   refreshToken?: string
   error?: string
+  sub?: string
 }
 
 type ExtendedJwt = JWT & {
-  accessToken: string
-  sub: string
-  iat: number
-  exp: number
-  jti: string
+  accessToken?: string
+  refreshToken?: string
+  iat?: number
+  exp?: number
+  jti?: string
 }
 
 type SessionCallbackParams = {
@@ -133,6 +134,8 @@ const handler = NextAuth({
       params.session.accessToken = params.token.accessToken as string
       params.session.refreshToken = params.token.refreshToken as string
       params.session.error = params.token.error as string
+      params.session.sub = params.token.sub as string
+      //console.log('session callback')
       return params.session
     },
   },

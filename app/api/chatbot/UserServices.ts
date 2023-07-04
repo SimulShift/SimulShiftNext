@@ -32,19 +32,23 @@ export const botOnline = async (session: Session): Promise<boolean> => {
 /* Checks if the bot is active in a specific channel
  * @param channel: The channel to check
  */
-export const checkJoined = async (channel: string): Promise<boolean> => {
+export const checkJoined = async (channel: string, userId: string): Promise<boolean> => {
   try {
-    const response = await fetch(`/api/twitch/${channel}/online`)
+    const url = `/api/twitch/${channel}/joined?userId=${userId}`
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
     const BotJoinedRespnse: BotJoinedResponse = await response.json()
     console.log(`Checking if bot joined ${channel} with response:`, BotJoinedRespnse)
     return BotJoinedRespnse.joined
-  } catch (e: AxiosError | any) {
-    if (axios.isAxiosError(e)) {
-      console.error('axios error checkChannelOnline', e.toJSON())
-    }
+  } catch (e) {
     console.error('error checkChannelOnline', e)
+    throw new Error('Error checking channel online')
   }
-  throw new Error('Error checking channel online')
 }
 /* Set the bot's personality
  * TODO: Not implemented yet
@@ -57,9 +61,17 @@ export const setBotPersonality = async (personality: Personality) =>
  * @param channel: The channel to join
  * @returns: Whether or not the bot was able to join the channel
  */
-export const joinChannel = async (channel: string): Promise<boolean> => {
+export const joinChannel = async (
+  channel: string,
+  userId: string,
+  accessToken: string,
+): Promise<boolean> => {
   const res = await fetch(`api/twitch/${channel}/join`, {
     method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({userId, accessToken}),
   })
   const botJoinedResponse: BotJoinedResponse = await res.json()
   return botJoinedResponse.joined
@@ -68,16 +80,20 @@ export const joinChannel = async (channel: string): Promise<boolean> => {
 /* Remove bot from the channel that the user is logged in as
  * @param session: Session object from next-auth
  */
-export const leaveChannel = async (channel: string) => {
+export const leaveChannel = async (channel: string, userId: string): Promise<boolean> => {
+  console.log('userId', userId)
   try {
-    const res = await axios.delete(`api/twitch/${channel}/leave`)
-    const botLeaveResponse: BotLeaveResponse = res.data
+    const res = await fetch(`api/twitch/${channel}/leave`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({userId}),
+    })
+    const botLeaveResponse: BotLeaveResponse = await res.json()
     return botLeaveResponse.joined
-  } catch (e: AxiosError | any) {
-    if (axios.isAxiosError(e)) {
-      throw e.toJSON()
-    } else {
-      throw e
-    }
+  } catch (error: any) {
+    console.error('Unknown error in user leave route', error)
+    return false
   }
 }

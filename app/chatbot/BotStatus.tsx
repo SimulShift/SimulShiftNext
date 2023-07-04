@@ -1,12 +1,11 @@
-'use client'
-import {useSession} from 'next-auth/react'
+import {Typography} from '@mui/material'
 
 type BotStatusProps = {
   online: boolean
 }
 
 const BotStatus = ({online}: BotStatusProps) => {
-  return <div>{online ? 'Chat Bot is ON' : 'Chat Bot is OFF'}</div>
+  return <Typography>{online ? 'Chat Bot is ON' : 'Chat Bot is OFF'}</Typography>
 }
 
 export default BotStatus

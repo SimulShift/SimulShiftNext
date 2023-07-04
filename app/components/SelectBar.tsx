@@ -2,13 +2,12 @@ import React, {useState} from 'react'
 import {FormControl, MenuItem, Select, SelectChangeEvent} from '@mui/material'
 
 interface Props {
-  options?: {text: string; value: string}[]
+  options: {text: string; value: string}[]
   onChange: (newValue: string) => void
 }
 
 const SelectBar: React.FC<Props> = ({options, onChange}) => {
-  const defaultOptions = options ?? [{text: 'No Options', value: 'none'}]
-  const [selectedOption, setSelectedOption] = useState(defaultOptions[0].value)
+  const [selectedOption, setSelectedOption] = useState(options[0].value)
 
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
     const newValue = event.target.value
@@ -40,7 +39,7 @@ const SelectBar: React.FC<Props> = ({options, onChange}) => {
             color: '#ebb840',
           },
         }}>
-        {defaultOptions.map(({text, value}) => (
+        {options.map(({text, value}) => (
           <MenuItem key={value} value={value}>
             {text}
           </MenuItem>

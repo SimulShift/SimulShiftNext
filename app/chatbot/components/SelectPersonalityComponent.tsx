@@ -24,7 +24,7 @@ const fetchPersonalities = async (): Promise<string[]> => {
 
 const SelectPersonalityComponent = () => {
   const [personalityOptions, setPersonalityOptions] = useState<PersonalityOption[]>([
-    {text: 'Select An Option', value: 'none'},
+    {text: '', value: ''},
   ])
 
   useEffect(() => {

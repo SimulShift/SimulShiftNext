@@ -6,13 +6,17 @@ export type BotLeaveResponse = {
   error?: any
 }
 
-export const DELETE = async (request: Request, {params}: {params: {user: string}}) => {
+export const PUT = async (req: Request, {params}: {params: {user: string}}) => {
+  const {userId} = await req.json()
+  console.log('params testing', userId)
+
   try {
     const res = await fetch(`${path}/${params.user}/leave`, {
-      method: 'DELETE',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify({userId}),
     })
     const botLeaveResponse: BotLeaveResponse = await res.json()
     return NextResponse.json(botLeaveResponse)
