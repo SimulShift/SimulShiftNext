@@ -12,7 +12,7 @@ export const GET = async (request: Request, {params}: {params: {user: string}}) 
     // Extract the userId from the query parameter
     const reqUrl = new URL(request.url)
     const userId = reqUrl.searchParams.get('userId')
-    console.log('Joining channel', channel, 'with userId', userId)
+    console.log('Checking if joined channel', channel, 'with userId', userId)
     const fullUrl = `${path}/${channel}/joined?userId=${userId}`
     const response = await fetch(fullUrl, {
       method: 'GET',

@@ -1,4 +1,4 @@
-import axios, {AxiosRequestConfig, AxiosError} from 'axios'
+import axios from 'axios'
 import {Session} from 'next-auth'
 import {BotJoinedResponse} from '../twitch/[user]/join/route'
 import {BotLeaveResponse} from '../twitch/[user]/leave/route'
