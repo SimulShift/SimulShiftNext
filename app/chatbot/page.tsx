@@ -14,13 +14,26 @@ const ChatBotPage = () => {
   const {data: session} = useSession({required: true})
 
   useEffect(() => {
+    backendFetchTest2()
     backendFetchTest()
   }, [])
 
-  const backendFetchTest = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/test`)
+  const backendFetchTest2 = async () => {
+    console.log('backend fetch test with next api')
+    const res = await fetch(`/api/test`)
     const data = await res.json()
-    console.log(data)
+    console.log('backend fetch test with next api', data)
+  }
+
+  const backendFetchTest = async () => {
+    console.log('backend fetch test')
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/test`)
+      const data = await res.json()
+      console.log('backend fetch test', data)
+    } catch (e) {
+      console.log('backend fetch test error', e)
+    }
   }
 
   return (
