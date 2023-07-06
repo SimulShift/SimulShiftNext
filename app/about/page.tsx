@@ -18,6 +18,7 @@ const About = async () => {
   return (
     <section>
       <h2>About SimulShift</h2>
+      <p>{JSON.stringify(data)}</p>
       <p>
         SimulShift is a Twitch streamer focused on software development, with a particular emphasis
         on videogame development. Join the stream to learn and follow along as SimulShift creates
