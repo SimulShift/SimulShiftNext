@@ -1,7 +1,7 @@
 'use client'
 
 import {useEffect, useState} from 'react'
-import BotStatus from '../BotStatus'
+import BotStatus from './BotStatus'
 import BotSwitch from '../BotSwitch'
 import {checkJoined} from '@/app/utils/chatbot/UserServices'
 import {useSession} from 'next-auth/react'

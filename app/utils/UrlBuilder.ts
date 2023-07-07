@@ -11,19 +11,31 @@ enum TwitchUserEndPoints {
   registerCommand,
 }
 
+enum GptEndPoints {
+  personality,
+}
+
 enum TmiEndPoints {
   start,
   status,
   stop,
 }
 
-enum GptEndPoints {
-  personalities,
-}
-
 class UrlBuilder {
-  private url: URL = new URL(process.env.NEXT_PUBLIC_BACKEND_URL ?? 'http://localhost:3000')
+  private static expressBaseUrl: string = process.env.EXPRESS_BACKEND_URL || 'http://localhost:8080'
+  private static nextBaseUrl: string =
+    process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000'
+
+  private url: URL
   private endpointSet: boolean = false
+
+  constructor(express: boolean) {
+    if (express) {
+      this.url = new URL(UrlBuilder.expressBaseUrl)
+    } else {
+      this.url = new URL(UrlBuilder.nextBaseUrl)
+    }
+  }
 
   public userId(userId: string): UrlBuilder {
     this.url.searchParams.append('userId', userId)
@@ -45,11 +57,19 @@ class UrlBuilder {
       throw new Error('Cannot set tmi route when path is not /admin')
     }
     this.url.pathname += '/tmi/' + endpoint.toString()
+    this.endpointSet = true
     return this
   }
 
-  public twitch(endpoint: TwitchUserEndPoints): UrlBuilder {
-    this.url.pathname += '/twitch/' + endpoint.toString()
+  public twitch(endpoint: TwitchUserEndPoints, channel: string): UrlBuilder {
+    this.url.pathname += `/twitch/${channel}/${endpoint.toString()}`
+    this.endpointSet = true
+    return this
+  }
+
+  public gpt(endpoint: GptEndPoints): UrlBuilder {
+    this.url.pathname += `/gpt/${endpoint.toString()}`
+    this.endpointSet = true
     return this
   }
 
