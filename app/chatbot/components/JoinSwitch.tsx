@@ -17,10 +17,7 @@ const JoinSwitch = () => {
 
   const botOnline = async () => {
     try {
-      if (!session?.user?.name || !extendedSession.sub) {
-        console.log('Session is null', session)
-        return
-      }
+      if (!session?.user?.name || !extendedSession.sub) return
       setJoined(await checkJoined(session.user.name, extendedSession.sub))
     } catch (err) {
       console.log('Error checking if joined:', err)
