@@ -3,7 +3,7 @@
 import {useSession} from 'next-auth/react'
 import {ChangeEvent, Dispatch, SetStateAction, useEffect, useState} from 'react'
 import Switch from '@mui/material/Switch'
-import {startTmi, stopTmi, tmiStatus} from '../api/chatbot/AdminServices'
+import {startTmi, stopTmi, tmiStatus} from '../utils/chatbot/AdminServices'
 import {TbRobotOff, TbRobot} from 'react-icons/tb'
 import {styled} from '@mui/material/styles'
 

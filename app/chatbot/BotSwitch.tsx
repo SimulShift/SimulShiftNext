@@ -1,6 +1,6 @@
 import {useSession} from 'next-auth/react'
 import {ChangeEvent, useEffect, useState} from 'react'
-import {joinChannel, leaveChannel} from '../api/chatbot/UserServices'
+import {joinChannel, leaveChannel} from '../utils/chatbot/UserServices'
 import {TbRobot, TbRobotOff} from 'react-icons/tb'
 import styled from '@emotion/styled'
 import {Switch, Tooltip} from '@mui/material'

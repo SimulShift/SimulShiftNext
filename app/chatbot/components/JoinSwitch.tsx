@@ -3,7 +3,7 @@
 import {useEffect, useState} from 'react'
 import BotStatus from '../BotStatus'
 import BotSwitch from '../BotSwitch'
-import {checkJoined} from '@/app/api/chatbot/UserServices'
+import {checkJoined} from '@/app/utils/chatbot/UserServices'
 import {useSession} from 'next-auth/react'
 import {Box} from '@mui/material'
 import {ExtendedSession} from '@/app/api/auth/[...nextauth]/route'

@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from 'next/server'
 import {path} from '../path'
-import {TmiReadyState, cacheBuster} from '@/app/api/chatbot/AdminServices'
+import {TmiReadyState, cacheBuster} from '@/app/utils/chatbot/AdminServices'
 
 export type TmiStatusResponse = {
   error?: any

@@ -20,7 +20,7 @@ const ChatBotPage = () => {
     if (!extendedSession || !extendedSession.sub) return
     console.log('inuseeffect')
     const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/test`
-    const snatcher = new Snatcher(url, extendedSession.sub)
+    const snatcher = new Snatcher(url, extendedSession)
     snatcher.get().then(res => {
       console.log('res:', res)
     })

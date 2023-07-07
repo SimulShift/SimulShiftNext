@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {Session} from 'next-auth'
-import {BotJoinedResponse} from '../twitch/[user]/join/route'
-import {BotLeaveResponse} from '../twitch/[user]/leave/route'
+import {BotJoinedResponse} from '../../api/twitch/[user]/join/route'
+import {BotLeaveResponse} from '../../api/twitch/[user]/leave/route'
 
 enum Personality {
   Friendly = 'friendly',

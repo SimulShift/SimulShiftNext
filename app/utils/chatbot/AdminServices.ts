@@ -1,8 +1,8 @@
 import {Session} from 'next-auth'
 import axios, {AxiosResponse, AxiosError} from 'axios'
 import {signOut} from 'next-auth/react'
-import {TmiStatusResponse} from '../twitch/admin/tmi/status/route'
-import {TmiStartResponse} from '../twitch/admin/tmi/start/route'
+import {TmiStatusResponse} from '../../api/twitch/admin/tmi/status/route'
+import {TmiStartResponse} from '../../api/twitch/admin/tmi/start/route'
 
 export type TmiReadyState = 'CONNECTING' | 'OPEN' | 'CLOSING' | 'CLOSED'
 export const cacheBuster = (url: string) => `${url}?cb=${Date.now()}`

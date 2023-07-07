@@ -4,7 +4,7 @@ import {signIn, useSession} from 'next-auth/react'
 import TmiSwitch from './TmiSwitch'
 import TmiStatus from './TmiStatus'
 import {useEffect, useState} from 'react'
-import {tmiStatus} from '../api/chatbot/AdminServices'
+import {tmiStatus} from '../utils/chatbot/AdminServices'
 import {Session} from 'next-auth'
 
 //export const fetchCache = 'force-no-store'
