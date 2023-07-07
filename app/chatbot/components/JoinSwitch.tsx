@@ -2,11 +2,11 @@
 
 import {useEffect, useState} from 'react'
 import BotStatus from './BotStatus'
-import BotSwitch from '../BotSwitch'
-import {checkJoined} from '@/app/utils/chatbot/UserServices'
+import {checkJoined} from '@/app/utils/twitch/UserServices'
 import {useSession} from 'next-auth/react'
 import {Box} from '@mui/material'
 import {ExtendedSession} from '@/app/api/auth/[...nextauth]/route'
+import BotSwitch from './BotSwitch'
 
 const JoinSwitch = () => {
   const {data: session} = useSession({required: true})

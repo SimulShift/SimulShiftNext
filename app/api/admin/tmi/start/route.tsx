@@ -1,32 +1,28 @@
 import {NextResponse} from 'next/server'
-import {path} from '../path'
-import axios, {AxiosResponse, AxiosError} from 'axios'
+import UrlBuilder, {TmiEndPoints} from '@/app/utils/UrlBuilder'
+import {TmiReadyState} from '@/app/utils/twitch/TmiAdminServices'
 
 export type TmiStartResponse = {
   error?: any
-  readyState?: ReadyState
+  readyState?: TmiReadyState
   status?: number
 }
 
 export const PUT = async (req: Request) => {
+  const urlBuilder = new UrlBuilder(true)
+  urlBuilder.admin().tmi(TmiEndPoints.start)
+  //console.log('Starting tmi res: ', await req.json())
   try {
-    const session = await req.json()
-    console.log('session in tmi/start/route.tsx: ', session)
-    const response: AxiosResponse = await axios.put(`${path}/start`, {
-      session,
+    const res = await fetch(urlBuilder.build(), {
+      method: 'PUT',
+      body: JSON.stringify(await req.json()),
+      headers: {'Content-Type': 'application/json'},
     })
-    const json: TmiStartResponse = response.data
+    const json: TmiStartResponse = await res.json()
     return NextResponse.json(json, {status: 200})
-  } catch (error: AxiosError | any) {
-    if (axios.isAxiosError(error)) {
-      if (error.response?.status === 401) {
-        return NextResponse.json({error: error.toJSON()}, {status: 401})
-      }
-      return NextResponse.json({error: error.toJSON()}, {status: 500})
-    } else {
-      console.error('Error in tmi/start/route.tsx', error)
-      return NextResponse.json({error}, {status: 500})
-    }
+  } catch (error) {
+    console.error(`Error starting tmi: `, error)
+    return NextResponse.json({error: error}, {status: 500})
   }
 }
 

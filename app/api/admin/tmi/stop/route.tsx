@@ -1,5 +1,5 @@
+import UrlBuilder, {TmiEndPoints} from '@/app/utils/UrlBuilder'
 import {NextResponse} from 'next/server'
-import {path} from '../path'
 
 type TmiStopResponse = {
   joined: false
@@ -9,7 +9,8 @@ type TmiStopResponse = {
 
 export const PUT = async () => {
   try {
-    const res = await fetch(`${path}/stop`, {
+    const urlBuilder = new UrlBuilder(true)
+    const res = await fetch(urlBuilder.admin().tmi(TmiEndPoints.stop).build(), {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

@@ -1,40 +1,35 @@
-enum api {
-  twitch,
-  gpt,
+export enum TwitchUserEndPoints {
+  joined = 'joined',
+  join = 'join',
+  leave = 'leave',
+  personality = 'personality',
+  registerCommand = 'registerCommand',
 }
 
-enum TwitchUserEndPoints {
-  joined,
-  join,
-  leave,
-  personality,
-  registerCommand,
+export enum GptEndPoints {
+  personality = 'personality',
 }
 
-enum GptEndPoints {
-  personality,
-}
-
-enum TmiEndPoints {
-  start,
-  status,
-  stop,
+export enum TmiEndPoints {
+  start = 'start',
+  status = 'status',
+  stop = 'stop',
 }
 
 class UrlBuilder {
   private static expressBaseUrl: string = process.env.EXPRESS_BACKEND_URL || 'http://localhost:8080'
   private static nextBaseUrl: string =
     process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000'
+  private express: boolean
 
   private url: URL
   private endpointSet: boolean = false
 
-  constructor(express: boolean) {
-    if (express) {
-      this.url = new URL(UrlBuilder.expressBaseUrl)
-    } else {
-      this.url = new URL(UrlBuilder.nextBaseUrl)
-    }
+  constructor(express: boolean = false) {
+    this.express = express
+    express
+      ? (this.url = new URL(UrlBuilder.expressBaseUrl))
+      : (this.url = new URL(UrlBuilder.nextBaseUrl))
   }
 
   public userId(userId: string): UrlBuilder {
@@ -74,10 +69,15 @@ class UrlBuilder {
   }
 
   public build(): string {
-    console.log('built url:', this.url.toString())
     if (!this.endpointSet) {
       throw new Error('No endpoint set, please choose twitch, tmi, or gpt')
     }
+    if (!this.express) {
+      this.url.pathname = '/api' + this.url.pathname
+    }
+    console.log('built url:', this.url.toString())
     return this.url.toString()
   }
 }
+
+export default UrlBuilder
