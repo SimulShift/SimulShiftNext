@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from 'next/server'
-import {TmiReadyState} from '@/app/utils/twitch/TmiAdminServices'
 import UrlBuilder, {TmiEndPoints} from '@/app/utils/UrlBuilder'
+import {TmiReadyState} from '@/app/services/twitch/TmiAdminServices'
 
 export type TmiStatusResponse = {
   error?: any

@@ -1,15 +1,14 @@
 import {Session} from 'next-auth'
 import {BotJoinedResponse} from '../../api/twitch/join/route'
-import {BotLeaveResponse} from '../../api/twitch/[channel]/leave/route'
-import UrlBuilder, {GptEndPoints, TwitchUserEndPoints} from '@/app/utils/UrlBuilder'
-import {Personality} from '../gpt/UserServices'
+import UrlBuilder, {TwitchUserEndPoints} from '@/app/utils/UrlBuilder'
+import {BotLeaveResponse} from '@/app/api/twitch/leave/route'
 
 /* Checks if the bot is alive
  * @param session: Session object from next-auth
  */
 export const botJoined = async (session: Session): Promise<boolean> => {
-  const urlBuilder = new UrlBuilder()
-  urlBuilder.twitch(TwitchUserEndPoints.joined, session.user?.name)
+  const urlBuilder = new UrlBuilder().channel(session.user?.name)
+  urlBuilder.twitch(TwitchUserEndPoints.joined)
   try {
     const res = await fetch(urlBuilder.build())
     const botJoinedResponse: BotJoinedResponse = await res.json()
@@ -43,8 +42,7 @@ export const checkJoined = async (channel: string, userId: string): Promise<bool
 }
 
 /* Set the bot's personality
- * @param personality: The personality to set
- */
+ * @param personality: The personality to set﻿/
 export const setBotPersonality = async (personality: Personality) => {
   console.log('Setting personality to', personality)
   const urlBuilder = new UrlBuilder()
@@ -89,7 +87,7 @@ export const joinChannel = async (
  */
 export const leaveChannel = async (channel: string, userId: string): Promise<boolean> => {
   const urlBuilder = new UrlBuilder()
-  urlBuilder.twitch(TwitchUserEndPoints.leave).channel(channel)
+  urlBuilder.twitch(TwitchUserEndPoints.leave).channel(channel).userId(userId)
   try {
     const res = await fetch(urlBuilder.build(), {
       method: 'PUT',

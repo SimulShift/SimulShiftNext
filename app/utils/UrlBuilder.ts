@@ -37,7 +37,7 @@ class UrlBuilder {
     return this
   }
 
-  public channel(channel: string | null): UrlBuilder {
+  public channel(channel: string | null | undefined): UrlBuilder {
     if (!channel) throw new Error('Must provide channel')
     this.url.searchParams.append('channel', channel)
     return this
