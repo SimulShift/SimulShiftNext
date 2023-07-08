@@ -1,40 +1,31 @@
-import axios from 'axios'
 import {Session} from 'next-auth'
-import {BotJoinedResponse} from '../../api/twitch/[user]/join/route'
-import {BotLeaveResponse} from '../../api/twitch/[user]/leave/route'
-
-enum Personality {
-  Friendly = 'friendly',
-  Professional = 'professional',
-  Sarcastic = 'sarcastic',
-}
-
-const backendUrl = process.env.EXPRESS_BACKEND_URL
-const twitchUserEndpoint = `${backendUrl}/twitch/user`
-// these methods are just placeholders. You'll need to replace these with actual implementations.
+import {BotJoinedResponse} from '../../api/twitch/join/route'
+import UrlBuilder, {TwitchUserEndPoints} from '@/app/utils/UrlBuilder'
+import {BotLeaveResponse} from '@/app/api/twitch/leave/route'
 
 /* Checks if the bot is alive
  * @param session: Session object from next-auth
  */
-export const botOnline = async (session: Session): Promise<boolean> => {
+export const botJoined = async (session: Session): Promise<boolean> => {
+  const urlBuilder = new UrlBuilder().channel(session.user?.name)
+  urlBuilder.twitch(TwitchUserEndPoints.joined)
   try {
-    const botOnlineResponse = (
-      await axios.put(`${twitchUserEndpoint}/isAlive`, {
-        session,
-      })
-    ).data
-    return botOnlineResponse.online
+    const res = await fetch(urlBuilder.build())
+    const botJoinedResponse: BotJoinedResponse = await res.json()
+    return botJoinedResponse.joined
   } catch (e) {
     return false
   }
 }
+
 /* Checks if the bot is active in a specific channel
  * @param channel: The channel to check
  */
 export const checkJoined = async (channel: string, userId: string): Promise<boolean> => {
+  const urlBuilder = new UrlBuilder()
+  urlBuilder.twitch(TwitchUserEndPoints.joined).userId(userId).channel(channel)
   try {
-    const url = `/api/twitch/${channel}/joined?userId=${userId}`
-    const response = await fetch(url, {
+    const response = await fetch(urlBuilder.build(), {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -49,12 +40,25 @@ export const checkJoined = async (channel: string, userId: string): Promise<bool
     throw new Error('Error checking channel online')
   }
 }
+
 /* Set the bot's personality
- * TODO: Not implemented yet
- * @param personality: The personality to set
- */
-export const setBotPersonality = async (personality: Personality) =>
-  await axios.post('/personality', {personality})
+ * @param personality: The personality to set﻿/
+export const setBotPersonality = async (personality: Personality) => {
+  console.log('Setting personality to', personality)
+  const urlBuilder = new UrlBuilder()
+  urlBuilder.gpt(GptEndPoints.personality)
+  try {
+    const res = await fetch(urlBuilder.build(), {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({personality}),
+    })
+  } catch (e) {
+    console.error('Error setting personality', e)
+  }
+}
 
 /* Join a channel specificed by the param
  * @param channel: The channel to join
@@ -65,12 +69,14 @@ export const joinChannel = async (
   userId: string,
   accessToken: string,
 ): Promise<boolean> => {
-  const res = await fetch(`api/twitch/${channel}/join`, {
+  const urlBuilder = new UrlBuilder()
+  urlBuilder.twitch(TwitchUserEndPoints.join).channel(channel).userId(userId)
+  const res = await fetch(urlBuilder.build(), {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({userId, accessToken}),
+    body: JSON.stringify({accessToken}),
   })
   const botJoinedResponse: BotJoinedResponse = await res.json()
   return botJoinedResponse.joined
@@ -80,9 +86,10 @@ export const joinChannel = async (
  * @param session: Session object from next-auth
  */
 export const leaveChannel = async (channel: string, userId: string): Promise<boolean> => {
-  console.log('userId', userId)
+  const urlBuilder = new UrlBuilder()
+  urlBuilder.twitch(TwitchUserEndPoints.leave).channel(channel).userId(userId)
   try {
-    const res = await fetch(`api/twitch/${channel}/leave`, {
+    const res = await fetch(urlBuilder.build(), {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

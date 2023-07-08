@@ -1,30 +1,16 @@
 import {useEffect, useState} from 'react'
 import SelectBar from '../../components/SelectBar'
 import {Box, Typography} from '@mui/material'
-
-type PersonalitiesResponse = {
-  error?: any
-  personalities?: string[]
-  status?: number
-}
+import {Personality, fetchPersonalities} from '@/app/services/gpt/UserServices'
 
 type PersonalityOption = {
-  text: string
-  value: string
-}
-
-const fetchPersonalities = async (): Promise<string[]> => {
-  const res = await fetch('api/twitch/personalities')
-  const personalitiesResponse: PersonalitiesResponse = await res.json()
-  if (!personalitiesResponse.personalities) {
-    throw new Error('No personalities found in react component')
-  }
-  return personalitiesResponse.personalities
+  text: Personality
+  value: Personality
 }
 
 const SelectPersonalityComponent = () => {
   const [personalityOptions, setPersonalityOptions] = useState<PersonalityOption[]>([
-    {text: '', value: ''},
+    {text: Personality.Helpful, value: Personality.Helpful},
   ])
 
   useEffect(() => {

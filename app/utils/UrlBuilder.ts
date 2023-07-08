@@ -1,32 +1,45 @@
-enum api {
-  twitch,
-  gpt,
+export enum TwitchUserEndPoints {
+  joined = 'joined',
+  join = 'join',
+  leave = 'leave',
+  registerCommand = 'registerCommand',
 }
 
-enum TwitchUserEndPoints {
-  joined,
-  join,
-  leave,
-  personality,
-  registerCommand,
+export enum GptEndPoints {
+  personality = 'personality',
 }
 
-enum TmiEndPoints {
-  start,
-  status,
-  stop,
-}
-
-enum GptEndPoints {
-  personalities,
+export enum TmiEndPoints {
+  start = 'start',
+  status = 'status',
+  stop = 'stop',
 }
 
 class UrlBuilder {
-  private url: URL = new URL(process.env.NEXT_PUBLIC_BACKEND_URL ?? 'http://localhost:3000')
+  private static expressBaseUrl: string = process.env.EXPRESS_BACKEND_URL || 'http://localhost:8080'
+  private static nextBaseUrl: string =
+    process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000'
+  private express: boolean
+
+  private url: URL
   private endpointSet: boolean = false
 
-  public userId(userId: string): UrlBuilder {
+  constructor(express: boolean = false) {
+    this.express = express
+    express
+      ? (this.url = new URL(UrlBuilder.expressBaseUrl))
+      : (this.url = new URL(UrlBuilder.nextBaseUrl))
+  }
+
+  public userId(userId: string | null): UrlBuilder {
+    if (!userId) throw new Error('Must provide userId')
     this.url.searchParams.append('userId', userId)
+    return this
+  }
+
+  public channel(channel: string | null | undefined): UrlBuilder {
+    if (!channel) throw new Error('Must provide channel')
+    this.url.searchParams.append('channel', channel)
     return this
   }
 
@@ -45,19 +58,36 @@ class UrlBuilder {
       throw new Error('Cannot set tmi route when path is not /admin')
     }
     this.url.pathname += '/tmi/' + endpoint.toString()
+    this.endpointSet = true
     return this
   }
 
   public twitch(endpoint: TwitchUserEndPoints): UrlBuilder {
-    this.url.pathname += '/twitch/' + endpoint.toString()
+    this.url.pathname += `/twitch/${endpoint.toString()}`
+    this.endpointSet = true
+    return this
+  }
+
+  public gpt(endpoint: GptEndPoints): UrlBuilder {
+    this.url.pathname += `/gpt/${endpoint.toString()}`
+    this.endpointSet = true
     return this
   }
 
   public build(): string {
-    console.log('built url:', this.url.toString())
     if (!this.endpointSet) {
       throw new Error('No endpoint set, please choose twitch, tmi, or gpt')
     }
+    if (!this.express) {
+      this.url.pathname = '/api' + this.url.pathname
+    }
+    // check if there are two / in a row
+    if (this.url.pathname.slice(0, 2) === '//') {
+      this.url.pathname = this.url.pathname.slice(1)
+    }
+    console.log('built url:', this.url.toString())
     return this.url.toString()
   }
 }
+
+export default UrlBuilder

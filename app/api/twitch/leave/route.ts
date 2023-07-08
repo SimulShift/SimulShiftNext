@@ -1,17 +1,19 @@
+import UrlBuilder, {TwitchUserEndPoints} from '@/app/utils/UrlBuilder'
 import {NextResponse} from 'next/server'
-import {path} from '../path'
 
 export type BotLeaveResponse = {
   joined: boolean
   error?: any
 }
 
-export const PUT = async (req: Request, {params}: {params: {user: string}}) => {
-  const {userId} = await req.json()
-  console.log('params testing', userId)
+export const PUT = async (req: Request) => {
+  const reqUrl = new URL(req.url)
+  const userId = reqUrl.searchParams.get('userId')
+  const urlBuilder = new UrlBuilder(true)
+  urlBuilder.twitch(TwitchUserEndPoints.leave).userId(userId)
 
   try {
-    const res = await fetch(`${path}/${params.user}/leave`, {
+    const res = await fetch(urlBuilder.build(), {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

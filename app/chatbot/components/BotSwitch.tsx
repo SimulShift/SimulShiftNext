@@ -1,10 +1,10 @@
 import {useSession} from 'next-auth/react'
-import {ChangeEvent, useEffect, useState} from 'react'
-import {joinChannel, leaveChannel} from '../utils/chatbot/UserServices'
+import {ChangeEvent} from 'react'
 import {TbRobot, TbRobotOff} from 'react-icons/tb'
 import styled from '@emotion/styled'
 import {Switch, Tooltip} from '@mui/material'
-import {ExtendedSession} from '../api/auth/[...nextauth]/route'
+import {ExtendedSession} from '@/app/api/auth/[...nextauth]/route'
+import {joinChannel, leaveChannel} from '@/app/services/twitch/UserServices'
 
 const activeToggle = 'Your Chatbot is Online! Give chad  a command in your twitch channel'
 const inactiveToggle =
