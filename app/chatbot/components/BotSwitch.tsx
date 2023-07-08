@@ -4,7 +4,7 @@ import {TbRobot, TbRobotOff} from 'react-icons/tb'
 import styled from '@emotion/styled'
 import {Switch, Tooltip} from '@mui/material'
 import {ExtendedSession} from '@/app/api/auth/[...nextauth]/route'
-import {joinChannel, leaveChannel} from '@/app/utils/twitch/UserServices'
+import {joinChannel, leaveChannel} from '@/app/services/twitch/UserServices'
 
 const activeToggle = 'Your Chatbot is Online! Give chad  a command in your twitch channel'
 const inactiveToggle =

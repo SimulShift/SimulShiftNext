@@ -2,7 +2,6 @@ export enum TwitchUserEndPoints {
   joined = 'joined',
   join = 'join',
   leave = 'leave',
-  personality = 'personality',
   registerCommand = 'registerCommand',
 }
 
@@ -32,7 +31,8 @@ class UrlBuilder {
       : (this.url = new URL(UrlBuilder.nextBaseUrl))
   }
 
-  public userId(userId: string): UrlBuilder {
+  public userId(userId: string | null): UrlBuilder {
+    if (!userId) throw new Error('Must provide userId')
     this.url.searchParams.append('userId', userId)
     return this
   }
@@ -56,8 +56,8 @@ class UrlBuilder {
     return this
   }
 
-  public twitch(endpoint: TwitchUserEndPoints, channel: string): UrlBuilder {
-    this.url.pathname += `/twitch/${channel}/${endpoint.toString()}`
+  public twitch(endpoint: TwitchUserEndPoints): UrlBuilder {
+    this.url.pathname += `/twitch/${endpoint.toString()}`
     this.endpointSet = true
     return this
   }
@@ -76,6 +76,11 @@ class UrlBuilder {
       this.url.pathname = '/api' + this.url.pathname
     }
     console.log('built url:', this.url.toString())
+
+    // check if there are two / in a row
+    if (this.url.pathname.slice(0, 2) === '//') {
+      this.url.pathname = this.url.pathname.slice(1)
+    }
     return this.url.toString()
   }
 }

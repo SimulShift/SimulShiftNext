@@ -1,7 +1,7 @@
 import {Session} from 'next-auth'
 import {TmiStatusResponse} from '@/app/api/admin/tmi/status/route'
 import {TmiStartResponse} from '@/app/api/admin/tmi/start/route'
-import UrlBuilder, {TmiEndPoints} from '../UrlBuilder'
+import UrlBuilder, {TmiEndPoints} from '../../utils/UrlBuilder'
 
 export type TmiReadyState = 'CONNECTING' | 'OPEN' | 'CLOSING' | 'CLOSED'
 export const cacheBuster = (url: string) => `${url}?cb=${Date.now()}`

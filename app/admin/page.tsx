@@ -4,7 +4,7 @@ import {signIn, useSession} from 'next-auth/react'
 import TmiSwitch from './TmiSwitch'
 import TmiStatus from './TmiStatus'
 import {useEffect, useState} from 'react'
-import {tmiStatus} from '../utils/twitch/TmiAdminServices'
+import {tmiStatus} from '../services/twitch/TmiAdminServices'
 import {Session} from 'next-auth'
 
 //export const fetchCache = 'force-no-store'

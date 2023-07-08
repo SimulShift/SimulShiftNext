@@ -2,7 +2,7 @@
 
 import {useEffect, useState} from 'react'
 import BotStatus from './BotStatus'
-import {checkJoined} from '@/app/utils/twitch/UserServices'
+import {checkJoined} from '@/app/services/twitch/UserServices'
 import {useSession} from 'next-auth/react'
 import {Box} from '@mui/material'
 import {ExtendedSession} from '@/app/api/auth/[...nextauth]/route'

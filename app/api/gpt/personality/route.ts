@@ -1,3 +1,4 @@
+import UrlBuilder, {GptEndPoints} from '@/app/utils/UrlBuilder'
 import {NextResponse} from 'next/server'
 
 type PersonalitiesResponse = {

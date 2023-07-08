@@ -1,4 +1,4 @@
-import {path} from '../path'
+import UrlBuilder, {TwitchUserEndPoints} from '@/app/utils/UrlBuilder'
 import {NextResponse} from 'next/server'
 
 export type BotJoinedResponse = {
@@ -12,9 +12,10 @@ export const GET = async (request: Request, {params}: {params: {user: string}}) 
     // Extract the userId from the query parameter
     const reqUrl = new URL(request.url)
     const userId = reqUrl.searchParams.get('userId')
+    const urlBuilder = new UrlBuilder(true)
+    urlBuilder.twitch(TwitchUserEndPoints.joined, channel).userId(userId)
     console.log('Checking if joined channel', channel, 'with userId', userId)
-    const fullUrl = `${path}/${channel}/joined?userId=${userId}`
-    const response = await fetch(fullUrl, {
+    const response = await fetch(urlBuilder.build(), {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
