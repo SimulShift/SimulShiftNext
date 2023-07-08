@@ -2,6 +2,7 @@ import {Session} from 'next-auth'
 import {BotJoinedResponse} from '../../api/twitch/join/route'
 import {BotLeaveResponse} from '../../api/twitch/[channel]/leave/route'
 import UrlBuilder, {GptEndPoints, TwitchUserEndPoints} from '@/app/utils/UrlBuilder'
+import {Personality} from '../gpt/UserServices'
 
 /* Checks if the bot is alive
  * @param session: Session object from next-auth
@@ -22,9 +23,10 @@ export const botJoined = async (session: Session): Promise<boolean> => {
  * @param channel: The channel to check
  */
 export const checkJoined = async (channel: string, userId: string): Promise<boolean> => {
+  const urlBuilder = new UrlBuilder()
+  urlBuilder.twitch(TwitchUserEndPoints.joined).userId(userId).channel(channel)
   try {
-    const url = `/api/twitch/${channel}/joined?userId=${userId}`
-    const response = await fetch(url, {
+    const response = await fetch(urlBuilder.build(), {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -69,12 +71,14 @@ export const joinChannel = async (
   userId: string,
   accessToken: string,
 ): Promise<boolean> => {
-  const res = await fetch(`api/twitch/${channel}/join`, {
+  const urlBuilder = new UrlBuilder()
+  urlBuilder.twitch(TwitchUserEndPoints.join).channel(channel).userId(userId)
+  const res = await fetch(urlBuilder.build(), {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({userId, accessToken}),
+    body: JSON.stringify({accessToken}),
   })
   const botJoinedResponse: BotJoinedResponse = await res.json()
   return botJoinedResponse.joined
@@ -84,9 +88,10 @@ export const joinChannel = async (
  * @param session: Session object from next-auth
  */
 export const leaveChannel = async (channel: string, userId: string): Promise<boolean> => {
-  console.log('userId', userId)
+  const urlBuilder = new UrlBuilder()
+  urlBuilder.twitch(TwitchUserEndPoints.leave).channel(channel)
   try {
-    const res = await fetch(`api/twitch/${channel}/leave`, {
+    const res = await fetch(urlBuilder.build(), {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

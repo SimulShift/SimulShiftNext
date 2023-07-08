@@ -1,16 +1,21 @@
-import {path} from '../path'
+import UrlBuilder, {TwitchUserEndPoints} from '@/app/utils/UrlBuilder'
 import {NextResponse} from 'next/server'
 
 export type BotJoinedResponse = {
   message: string
   joined: boolean
 }
-export const PUT = async (request: Request, {params}: {params: {user: string}}) => {
+export const PUT = async (request: Request) => {
   try {
-    console.log('Joining channel', params.user)
-    const {userId, accessToken} = await request.json()
-    const channel = params.user
-    const response = await fetch(`${path}/${channel}/join`, {
+    const {accessToken} = await request.json()
+    const reqUrl = new URL(request.url)
+    const channel = reqUrl.searchParams.get('channel')
+    const userId = reqUrl.searchParams.get('userId')
+
+    const urlBuilder = new UrlBuilder(true)
+    urlBuilder.twitch(TwitchUserEndPoints.join).channel(channel).userId(userId)
+
+    const response = await fetch(urlBuilder.build(), {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -21,7 +26,7 @@ export const PUT = async (request: Request, {params}: {params: {user: string}}) 
     console.log(`Checking if ${channel} is online with response:`, botJoinedResponse)
     return NextResponse.json(botJoinedResponse, {headers: {'cache-control': 'no-store'}})
   } catch (error) {
-    console.error('Unknown error in user join route', error)
+    console.error('Error in user join route', error)
     return NextResponse.json({joined: false}, {status: 500})
   }
 }

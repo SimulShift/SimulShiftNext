@@ -37,6 +37,12 @@ class UrlBuilder {
     return this
   }
 
+  public channel(channel: string | null): UrlBuilder {
+    if (!channel) throw new Error('Must provide channel')
+    this.url.searchParams.append('channel', channel)
+    return this
+  }
+
   public admin(): UrlBuilder {
     if (this.url.pathname === '/') {
       this.url.pathname = '/admin'
@@ -75,12 +81,11 @@ class UrlBuilder {
     if (!this.express) {
       this.url.pathname = '/api' + this.url.pathname
     }
-    console.log('built url:', this.url.toString())
-
     // check if there are two / in a row
     if (this.url.pathname.slice(0, 2) === '//') {
       this.url.pathname = this.url.pathname.slice(1)
     }
+    console.log('built url:', this.url.toString())
     return this.url.toString()
   }
 }
