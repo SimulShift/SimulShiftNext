@@ -1,8 +1,27 @@
-import {useSession} from 'next-auth/react'
 import Image from 'next/image'
+import {useEffect, useState} from 'react'
+
+const getProfile = async () => {
+  const res = await fetch('/api/auth/session')
+  const json = await res.json()
+  return json
+}
+
+interface Session {
+  user: {
+    image: string
+  }
+}
 
 const Pfp = () => {
-  const {data: session} = useSession()
+  const [session, setSession] = useState<Session | null>(null)
+
+  useEffect(() => {
+    getProfile().then(session => {
+      setSession(session)
+    })
+  }, [])
+
   return (
     <>
       {session?.user?.image && (

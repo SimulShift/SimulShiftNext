@@ -1,21 +1,21 @@
 'use client'
 import Link from 'next/link'
 import Image from 'next/image'
-import {useSession} from 'next-auth/react'
 import PfpMenu from './components/pfp/PfpMenu'
 import {AppBar, Toolbar} from '@mui/material'
 import AppButton from './components/AppButton'
 import cloudLogo from '/public/logo-no-bg.png'
+import {useState} from 'react'
+import UrlBuilder, {AuthEndPoints} from './utils/UrlBuilder'
 
 const Navbar = () => {
-  const {data: session} = useSession()
+  //const {data: session} = useSession()
+  const [loggedIn, setLoggedIn] = useState(false)
 
   return (
     <AppBar className="sticky">
       <Toolbar variant="dense">
-        <Link
-          className={'mr-10 bg-transparent flex items-center justify-center'}
-          href="/">
+        <Link className={'mr-10 bg-transparent flex items-center justify-center'} href="/">
           <Image
             src={cloudLogo}
             alt="logo"
@@ -31,10 +31,10 @@ const Navbar = () => {
         <AppButton href="/about">About</AppButton>
         <AppButton href="/chatbot">Chat Bot</AppButton>
         <AppButton href="/contact">Contact</AppButton>
-        {session?.user ? (
+        {loggedIn ? (
           <PfpMenu mobileDisplay={false} />
         ) : (
-          <Link href="/api/auth/signin">Sign In</Link>
+          <Link href={new UrlBuilder().auth(AuthEndPoints.twitch).build()}>Sign In</Link>
         )}
       </Toolbar>
     </AppBar>

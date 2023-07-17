@@ -1,6 +1,14 @@
 'use client'
-import {signOut} from 'next-auth/react'
 import {ButtonHTMLAttributes} from 'react'
+
+const signOut = async () => {
+  const res = await fetch('/auth/signout', {
+    method: 'POST',
+  })
+  if (res.ok) {
+    window.location.href = '/'
+  }
+}
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   className?: string

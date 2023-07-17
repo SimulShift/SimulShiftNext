@@ -1,5 +1,4 @@
 'use client'
-import {useSession} from 'next-auth/react'
 import {useState} from 'react'
 import Link from 'next/link'
 import {Button, Menu, css, styled} from '@mui/material'
@@ -8,6 +7,12 @@ import PfpDropdown from './PfpDropdown'
 
 type ProfilePicDropdownProps = {
   mobileDisplay: boolean
+}
+
+interface Session {
+  user: {
+    name: string
+  }
 }
 
 const NoBgButton = styled(Button)(
@@ -21,8 +26,9 @@ const NoBgButton = styled(Button)(
 export type Anchor = null | (EventTarget & HTMLButtonElement)
 
 const PfpMenu = ({mobileDisplay}: ProfilePicDropdownProps) => {
-  const {data: session} = useSession()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [session, setSession] = useState<Session | null>(null)
+
   const open = Boolean(anchorEl)
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

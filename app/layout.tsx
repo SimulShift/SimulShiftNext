@@ -1,4 +1,3 @@
-import Provider from './components/Provider'
 import {ReactNode} from 'react'
 import './globals.css'
 import MainNav from './MainNav'
@@ -15,13 +14,11 @@ interface MyAppProps {
 
 export default function RootLayout({children}: MyAppProps) {
   return (
-    <Provider>
-      <html lang="en">
-        <ThemeRegistry>
-          <MainNav />
-          {children}
-        </ThemeRegistry>
-      </html>
-    </Provider>
+    <html lang="en">
+      <ThemeRegistry>
+        <MainNav />
+        {children}
+      </ThemeRegistry>
+    </html>
   )
 }

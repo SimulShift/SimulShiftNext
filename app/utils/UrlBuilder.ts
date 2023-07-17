@@ -1,3 +1,7 @@
+export enum AuthEndPoints {
+  twitch = 'twitch',
+}
+
 export enum TwitchUserEndPoints {
   joined = 'joined',
   join = 'join',
@@ -16,19 +20,15 @@ export enum TmiEndPoints {
 }
 
 class UrlBuilder {
-  private static expressBaseUrl: string = process.env.EXPRESS_BACKEND_URL || 'http://localhost:8080'
-  private static nextBaseUrl: string =
-    process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000'
-  private express: boolean
-
+  private static base?: string = process.env.NEXT_PUBLIC_BACKEND_URL
   private url: URL
   private endpointSet: boolean = false
 
-  constructor(express: boolean = false) {
-    this.express = express
-    express
-      ? (this.url = new URL(UrlBuilder.expressBaseUrl))
-      : (this.url = new URL(UrlBuilder.nextBaseUrl))
+  constructor() {
+    if (!UrlBuilder.base) {
+      throw new Error('No backend url set in .env')
+    }
+    this.url = new URL(UrlBuilder.base)
   }
 
   public userId(userId: string | null): UrlBuilder {
@@ -74,12 +74,15 @@ class UrlBuilder {
     return this
   }
 
+  public auth(endpoint: AuthEndPoints): UrlBuilder {
+    this.url.pathname += `/auth/${endpoint.toString()}`
+    this.endpointSet = true
+    return this
+  }
+
   public build(): string {
     if (!this.endpointSet) {
       throw new Error('No endpoint set, please choose twitch, tmi, or gpt')
-    }
-    if (!this.express) {
-      this.url.pathname = '/api' + this.url.pathname
     }
     // check if there are two / in a row
     if (this.url.pathname.slice(0, 2) === '//') {
