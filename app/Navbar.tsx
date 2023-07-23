@@ -4,7 +4,7 @@ import Image from 'next/image'
 import PfpMenu from './components/pfp/PfpMenu'
 import {AppBar, Toolbar, Typography} from '@mui/material'
 import AppButton from './components/AppButton'
-import cloudLogo from '/public/logo-no-bg.png'
+import SimulShiftLogo from '/public/SimulShiftLogo.png'
 import {useEffect, useState} from 'react'
 import UrlBuilder, {AuthEndPoints} from './utils/UrlBuilder'
 import {useLoginContext} from './LoginContext'
@@ -37,14 +37,14 @@ const Navbar = () => {
       <Toolbar variant="dense">
         <Link className={'mr-10 bg-transparent flex items-center justify-center'} href="/">
           <Image
-            src={cloudLogo}
+            src={SimulShiftLogo}
             alt="logo"
             placeholder="blur"
             blurDataURL="/logo-no-bg.png"
             width="0"
             height="0"
             sizes="100vw"
-            style={{width: 50, height: 'auto'}}
+            style={{width: 40, height: 'auto'}}
           />
         </Link>
         <AppButton href="/">Home</AppButton>

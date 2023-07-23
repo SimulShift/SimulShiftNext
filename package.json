@@ -18,6 +18,7 @@
     "@types/react-dom": "18.2.4",
     "@types/tmi.js": "^1.8.3",
     "autoprefixer": "10.4.14",
+    "chalk": "^5.3.0",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.4",
     "next": "13.4.4",
