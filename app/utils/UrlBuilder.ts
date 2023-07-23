@@ -80,6 +80,12 @@ class UrlBuilder {
     return this
   }
 
+  public checkLoggedIn(): UrlBuilder {
+    this.url.pathname += '/checkLoggedIn'
+    this.endpointSet = true
+    return this
+  }
+
   public build(): string {
     if (!this.endpointSet) {
       throw new Error('No endpoint set, please choose twitch, tmi, or gpt')

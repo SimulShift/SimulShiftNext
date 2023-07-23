@@ -2,15 +2,35 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import PfpMenu from './components/pfp/PfpMenu'
-import {AppBar, Toolbar} from '@mui/material'
+import {AppBar, Toolbar, Typography} from '@mui/material'
 import AppButton from './components/AppButton'
 import cloudLogo from '/public/logo-no-bg.png'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import UrlBuilder, {AuthEndPoints} from './utils/UrlBuilder'
+import {useLoginContext} from './LoginContext'
+
+const checkIfLoggedIn = async (): Promise<boolean> => {
+  // check if logged in
+  const urlBuilder = new UrlBuilder().auth(AuthEndPoints.twitch).checkLoggedIn().build()
+  const res = await fetch(urlBuilder, {
+    credentials: 'include',
+  })
+  const data = await res.json()
+  console.log('finished checkinged if logged in', data)
+  return data.loggedIn
+}
 
 const Navbar = () => {
-  //const {data: session} = useSession()
-  const [loggedIn, setLoggedIn] = useState(false)
+  const loginContext = useLoginContext()
+
+  useEffect(() => {
+    console.log('checking if logged in inside navbar', loginContext.loggedIn)
+    loginContext.setLoggedIn(loginContext.loggedIn)
+  }, [loginContext.loggedIn])
+
+  useEffect(() => {
+    checkIfLoggedIn().then(value => loginContext.setLoggedIn(value))
+  }, [])
 
   return (
     <AppBar className="sticky">
@@ -31,7 +51,12 @@ const Navbar = () => {
         <AppButton href="/about">About</AppButton>
         <AppButton href="/chatbot">Chat Bot</AppButton>
         <AppButton href="/contact">Contact</AppButton>
-        {loggedIn ? (
+        {loginContext.loggedIn ? (
+          <Typography variant="h6">Logged In</Typography>
+        ) : (
+          <Typography variant="h6">Not Logged In</Typography>
+        )}
+        {loginContext.loggedIn ? (
           <PfpMenu mobileDisplay={false} />
         ) : (
           <Link href={new UrlBuilder().auth(AuthEndPoints.twitch).build()}>Sign In</Link>

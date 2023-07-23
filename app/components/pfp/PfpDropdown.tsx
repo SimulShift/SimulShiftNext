@@ -16,21 +16,9 @@ interface Session {
   }
 }
 
-const getProfile = async () => {
-  const res = await fetch('/api/auth/session')
-  const json = await res.json()
-  return json
-}
-
 const PfpDropdown = ({mobileDisplay}: PfpDropdown) => {
   const setThemeMode = useContext(setThemeModeContext)
   const [session, setSession] = useState<Session | null>(null)
-
-  useEffect(() => {
-    getProfile().then(session => {
-      setSession(session)
-    })
-  }, [])
 
   return (
     <>
