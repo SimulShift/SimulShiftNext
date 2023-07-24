@@ -178,9 +178,7 @@ export default function ThemeRegistry({children}: {children: React.ReactNode}) {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const myTheme = useMemo(() => createTheme(getTheme(themeMode)), [themeMode])
-  const [bgColor, setBgColor] = useState<string>(
-    myTheme.palette.background.default,
-  )
+  const [bgColor, setBgColor] = useState<string>(myTheme.palette.background.default)
 
   useEffect(() => {
     setBgColor(myTheme.palette.background.default)

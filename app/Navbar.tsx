@@ -40,7 +40,7 @@ const Navbar = () => {
             src={SimulShiftLogo}
             alt="logo"
             placeholder="blur"
-            blurDataURL="/logo-no-bg.png"
+            blurDataURL={SimulShiftLogo.src}
             width="0"
             height="0"
             sizes="100vw"
@@ -51,11 +51,6 @@ const Navbar = () => {
         <AppButton href="/about">About</AppButton>
         <AppButton href="/chatbot">Chat Bot</AppButton>
         <AppButton href="/contact">Contact</AppButton>
-        {loginContext.loggedIn ? (
-          <Typography variant="h6">Logged In</Typography>
-        ) : (
-          <Typography variant="h6">Not Logged In</Typography>
-        )}
         {loginContext.loggedIn ? (
           <PfpMenu mobileDisplay={false} />
         ) : (

@@ -9,9 +9,13 @@ export type TwitchUserData = {
   createdAt: string
 }
 
-const Pfp = () => {
+type PfpProps = {
+  width?: number
+}
+
+const Pfp = ({width}: PfpProps) => {
   if (!getProfile().image) return null
-  console.log('Getting image porofile', getProfile().image)
+  console.log('Getting image porofile', getProfile().image, 'with width', width)
 
   return (
     <>
@@ -22,7 +26,7 @@ const Pfp = () => {
           width="0"
           height="0"
           sizes="100vw"
-          style={{width: 50, height: 'auto'}}
+          style={{width: width, height: 'auto'}}
           placeholder="blur"
           blurDataURL={getProfile().image}
           className="rounded-full"
@@ -31,4 +35,5 @@ const Pfp = () => {
     </>
   )
 }
+
 export default Pfp

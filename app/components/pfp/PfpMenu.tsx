@@ -8,13 +8,27 @@ type ProfilePicDropdownProps = {
   mobileDisplay: boolean
 }
 
-const NoBgButton = styled(Button)(
-  () => css`
-    background-color: transparent;
-    max-height: 45px;
-    max-width: 45px;
-  `,
-)
+const ProfilePicButton = styled(Button)(({theme}) => ({
+  backgroundColor: 'transparent',
+  color: '#ffffff',
+  borderRadius: '100%', // Make the button and everything around it round
+  marginTop: 5,
+  textTransform: 'none',
+  fontWeight: 300,
+  fontSize: '1.3rem',
+  padding: '0.5rem 1rem',
+  '&:hover': {
+    backgroundColor: 'rgba(0, 0, 0, 0)', // Set background color to fully transparent on hover
+  },
+  '& .MuiTouchRipple-child': {
+    backgroundColor: 'black',
+  },
+  '& .MuiTouchRipple-rippleVisible': {
+    opacity: 0.5,
+    animationDuration: '550ms',
+    animationTimingFunction: theme.transitions.easing.easeInOut,
+  },
+}))
 
 export type Anchor = null | (EventTarget & HTMLButtonElement)
 
@@ -33,15 +47,14 @@ const PfpMenu = ({mobileDisplay}: ProfilePicDropdownProps) => {
 
   return (
     <>
-      <NoBgButton
+      <ProfilePicButton
         id="basic-button"
         aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup="true"
-        sx={{marginLeft: 'auto', marginTop: 0}}
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}>
-        <Pfp />
-      </NoBgButton>
+        <Pfp width={mobileDisplay ? 70 : 50} />
+      </ProfilePicButton>
       <Menu
         id="basic-menu"
         open={open}
