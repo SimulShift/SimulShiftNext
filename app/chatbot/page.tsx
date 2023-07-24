@@ -4,13 +4,12 @@
  * Author: SimulShift
  */
 
-import {useSession} from 'next-auth/react'
 import ControlPanel from './ControlPanel'
 import Typography from '@mui/material/Typography'
 import {Container} from '@mui/material'
 
 const ChatBotPage = () => {
-  const {data: session} = useSession({required: true})
+  const session: any = null
 
   return (
     <Container maxWidth="md">

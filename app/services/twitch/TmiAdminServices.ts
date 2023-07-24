@@ -1,21 +1,31 @@
-import {Session} from 'next-auth'
-import {TmiStatusResponse} from '@/app/api/admin/tmi/status/route'
-import {TmiStartResponse} from '@/app/api/admin/tmi/start/route'
 import UrlBuilder, {TmiEndPoints} from '../../utils/UrlBuilder'
 
 export type TmiReadyState = 'CONNECTING' | 'OPEN' | 'CLOSING' | 'CLOSED'
 export const cacheBuster = (url: string) => `${url}?cb=${Date.now()}`
 
+export type TmiStartResponse = {
+  error?: any
+  readyState?: TmiReadyState
+  status?: number
+}
+
+export type TmiStatusResponse = {
+  error?: any
+  tmiClientOnline?: boolean
+  readyState?: TmiReadyState
+  status?: number
+}
+
 /* Starts the tmi Bot
  * @param session: Session object from next-auth
  */
-export const startTmi = async (session: Session): Promise<TmiReadyState> => {
+export const startTmi = async (): Promise<TmiReadyState> => {
   try {
     const urlBuilder = new UrlBuilder()
     urlBuilder.admin().tmi(TmiEndPoints.start)
     const res = await fetch(urlBuilder.build(), {
       method: 'PUT',
-      body: JSON.stringify(session),
+      body: JSON.stringify({message: 'Start Tmi Bot'}),
     })
     const tmiStartResponse: TmiStartResponse = await res.json()
     return tmiStartResponse.readyState ?? 'CLOSED'

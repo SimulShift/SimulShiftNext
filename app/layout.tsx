@@ -1,8 +1,8 @@
-import Provider from './components/Provider'
 import {ReactNode} from 'react'
 import './globals.css'
 import MainNav from './MainNav'
 import ThemeRegistry from './Theme/ThemeRegistry'
+import LoginContextProvider from './LoginContext'
 
 export const metadata = {
   title: 'SimulShift',
@@ -15,13 +15,13 @@ interface MyAppProps {
 
 export default function RootLayout({children}: MyAppProps) {
   return (
-    <Provider>
-      <html lang="en">
-        <ThemeRegistry>
+    <html lang="en">
+      <ThemeRegistry>
+        <LoginContextProvider>
           <MainNav />
           {children}
-        </ThemeRegistry>
-      </html>
-    </Provider>
+        </LoginContextProvider>
+      </ThemeRegistry>
+    </html>
   )
 }

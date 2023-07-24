@@ -1,35 +1,30 @@
-import {useSession} from 'next-auth/react'
 import Link from 'next/link'
-import {
-  Divider,
-  Menu,
-  MenuItem,
-  MenuList,
-  Paper,
-  Switch,
-  Typography,
-} from '@mui/material'
+import {Divider, MenuItem, Switch, Typography} from '@mui/material'
 import ListItemText from '@mui/material/ListItemText'
 import SignOutButton from '../signOut'
-import {Anchor} from './PfpMenu'
 import AppButton from '../AppButton'
-import {useContext} from 'react'
+import {useContext, useEffect, useState} from 'react'
 import {setThemeModeContext} from '@/app/Theme/ThemeRegistry'
 
 type PfpDropdown = {
   mobileDisplay: boolean
 }
 
+interface Session {
+  user: {
+    name: string
+  }
+}
+
 const PfpDropdown = ({mobileDisplay}: PfpDropdown) => {
   const setThemeMode = useContext(setThemeModeContext)
-  const {data: session} = useSession()
+  const [session, setSession] = useState<Session | null>(null)
+
   return (
     <>
       {mobileDisplay && (
         <>
-          {session?.user && (
-            <MenuItem sx={{color: 'lightblue'}}>{session.user.name}</MenuItem>
-          )}
+          {session?.user && <MenuItem sx={{color: 'lightblue'}}>{session.user.name}</MenuItem>}
           <MenuItem>
             <Link href="/">Home</Link>
           </MenuItem>
@@ -48,9 +43,7 @@ const PfpDropdown = ({mobileDisplay}: PfpDropdown) => {
       <MenuItem>
         <Typography>Light Mode</Typography>
         <Switch
-          onChange={() =>
-            setThemeMode(prev => (prev === 'light' ? 'dark' : 'light'))
-          }
+          onChange={() => setThemeMode(prev => (prev === 'light' ? 'dark' : 'light'))}
           sx={{ml: 1}}
         />
       </MenuItem>

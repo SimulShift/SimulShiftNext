@@ -1,9 +1,7 @@
-import {useSession} from 'next-auth/react'
-import {ChangeEvent} from 'react'
+import {ChangeEvent, useState} from 'react'
 import {TbRobot, TbRobotOff} from 'react-icons/tb'
 import styled from '@emotion/styled'
 import {Switch, Tooltip} from '@mui/material'
-import {ExtendedSession} from '@/app/api/auth/[...nextauth]/route'
 import {joinChannel, leaveChannel} from '@/app/services/twitch/UserServices'
 
 const activeToggle = 'Your Chatbot is Online! Give chad  a command in your twitch channel'
@@ -32,29 +30,31 @@ export const MuiSwitchLarge = styled(Switch)(({theme}) => ({
   },
 }))
 
+interface ExtendedSession {
+  sub: string
+  accessToken: string
+  channel: string
+}
+
 type BotSwitchProps = {
   online: boolean
   setOnline: (online: boolean) => void
 }
 
 const BotSwitch = ({online, setOnline}: BotSwitchProps) => {
-  const {data: session, status} = useSession({
-    required: true,
-  })
-  const extendedSession = session as ExtendedSession
+  const [extendedSession, setSession] = useState<ExtendedSession | null>(null)
+
   const defaultActiveToggle = activeToggle ?? 'Switched On'
   const defaultInactiveToggle = inactiveToggle ?? 'Switched Off'
 
   const handleChange = async (event: ChangeEvent<HTMLInputElement>, checked: boolean) => {
-    if (!session?.user?.name) throw new Error('Session is null')
     console.log('Switch pressed! checked:', checked)
-    const channel = session.user.name
-    if (!extendedSession.sub || !extendedSession.accessToken)
+    if (!extendedSession?.sub || !extendedSession.accessToken)
       throw new Error('sub or token is undefined')
     console.log('Extended Session.sub:', extendedSession.sub)
     const joined = checked
-      ? await joinChannel(channel, extendedSession.sub, extendedSession.accessToken)
-      : await leaveChannel(channel, extendedSession.sub)
+      ? await joinChannel(extendedSession.channel, extendedSession.sub, extendedSession.accessToken)
+      : await leaveChannel(extendedSession.channel, extendedSession.sub)
     console.log('Processing Finished, joined:', joined)
     setOnline(joined)
   }

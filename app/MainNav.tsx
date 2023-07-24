@@ -1,4 +1,5 @@
 'use client'
+import {AppBar, Box, Typography} from '@mui/material'
 import Navbar from './Navbar'
 import PfpMenu from './components/pfp/PfpMenu'
 import {useEffect, useState} from 'react'
@@ -21,17 +22,15 @@ const MainNav = () => {
     }
   }, []) // Empty dependency array ensures the effect runs only once
 
-  return (
-    <>
-      {isPhoneSize ? (
-        <div className="flex">
-          <h1 className="text-lg m-5 ml-10">SimulShift</h1>
-          <PfpMenu mobileDisplay={isPhoneSize} />
-        </div>
-      ) : (
-        <Navbar />
-      )}
-    </>
+  return isPhoneSize ? (
+    <Box m={1} display="flex" flexDirection="row" justifyContent="flex-end" alignItems="flex-end">
+      <Typography variant="h2" component="div" sx={{flexGrow: 1}}>
+        SimulShift
+      </Typography>
+      <PfpMenu mobileDisplay={isPhoneSize} />
+    </Box>
+  ) : (
+    <Navbar />
   )
 }
 
