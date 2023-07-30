@@ -42,10 +42,9 @@ const ContactPage = () => {
   return (
     <div className={styles.contactContainer}>
       <p className="mb-4">
-        Welcome to my contact page! I am delighted that you&#39;ve decided to
-        reach out to me whether it is a question, suggestion, or just wanting to
-        say hello. Feel free to fill out the form below with your details, and I
-        will get back to you promptly.
+        Welcome to my contact page! I am delighted that you&#39;ve decided to reach out to me
+        whether it is a question, suggestion, or just wanting to say hello. Feel free to fill out
+        the form below with your details, and I will get back to you promptly.
       </p>
       {isSent ? (
         <p className="text-green-500 text-center">
@@ -88,7 +87,8 @@ const ContactPage = () => {
               value={message}
               onChange={e => setMessage(e.target.value)}
               required
-              className={styles.input}></textarea>
+              className={styles.input}
+            ></textarea>
           </div>
           <button type="submit" disabled={isLoading} className={styles.button}>
             {isLoading ? 'Sending...' : 'Send'}

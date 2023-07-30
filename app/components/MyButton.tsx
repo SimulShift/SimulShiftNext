@@ -24,8 +24,7 @@ const StyledButton = styled(Button)`
     opacity: 0.5;
     animation-name: ${enterKeyframe};
     animation-duration: 550ms;
-    animation-timing-function: ${({theme}) =>
-      theme.transitions.easing.easeInOut};
+    animation-timing-function: ${({theme}) => theme.transitions.easing.easeInOut};
   }
 `
 export default StyledButton

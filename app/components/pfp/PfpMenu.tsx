@@ -52,7 +52,8 @@ const PfpMenu = ({mobileDisplay}: ProfilePicDropdownProps) => {
         aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}>
+        onClick={handleClick}
+      >
         <Pfp width={mobileDisplay ? 70 : 50} />
       </ProfilePicButton>
       <Menu
@@ -62,7 +63,8 @@ const PfpMenu = ({mobileDisplay}: ProfilePicDropdownProps) => {
         onClose={handleClose}
         MenuListProps={{
           'aria-labelledby': 'basic-button',
-        }}>
+        }}
+      >
         <PfpDropdown mobileDisplay={mobileDisplay} />
       </Menu>
     </>

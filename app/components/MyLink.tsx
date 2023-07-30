@@ -18,12 +18,7 @@ type MyLinkProps = Omit<CombinedLinkProps, 'href'> & {
 const MyLink = ({href, ...props}: MyLinkProps) => {
   // use _href props of CustomNextLink to set the href
   return (
-    <MuiLink
-      sx={{textDecoration: 'none'}}
-      {...props}
-      component={CustomNextLink}
-      _href={href}
-    />
+    <MuiLink sx={{textDecoration: 'none'}} {...props} component={CustomNextLink} _href={href} />
   )
 }
 export default MyLink

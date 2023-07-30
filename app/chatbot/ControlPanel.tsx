@@ -97,7 +97,8 @@ const ControlPanel = () => {
             className={`draggable-box${draggedIndexRef.current === index ? ' dragging' : ''}${
               hoverIndexRef.current === index ? ' hovering' : ''
             }`}
-            style={{breakInside: 'avoid-column'}}>
+            style={{breakInside: 'avoid-column'}}
+          >
             <DraggableBox
               sx={{
                 color: 'black',
@@ -105,7 +106,8 @@ const ControlPanel = () => {
                 padding: '16px',
                 borderRadius: '8px',
                 boxShadow: item === 'Toggle' ? '' : '0px 2px 4px rgba(0, 0, 0, 0.1)',
-              }}>
+              }}
+            >
               {dynamicComponent(item)}
             </DraggableBox>
           </div>

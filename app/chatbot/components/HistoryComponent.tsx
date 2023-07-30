@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import {Box, Typography} from '@mui/material'
 
 const HistoryComponent = () => {
   return (
@@ -6,17 +6,19 @@ const HistoryComponent = () => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'center',
       }}
     >
-        <Typography variant='body1' style={{fontWeight: 'bold', color: 'black'}}>Message History</Typography>
-        <div>--------</div>
-        <div>--------</div>
-        <div>--------</div>
-        <div>--------</div>
-        <div>--------</div>
-        <div>--------</div>
-        <div>--------</div>
+      <Typography variant="body1" style={{fontWeight: 'bold', color: 'black'}}>
+        Message History
+      </Typography>
+      <div>--------</div>
+      <div>--------</div>
+      <div>--------</div>
+      <div>--------</div>
+      <div>--------</div>
+      <div>--------</div>
+      <div>--------</div>
     </Box>
   )
 }

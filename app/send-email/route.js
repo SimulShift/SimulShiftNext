@@ -4,9 +4,7 @@ export async function POST(request) {
   // Parse the JSON data from the request body
   const {name, email, message} = await request.json()
 
-  const transporter = nodemailer.createTransport(
-    new Transport({apiKey: process.env.BREVO_API_KEY}),
-  )
+  const transporter = nodemailer.createTransport(new Transport({apiKey: process.env.BREVO_API_KEY}))
 
   const mailOptions = {
     from: 'noreply@example.com',
