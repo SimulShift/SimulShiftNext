@@ -51,6 +51,9 @@ const Navbar = () => {
         <AppButton href="/about">About</AppButton>
         <AppButton href="/chatbot">Chat Bot</AppButton>
         <AppButton href="/contact">Contact</AppButton>
+        {loginContext.profile.displayName == 'therealchadgpt' && (
+          <AppButton href="/admin">Admin</AppButton>
+        )}
         {loginContext.loggedIn ? (
           <PfpMenu mobileDisplay={false} />
         ) : (

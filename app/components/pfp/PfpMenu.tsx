@@ -53,7 +53,7 @@ const PfpMenu = ({mobileDisplay}: ProfilePicDropdownProps) => {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}>
-        <Pfp width={mobileDisplay ? 70 : 50} />
+        <Pfp width={mobileDisplay ? 50 : 40} />
       </ProfilePicButton>
       <Menu
         id="basic-menu"
