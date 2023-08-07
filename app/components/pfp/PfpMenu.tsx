@@ -62,7 +62,8 @@ const PfpMenu = ({mobileDisplay}: ProfilePicDropdownProps) => {
         onClose={handleClose}
         MenuListProps={{
           'aria-labelledby': 'basic-button',
-        }}>
+        }}
+      >
         <PfpDropdown mobileDisplay={mobileDisplay} />
       </Menu>
     </>

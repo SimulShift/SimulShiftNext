@@ -33,7 +33,8 @@ const SelectPersonalityComponent = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-      }}>
+      }}
+    >
       <Typography variant="body1" style={{fontWeight: 'bold', color: 'black'}}>
         Select
       </Typography>

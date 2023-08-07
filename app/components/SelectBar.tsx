@@ -38,7 +38,8 @@ const SelectBar: React.FC<Props> = ({options, onChange}) => {
             backgroundColor: 'white',
             color: '#ebb840',
           },
-        }}>
+        }}
+      >
         {options.map(({text, value}) => (
           <MenuItem key={value} value={value}>
             {text}

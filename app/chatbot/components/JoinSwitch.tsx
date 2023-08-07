@@ -31,7 +31,8 @@ const JoinSwitch = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-      }}>
+      }}
+    >
       <BotStatus online={joined} />
       <BotSwitch online={joined} setOnline={setJoined} />
     </Box>

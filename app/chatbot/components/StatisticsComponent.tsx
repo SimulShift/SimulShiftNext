@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import {Box, Typography} from '@mui/material'
 
 const StatisticsComponent = () => {
   return (
@@ -6,12 +6,14 @@ const StatisticsComponent = () => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'center',
       }}
     >
-        <Typography variant='body1' style={{fontWeight: 'bold', color: 'black'}}>Statistics</Typography>
-        <div>1. Number of Messages</div>
-        <div>2. Queries Left Command</div>
+      <Typography variant="body1" style={{fontWeight: 'bold', color: 'black'}}>
+        Statistics
+      </Typography>
+      <div>1. Number of Messages</div>
+      <div>2. Queries Left Command</div>
     </Box>
   )
 }
