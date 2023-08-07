@@ -1,8 +1,10 @@
 'use client'
+import {TwitchUserData, getProfile} from './components/pfp/pfpHelpers'
 import {createContext, useContext, useEffect, useState} from 'react'
 
 const LoginContext = createContext({
   loggedIn: false,
+  profile: getProfile(),
   setLoggedIn: (value: boolean) => {},
 })
 
@@ -16,7 +18,11 @@ const LoginContextProvider = ({children}: {children: React.ReactNode}) => {
     console.log('checking if logged in inside context', loggedIn)
   }, [loggedIn])
 
-  return <LoginContext.Provider value={{loggedIn, setLoggedIn}}>{children}</LoginContext.Provider>
+  return (
+    <LoginContext.Provider value={{loggedIn, profile: getProfile(), setLoggedIn}}>
+      {children}
+    </LoginContext.Provider>
+  )
 }
 
 export default LoginContextProvider

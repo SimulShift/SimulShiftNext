@@ -1,8 +1,13 @@
-import {ChangeEvent, useState} from 'react'
+'use client'
+
+import {ChangeEvent, useEffect, useState} from 'react'
 import {TbRobot, TbRobotOff} from 'react-icons/tb'
 import styled from '@emotion/styled'
 import {Switch, Tooltip} from '@mui/material'
 import {joinChannel, leaveChannel} from '@/app/services/twitch/UserServices'
+import {redirect} from 'next/navigation'
+import UrlBuilder, {AuthEndPoints} from '@/app/utils/UrlBuilder'
+import {TwitchUserData, getProfile} from '@/app/components/pfp/pfpHelpers'
 
 const activeToggle = 'Your Chatbot is Online! Give chad  a command in your twitch channel'
 const inactiveToggle =
@@ -30,31 +35,37 @@ export const MuiSwitchLarge = styled(Switch)(({theme}) => ({
   },
 }))
 
-interface ExtendedSession {
-  sub: string
-  accessToken: string
-  channel: string
-}
-
 type BotSwitchProps = {
   online: boolean
   setOnline: (online: boolean) => void
 }
 
 const BotSwitch = ({online, setOnline}: BotSwitchProps) => {
-  const [extendedSession, setSession] = useState<ExtendedSession | null>(null)
-
   const defaultActiveToggle = activeToggle ?? 'Switched On'
   const defaultInactiveToggle = inactiveToggle ?? 'Switched Off'
+  const [profile, setProfile] = useState<TwitchUserData>()
+
+  useEffect(() => {
+    const profile = getProfile()
+    // Check if the sessionId and profile cookies exist
+    if (!profile) {
+      // If either of the cookies is missing, redirect the user to the login page
+      const loginUrl = new UrlBuilder().auth(AuthEndPoints.twitch).build()
+      redirect(loginUrl)
+    }
+    setProfile(profile)
+    // Add the dependencies array to avoid unnecessary redirects on every render
+  }, [])
 
   const handleChange = async (event: ChangeEvent<HTMLInputElement>, checked: boolean) => {
     console.log('Switch pressed! checked:', checked)
-    if (!extendedSession?.sub || !extendedSession.accessToken)
-      throw new Error('sub or token is undefined')
-    console.log('Extended Session.sub:', extendedSession.sub)
+    if (!profile) {
+      console.log('SessionId or Profile state has not loaded in yet!')
+      return
+    }
     const joined = checked
-      ? await joinChannel(extendedSession.channel, extendedSession.sub, extendedSession.accessToken)
-      : await leaveChannel(extendedSession.channel, extendedSession.sub)
+      ? await joinChannel(profile.displayName, profile.id)
+      : await leaveChannel(profile.displayName, profile.id)
     console.log('Processing Finished, joined:', joined)
     setOnline(joined)
   }

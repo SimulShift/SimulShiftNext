@@ -1,7 +1,4 @@
-import {Session} from 'next-auth'
-import {BotJoinedResponse} from '../../api/twitch/join/route'
 import UrlBuilder, {TwitchUserEndPoints} from '@/app/utils/UrlBuilder'
-import {BotLeaveResponse} from '@/app/api/twitch/leave/route'
 
 /* Checks if the bot is alive
  * @param session: Session object from next-auth
@@ -64,11 +61,7 @@ export const setBotPersonality = async (personality: Personality) => {
  * @param channel: The channel to join
  * @returns: Whether or not the bot was able to join the channel
  */
-export const joinChannel = async (
-  channel: string,
-  userId: string,
-  accessToken: string,
-): Promise<boolean> => {
+export const joinChannel = async (channel: string, userId: string): Promise<boolean> => {
   const urlBuilder = new UrlBuilder()
   urlBuilder.twitch(TwitchUserEndPoints.join).channel(channel).userId(userId)
   const res = await fetch(urlBuilder.build(), {
@@ -76,7 +69,6 @@ export const joinChannel = async (
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({accessToken}),
   })
   const botJoinedResponse: BotJoinedResponse = await res.json()
   return botJoinedResponse.joined
