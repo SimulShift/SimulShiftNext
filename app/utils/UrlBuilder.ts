@@ -20,7 +20,7 @@ export enum TmiEndPoints {
 }
 
 class UrlBuilder {
-  private static base?: string = process.env.NEXT_PUBLIC_BACKEND_URL
+  private static base?: string = process.env.NEXT_PUBLIC_REST_URL
   private url: URL
   private endpointSet: boolean = false
 

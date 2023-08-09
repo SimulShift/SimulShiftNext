@@ -6,21 +6,21 @@ type PfpProps = {
 }
 
 const Pfp = ({width}: PfpProps) => {
-  if (!getProfile().image) return null
+  if (!getProfile()?.image) return null
   //console.log('Getting image porofile', getProfile().image, 'with width', width)
 
   return (
     <>
       {getProfile() && (
         <Image
-          src={getProfile().image}
+          src={getProfile()?.image || ''}
           alt="profile"
           width="0"
           height="0"
           sizes="100vw"
           style={{width: width, height: 'auto'}}
           placeholder="blur"
-          blurDataURL={getProfile().image}
+          blurDataURL={getProfile()?.image || ''}
           className="rounded-full"
         />
       )}

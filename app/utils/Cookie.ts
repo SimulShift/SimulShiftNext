@@ -3,10 +3,14 @@
  * @param {string} name - The name of the cookie to get
  * @returns {string} The cookie string in the format string=jsonString
  */
-export const getCookie = (name: string) => {
+export const getCookie = (name: string): string | null | undefined => {
+  if (document.readyState != 'complete') {
+    console.log('document not ready, returning null')
+    return null
+  }
   const cookies = decodeURIComponent(document.cookie)
   const cookieVal = cookies.split('; ').find(row => row.startsWith(name))
-  if (!cookieVal) throw new Error(`No cookie named ${name} found`)
+  if (!cookieVal) console.log(`No cookie named ${name} found, not logged in`)
   return cookieVal
 }
 

@@ -1,6 +1,5 @@
 'use client'
 
-import {useSession} from 'next-auth/react'
 import {ChangeEvent, Dispatch, SetStateAction, useEffect, useState} from 'react'
 import Switch from '@mui/material/Switch'
 import {startTmi, stopTmi, tmiStatus} from '../services/twitch/TmiAdminServices'
@@ -34,14 +33,11 @@ type tmiSwitchProps = {
 }
 
 const TmiSwitch = ({status, setTmiStatusStr}: tmiSwitchProps) => {
-  const {data: session} = useSession()
-  if (!session) return null
-
   const handleChange = async (
     event: ChangeEvent<HTMLInputElement>,
     checked: boolean,
   ): Promise<void> => {
-    checked ? await startTmi(session) : await stopTmi()
+    checked ? await startTmi() : await stopTmi()
     setTmiStatusStr(await tmiStatus())
   }
 
