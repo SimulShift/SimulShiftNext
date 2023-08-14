@@ -1,4 +1,4 @@
-import UrlBuilder, {TmiEndPoints} from '../../utils/UrlBuilder'
+import UrlBuilder, {TmiEndPoints} from '../../../utils/UrlBuilder'
 
 export type TmiReadyState = 'CONNECTING' | 'OPEN' | 'CLOSING' | 'CLOSED'
 export const cacheBuster = (url: string) => `${url}?cb=${Date.now()}`

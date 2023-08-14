@@ -5,7 +5,7 @@
  */
 export const getCookie = (name: string): string | null | undefined => {
   if (document.readyState != 'complete') {
-    console.log('document not ready, returning null')
+    //console.log('document not ready, returning null')
     return null
   }
   const cookies = decodeURIComponent(document.cookie)
@@ -21,7 +21,7 @@ export const getCookie = (name: string): string | null | undefined => {
  */
 export const cookieToJson = (cookie: string) => {
   const json = JSON.parse(cookie?.split('=')[1] || '{}')
-  console.log('cookie json', json)
+  //console.log('cookie json', json)
   if (!json) throw new Error('No json found in cookie')
   return json
 }

@@ -6,7 +6,9 @@ import {PingRequest} from '../Protos/PingPong/PingPong_pb'
 import {PingPongServiceClient} from '../Protos/PingPong/PingPongServiceClientPb'
 import {useEffect, useState} from 'react'
 
-var client = new PingPongServiceClient('http://localhost:8080')
+var client = new PingPongServiceClient('http://localhost:8080', null, {
+  withCredentials: true,
+})
 
 const Home = () => {
   const [ping, setPing] = useState<boolean>(false)

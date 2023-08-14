@@ -106,29 +106,29 @@ export class TwitchBotAdminServiceClient {
   methodDescriptortmiStatus = new grpcWeb.MethodDescriptor(
     '/generated.TwitchBotAdminService/tmiStatus',
     grpcWeb.MethodType.UNARY,
-    TwitchBot_pb.CheckTmiOnlineRequest,
-    TwitchBot_pb.CheckTmiOnlineResponse,
-    (request: TwitchBot_pb.CheckTmiOnlineRequest) => {
+    TwitchBot_pb.TmiStatusRequest,
+    TwitchBot_pb.TmiStatusResponse,
+    (request: TwitchBot_pb.TmiStatusRequest) => {
       return request.serializeBinary();
     },
-    TwitchBot_pb.CheckTmiOnlineResponse.deserializeBinary
+    TwitchBot_pb.TmiStatusResponse.deserializeBinary
   );
 
   tmiStatus(
-    request: TwitchBot_pb.CheckTmiOnlineRequest,
-    metadata: grpcWeb.Metadata | null): Promise<TwitchBot_pb.CheckTmiOnlineResponse>;
+    request: TwitchBot_pb.TmiStatusRequest,
+    metadata: grpcWeb.Metadata | null): Promise<TwitchBot_pb.TmiStatusResponse>;
 
   tmiStatus(
-    request: TwitchBot_pb.CheckTmiOnlineRequest,
+    request: TwitchBot_pb.TmiStatusRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: TwitchBot_pb.CheckTmiOnlineResponse) => void): grpcWeb.ClientReadableStream<TwitchBot_pb.CheckTmiOnlineResponse>;
+               response: TwitchBot_pb.TmiStatusResponse) => void): grpcWeb.ClientReadableStream<TwitchBot_pb.TmiStatusResponse>;
 
   tmiStatus(
-    request: TwitchBot_pb.CheckTmiOnlineRequest,
+    request: TwitchBot_pb.TmiStatusRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: TwitchBot_pb.CheckTmiOnlineResponse) => void) {
+               response: TwitchBot_pb.TmiStatusResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +

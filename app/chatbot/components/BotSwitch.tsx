@@ -6,7 +6,7 @@ import styled from '@emotion/styled'
 import {Switch, Tooltip} from '@mui/material'
 import {joinChannel, leaveChannel} from '@/app/services/twitch/UserServices'
 import {redirect} from 'next/navigation'
-import UrlBuilder, {AuthEndPoints} from '@/app/utils/UrlBuilder'
+import UrlBuilder, {AuthEndPoints} from '@/utils/UrlBuilder'
 import {TwitchUserData, getProfile} from '@/app/components/pfp/pfpHelpers'
 
 const activeToggle = 'Your Chatbot is Online! Give chad  a command in your twitch channel'

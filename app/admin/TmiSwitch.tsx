@@ -5,6 +5,9 @@ import Switch from '@mui/material/Switch'
 import {startTmi, stopTmi, tmiStatus} from '../services/twitch/TmiAdminServices'
 import {TbRobotOff, TbRobot} from 'react-icons/tb'
 import {styled} from '@mui/material/styles'
+import {TwitchBotAdminServiceClient} from '@/Protos/TwitchBot/TwitchBotServiceClientPb'
+import {ReadyState, StartTmiRequest, TmiStatusRequest} from '@/Protos/TwitchBot/TwitchBot_pb'
+import {getEnumKey} from '@/utils/EnumTools'
 
 export const MuiSwitchLarge = styled(Switch)(({theme}) => ({
   width: 68,
@@ -27,6 +30,10 @@ export const MuiSwitchLarge = styled(Switch)(({theme}) => ({
   },
 }))
 
+var client = new TwitchBotAdminServiceClient('http://localhost:8080', null, {
+  withCredentials: true,
+})
+
 type tmiSwitchProps = {
   status: string
   setTmiStatusStr: Dispatch<SetStateAction<string>>
@@ -37,8 +44,24 @@ const TmiSwitch = ({status, setTmiStatusStr}: tmiSwitchProps) => {
     event: ChangeEvent<HTMLInputElement>,
     checked: boolean,
   ): Promise<void> => {
-    checked ? await startTmi() : await stopTmi()
-    setTmiStatusStr(await tmiStatus())
+    //checked ? await startTmi() : await stopTmi() TODO:
+    if (checked) {
+      client.startTmi(new StartTmiRequest(), {}, (err, response) => {
+        if (err) {
+          console.log('error starting tmi', err)
+        } else {
+          console.log('tmi started', response)
+
+          client.tmiStatus(new TmiStatusRequest(), {}, (err, tmiStatusResponse) => {
+            if (err) {
+              console.log('error getting tmi status', err)
+            } else {
+              setTmiStatusStr(getEnumKey(ReadyState, tmiStatusResponse.getReadystate()))
+            }
+          })
+        }
+      })
+    }
   }
 
   return (

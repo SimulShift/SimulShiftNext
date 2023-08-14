@@ -23,6 +23,7 @@ class UrlBuilder {
   private static base?: string = process.env.NEXT_PUBLIC_REST_URL
   private url: URL
   private endpointSet: boolean = false
+  private authEndpoint: boolean = false
 
   constructor() {
     if (!UrlBuilder.base) {
@@ -77,11 +78,21 @@ class UrlBuilder {
   public auth(endpoint: AuthEndPoints): UrlBuilder {
     this.url.pathname += `/auth/${endpoint.toString()}`
     this.endpointSet = true
+    this.authEndpoint = true
     return this
   }
 
   public checkLoggedIn(): UrlBuilder {
     this.url.pathname += '/checkLoggedIn'
+    this.endpointSet = true
+    return this
+  }
+
+  public signout(): UrlBuilder {
+    if (!this.authEndpoint) {
+      throw new Error('Cannot signout when not on an auth endpoint')
+    }
+    this.url.pathname += '/signout'
     this.endpointSet = true
     return this
   }

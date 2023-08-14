@@ -1,4 +1,4 @@
-import UrlBuilder, {GptEndPoints} from '@/app/utils/UrlBuilder'
+import UrlBuilder, {GptEndPoints} from '@/utils/UrlBuilder'
 
 export enum Personality {
   Helpful = 'Helpful',

@@ -1,4 +1,4 @@
-import UrlBuilder, {TwitchUserEndPoints} from '@/app/utils/UrlBuilder'
+import UrlBuilder, {TwitchUserEndPoints} from '@/utils/UrlBuilder'
 
 /* Checks if the bot is alive
  * @param session: Session object from next-auth

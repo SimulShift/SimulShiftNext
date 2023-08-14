@@ -1,4 +1,4 @@
-import {cookieToJson, getCookie} from '@/app/utils/Cookie'
+import {cookieToJson, getCookie} from '@/utils/Cookie'
 
 export type TwitchUserData = {
   id: string

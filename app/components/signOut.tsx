@@ -1,8 +1,10 @@
 'use client'
+import UrlBuilder, {AuthEndPoints} from '@/utils/UrlBuilder'
 import {ButtonHTMLAttributes} from 'react'
 
 const signOut = async () => {
-  const res = await fetch('/auth/signout', {
+  const url = new UrlBuilder().auth(AuthEndPoints.twitch).signout().build()
+  const res = await fetch(url, {
     method: 'POST',
   })
   if (res.ok) {

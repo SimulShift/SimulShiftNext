@@ -6,7 +6,7 @@ import {AppBar, Toolbar, Typography} from '@mui/material'
 import AppButton from './components/AppButton'
 import SimulShiftLogo from '/public/SimulShiftLogo.png'
 import {useEffect, useState} from 'react'
-import UrlBuilder, {AuthEndPoints} from './utils/UrlBuilder'
+import UrlBuilder, {AuthEndPoints} from '../utils/UrlBuilder'
 import {useLoginContext} from './LoginContext'
 
 const checkIfLoggedIn = async (): Promise<boolean> => {
@@ -24,7 +24,7 @@ const Navbar = () => {
   const loginContext = useLoginContext()
 
   useEffect(() => {
-    console.log('checking if logged in inside navbar', loginContext.loggedIn)
+    //console.log('checking if logged in inside navbar', loginContext.loggedIn)
     loginContext.setLoggedIn(loginContext.loggedIn)
   }, [loginContext.loggedIn])
 

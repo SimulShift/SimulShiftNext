@@ -34,42 +34,39 @@ export namespace CheckJoinedResponse {
   }
 }
 
-export class CheckTmiOnlineRequest extends jspb.Message {
+export class TmiStatusRequest extends jspb.Message {
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): CheckTmiOnlineRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: CheckTmiOnlineRequest): CheckTmiOnlineRequest.AsObject;
-  static serializeBinaryToWriter(message: CheckTmiOnlineRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): CheckTmiOnlineRequest;
-  static deserializeBinaryFromReader(message: CheckTmiOnlineRequest, reader: jspb.BinaryReader): CheckTmiOnlineRequest;
+  toObject(includeInstance?: boolean): TmiStatusRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: TmiStatusRequest): TmiStatusRequest.AsObject;
+  static serializeBinaryToWriter(message: TmiStatusRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): TmiStatusRequest;
+  static deserializeBinaryFromReader(message: TmiStatusRequest, reader: jspb.BinaryReader): TmiStatusRequest;
 }
 
-export namespace CheckTmiOnlineRequest {
+export namespace TmiStatusRequest {
   export type AsObject = {
   }
 }
 
-export class CheckTmiOnlineResponse extends jspb.Message {
-  getReadystate(): CheckTmiOnlineResponse.ReadyState;
-  setReadystate(value: CheckTmiOnlineResponse.ReadyState): CheckTmiOnlineResponse;
+export class TmiStatusResponse extends jspb.Message {
+  getMsg(): string;
+  setMsg(value: string): TmiStatusResponse;
+
+  getReadystate(): ReadyState;
+  setReadystate(value: ReadyState): TmiStatusResponse;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): CheckTmiOnlineResponse.AsObject;
-  static toObject(includeInstance: boolean, msg: CheckTmiOnlineResponse): CheckTmiOnlineResponse.AsObject;
-  static serializeBinaryToWriter(message: CheckTmiOnlineResponse, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): CheckTmiOnlineResponse;
-  static deserializeBinaryFromReader(message: CheckTmiOnlineResponse, reader: jspb.BinaryReader): CheckTmiOnlineResponse;
+  toObject(includeInstance?: boolean): TmiStatusResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: TmiStatusResponse): TmiStatusResponse.AsObject;
+  static serializeBinaryToWriter(message: TmiStatusResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): TmiStatusResponse;
+  static deserializeBinaryFromReader(message: TmiStatusResponse, reader: jspb.BinaryReader): TmiStatusResponse;
 }
 
-export namespace CheckTmiOnlineResponse {
+export namespace TmiStatusResponse {
   export type AsObject = {
-    readystate: CheckTmiOnlineResponse.ReadyState,
-  }
-
-  export enum ReadyState { 
-    CONNECTING = 0,
-    OPEN = 1,
-    CLOSING = 2,
-    CLOSED = 3,
+    msg: string,
+    readystate: ReadyState,
   }
 }
 
@@ -88,8 +85,11 @@ export namespace StartTmiRequest {
 }
 
 export class StartTmiResponse extends jspb.Message {
-  getStarted(): boolean;
-  setStarted(value: boolean): StartTmiResponse;
+  getMsg(): string;
+  setMsg(value: string): StartTmiResponse;
+
+  getReadystate(): ReadyState;
+  setReadystate(value: ReadyState): StartTmiResponse;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): StartTmiResponse.AsObject;
@@ -101,7 +101,14 @@ export class StartTmiResponse extends jspb.Message {
 
 export namespace StartTmiResponse {
   export type AsObject = {
-    started: boolean,
+    msg: string,
+    readystate: ReadyState,
   }
 }
 
+export enum ReadyState { 
+  CONNECTING = 0,
+  OPEN = 1,
+  CLOSING = 2,
+  CLOSED = 3,
+}
